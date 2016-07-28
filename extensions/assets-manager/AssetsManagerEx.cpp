@@ -631,6 +631,9 @@ void AssetsManagerEx::startUpdate()
 
 void AssetsManagerEx::updateSucceed()
 {
+    for (std::vector<std::string>::const_iterator iter = _filesToDelete.cbegin(); iter!=_filesToDelete.cend(); iter++) {
+        _fileUtils->removeFile(*iter);
+    }
     // Every thing is correctly downloaded, do the following
     // 1. rename temporary manifest to valid manifest
     _fileUtils->renameFile(_storagePath, TEMP_MANIFEST_FILENAME, MANIFEST_FILENAME);
@@ -641,10 +644,6 @@ void AssetsManagerEx::updateSucceed()
     _remoteManifest = nullptr;
     // 3. make local manifest take effect
     prepareLocalManifest();
-    
-    for (std::vector<std::string>::const_iterator iter = _filesToDelete.cbegin(); iter!=_filesToDelete.cend(); iter++) {
-        _fileUtils->removeFile(*iter);
-    }
 
     _updateState = State::UNZIPPING;
     // 4. decompress all compressed files
