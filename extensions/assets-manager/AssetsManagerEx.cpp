@@ -70,6 +70,7 @@ AssetsManagerEx::AssetsManagerEx(const std::string& manifestUrl, const std::stri
 , _percentByFile(0)
 , _totalToDownload(0)
 , _totalWaitToDownload(0)
+,_downloadedAfterSaveManifest(0)
 , _inited(false)
 {
     // Init variables
@@ -561,12 +562,12 @@ void AssetsManagerEx::startUpdate()
     // Temporary manifest exists, resuming previous download
     if (_tempManifest->isLoaded() && _tempManifest->versionEquals(_remoteManifest))
     {
-        _tempManifest->genResumeAssetsList(&_downloadUnits);
-        _totalWaitToDownload = _totalToDownload = (int)_downloadUnits.size();
-        this->batchDownload();
-        
-        std::string msg = StringUtils::format("Resuming from previous unfinished update, %d files remains to be finished.", _totalToDownload);
-        dispatchUpdateEvent(EventAssetsManagerEx::EventCode::UPDATE_PROGRESSION, "", msg);
+//        _tempManifest->genResumeAssetsList(&_downloadUnits);
+//        _totalWaitToDownload = _totalToDownload = (int)_downloadUnits.size();
+//        this->batchDownload();
+//        
+//        std::string msg = StringUtils::format("Resuming from previous unfinished update, %d files remains to be finished.", _totalToDownload);
+//        dispatchUpdateEvent(EventAssetsManagerEx::EventCode::UPDATE_PROGRESSION, "", msg);
     }
     // Check difference
     else
@@ -576,16 +577,26 @@ void AssetsManagerEx::startUpdate()
         // in this case, it equals remote manifest.
         _tempManifest->release();
         _tempManifest = _remoteManifest;
-        
-        std::unordered_map<std::string, Manifest::AssetDiff> diff_map = _localManifest->genDiff(_remoteManifest);
-        if (diff_map.size() == 0)
+    }
+    
+        std::unordered_map<std::string, Manifest::AssetDiff> diff_map = _localManifest->genDiff(_tempManifest);
+        std::unordered_map<std::string, Manifest::AssetDiff> download_map;
+        for (auto it = diff_map.begin(); it != diff_map.end(); ++it)
+        {
+            if (it->second.asset.downloadState != Manifest::DownloadState::SUCCESSED){
+                download_map.emplace(it->first,it->second);
+            }else{
+                CCLOG("Asset %s Already Downloaded ",it->second.asset.path.c_str());
+            }
+        }
+        if (download_map.size() == 0)
         {
             updateSucceed();
         }
         else
         {
             // Generate download units for all assets that need to be updated or added
-            std::string packageUrl = _remoteManifest->getPackageUrl();
+            std::string packageUrl = _tempManifest->getPackageUrl();
             for (auto it = diff_map.begin(); it != diff_map.end(); ++it)
             {
                 Manifest::AssetDiff diff = it->second;
@@ -596,6 +607,9 @@ void AssetsManagerEx::startUpdate()
                 }
                 else
                 {
+                    if (download_map.find(it->first) == download_map.end()){
+                        continue;
+                    }
                     std::string path = diff.asset.path;
                     // Create path
                     _fileUtils->createDirectory(basename(_storagePath + path));
@@ -608,7 +622,7 @@ void AssetsManagerEx::startUpdate()
                 }
             }
             // Set other assets' downloadState to SUCCESSED
-            auto &assets = _remoteManifest->getAssets();
+            auto &assets = _tempManifest->getAssets();
             for (auto it = assets.cbegin(); it != assets.cend(); ++it)
             {
                 const std::string &key = it->first;
@@ -624,7 +638,6 @@ void AssetsManagerEx::startUpdate()
             std::string msg = StringUtils::format("Start to update %d files from remote package.", _totalToDownload);
             dispatchUpdateEvent(EventAssetsManagerEx::EventCode::UPDATE_PROGRESSION, "", msg);
         }
-    }
 
     _waitToUpdate = false;
 }
@@ -872,6 +885,7 @@ void AssetsManagerEx::onProgress(double total, double downloaded, const std::str
     }
     else
     {
+        _downloadedAfterSaveManifest += downloaded;
         // Calcul total downloaded
         bool found = false;
         double totalDownloaded = 0;
@@ -933,7 +947,10 @@ void AssetsManagerEx::onSuccess(const std::string &srcUrl, const std::string &st
         {
             // Set download state to SUCCESSED
             _tempManifest->setAssetDownloadState(customId, Manifest::DownloadState::SUCCESSED);
-            
+            if (_downloadedAfterSaveManifest > 500000){
+                _tempManifest->saveToFile(_tempManifestPath);
+                _downloadedAfterSaveManifest = 0;
+            }
             // Add file to need decompress list
             if (assetIt->second.compressed) {
                 _compressedFiles.push_back(storagePath);
