@@ -592,7 +592,7 @@ void AssetsManagerEx::startUpdate()
 
                 if (diff.type == Manifest::DiffType::DELETED)
                 {
-                    _fileUtils->removeFile(_storagePath + diff.asset.path);
+                    _filesToDelete.push_back(_storagePath + diff.asset.path);
                 }
                 else
                 {
@@ -641,7 +641,10 @@ void AssetsManagerEx::updateSucceed()
     _remoteManifest = nullptr;
     // 3. make local manifest take effect
     prepareLocalManifest();
-
+    
+    for (std::vector<std::string>::const_iterator iter = _filesToDelete.cbegin(); iter!=_filesToDelete.cend(); iter++) {
+        _fileUtils->removeFile(*iter);
+    }
 
     _updateState = State::UNZIPPING;
     // 4. decompress all compressed files
