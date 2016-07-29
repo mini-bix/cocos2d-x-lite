@@ -153,6 +153,10 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\win32\libs\*.*" "$(OutDir)"
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\extensions\assets-manager\AssetsManagerEx.cpp" />
+    <ClCompile Include="..\..\extensions\assets-manager\CCEventAssetsManagerEx.cpp" />
+    <ClCompile Include="..\..\extensions\assets-manager\CCEventListenerAssetsManagerEx.cpp" />
+    <ClCompile Include="..\..\extensions\assets-manager\Manifest.cpp" />
     <ClCompile Include="..\..\extensions\GUI\CCControlExtension\CCControl.cpp" />
     <ClCompile Include="..\..\extensions\GUI\CCControlExtension\CCControlButton.cpp" />
     <ClCompile Include="..\..\extensions\GUI\CCControlExtension\CCControlColourPicker.cpp" />
@@ -430,7 +434,9 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\win32\libs\*.*" "$(OutDir)"
     <ClCompile Include="CCSpriteFrameCache.cpp" />
     <ClCompile Include="CCTextFieldTTF.cpp" />
     <ClCompile Include="CCTileMapAtlas.cpp" />
+    <ClCompile Include="CCTMXLayer.cpp" />
     <ClCompile Include="CCTMXObjectGroup.cpp" />
+    <ClCompile Include="CCTMXTiledMap.cpp" />
     <ClCompile Include="CCTMXXMLParser.cpp" />
     <ClCompile Include="CCTransition.cpp" />
     <ClCompile Include="CCTransitionPageTurn.cpp" />
@@ -438,6 +444,10 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\win32\libs\*.*" "$(OutDir)"
     <ClCompile Include="CCTweenFunction.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\extensions\assets-manager\AssetsManagerEx.h" />
+    <ClInclude Include="..\..\extensions\assets-manager\CCEventAssetsManagerEx.h" />
+    <ClInclude Include="..\..\extensions\assets-manager\CCEventListenerAssetsManagerEx.h" />
+    <ClInclude Include="..\..\extensions\assets-manager\Manifest.h" />
     <ClInclude Include="..\..\extensions\cocos-ext.h" />
     <ClInclude Include="..\..\extensions\ExtensionExport.h" />
     <ClInclude Include="..\..\extensions\ExtensionMacros.h" />
@@ -754,7 +764,9 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\win32\libs\*.*" "$(OutDir)"
     <ClInclude Include="CCSpriteFrameCache.h" />
     <ClInclude Include="CCTextFieldTTF.h" />
     <ClInclude Include="CCTileMapAtlas.h" />
+    <ClInclude Include="CCTMXLayer.h" />
     <ClInclude Include="CCTMXObjectGroup.h" />
+    <ClInclude Include="CCTMXTiledMap.h" />
     <ClInclude Include="CCTMXXMLParser.h" />
     <ClInclude Include="CCTransition.h" />
     <ClInclude Include="CCTransitionPageTurn.h" />

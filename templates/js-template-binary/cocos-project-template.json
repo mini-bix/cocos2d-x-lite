@@ -54,6 +54,20 @@
                 "include":[
                    "tojs"
                 ]
+             },
+             {
+               "from":"cocos/platform/android/java/src",
+               "to":"frameworks/runtime-src/proj.android/src",
+               "include": [
+                  "*.java"
+               ]
+             },
+             {
+               "from":"cocos/platform/android/java/libs",
+               "to":"frameworks/runtime-src/proj.android/libs",
+               "include": [
+                  "*.jar"
+               ]
              }
          ],
          "project_rename":{
@@ -112,11 +126,6 @@
             "to": ""
          },
          "modify_files": [
-            {
-               "file_path": "config.json",
-               "pattern": "\\\"isLandscape\\\"\\s*:.*,",
-               "replace_string": "\"isLandscape\": false,"
-            },
             {
                "file_path": "main.js",
                "pattern": "setDesignResolutionSize\\(\\s*(\\d+),\\s*(\\d+),(.*)\\)",

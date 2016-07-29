@@ -268,6 +268,10 @@ private:
     
     //! Marker for whether the assets manager is inited
     bool _inited;
+    
+    double _downloadedAfterSaveManifest;
+    
+    std::vector<std::string> _filesToDelete;
 };
 
 NS_CC_EXT_END

@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "2d/CCTMXXMLParser.h"
 #include <unordered_map>
 #include <sstream>
-#include "2d/CCFastTMXTiledMap.h"
+#include "2d/CCTMXTiledMap.h"
 #include "base/ZipUtils.h"
 #include "base/base64.h"
 #include "base/CCDirector.h"
@@ -233,21 +233,37 @@ void TMXMapInfo::startElement(void *ctx, const char *name, const char **atts)
         }
         std::string orientationStr = attributeDict["orientation"].asString();
         if (orientationStr == "orthogonal") {
-            tmxMapInfo->setOrientation(0);
+            tmxMapInfo->setOrientation(TMXOrientationOrtho);
         }
         else if (orientationStr  == "isometric") {
-            tmxMapInfo->setOrientation(2);
+            tmxMapInfo->setOrientation(TMXOrientationIso);
         }
         else if (orientationStr == "hexagonal") {
-            tmxMapInfo->setOrientation(1);
+            tmxMapInfo->setOrientation(TMXOrientationHex);
         }
         else if (orientationStr == "staggered") {
-            tmxMapInfo->setOrientation(3);
+            tmxMapInfo->setOrientation(TMXOrientationStaggered);
         }
         else {
             CCLOG("cocos2d: TMXFomat: Unsupported orientation: %d", tmxMapInfo->getOrientation());
         }
+        std::string staggerAxisStr = attributeDict["staggeraxis"].asString();
+        if (staggerAxisStr == "x") {
+            tmxMapInfo->setStaggerAxis(TMXStaggerAxis_X);
+        }
+        else if (staggerAxisStr  == "y") {
+            tmxMapInfo->setStaggerAxis(TMXStaggerAxis_Y);
+        }
 
+        std::string staggerIndex = attributeDict["staggerindex"].asString();
+        if (staggerIndex == "odd") {
+            tmxMapInfo->setStaggerIndex(TMXStaggerIndex_Odd);
+        }
+        else if (staggerIndex == "even") {
+            tmxMapInfo->setStaggerIndex(TMXStaggerIndex_Even);
+        }
+        float hexSideLength = attributeDict["hexsidelength"].asFloat();
+        tmxMapInfo->setHexSideLength(hexSideLength);
         Size s;
         s.width = attributeDict["width"].asFloat();
         s.height = attributeDict["height"].asFloat();
@@ -266,6 +282,7 @@ void TMXMapInfo::startElement(void *ctx, const char *name, const char **atts)
         std::string externalTilesetFilename = attributeDict["source"].asString();
         if (externalTilesetFilename != "")
         {
+            _externalTilesetFilename = externalTilesetFilename;
             // Tileset file will be relative to the map file. So we need to convert it to an absolute path
             if (_TMXFileName.find_last_of("/") != string::npos)
             {
@@ -382,12 +399,20 @@ void TMXMapInfo::startElement(void *ctx, const char *name, const char **atts)
         // The parent element is now "objectgroup"
         tmxMapInfo->setParentElement(TMXPropertyObjectGroup);
     }
+    else if (elementName == "tileoffset")
+    {
+        TMXTilesetInfo* tileset = tmxMapInfo->getTilesets().back();
+        double tileOffsetX = attributeDict["x"].asDouble();
+        double tileOffsetY = attributeDict["y"].asDouble();
+        tileset->_tileOffset = Vec2(tileOffsetX, tileOffsetY);
+    }
     else if (elementName == "image")
     {
         TMXTilesetInfo* tileset = tmxMapInfo->getTilesets().back();
 
         // build full path
         std::string imagename = attributeDict["source"].asString();
+        tileset->_originSourceImage = imagename;
 
         if (_TMXFileName.find_last_of("/") != string::npos)
         {
@@ -435,6 +460,12 @@ void TMXMapInfo::startElement(void *ctx, const char *name, const char **atts)
                 tmxMapInfo->setLayerAttribs(layerAttribs | TMXLayerAttribZlib);
             }
             CCASSERT( compression == "" || compression == "gzip" || compression == "zlib", "TMX: unsupported compression method" );
+        }
+        else if (encoding == "csv")
+        {
+            int layerAttribs = tmxMapInfo->getLayerAttribs();
+            tmxMapInfo->setLayerAttribs(layerAttribs | TMXLayerAttribCSV);
+            tmxMapInfo->setStoringCharacters(true);
         }
     }
     else if (elementName == "object")
@@ -666,6 +697,45 @@ void TMXMapInfo::endElement(void *ctx, const char *name)
                 layer->_tiles = reinterpret_cast<uint32_t*>(buffer);
             }
 
+            tmxMapInfo->setCurrentString("");
+        }
+        else if (tmxMapInfo->getLayerAttribs() & TMXLayerAttribCSV)
+        {
+            unsigned char *buffer;
+            
+            TMXLayerInfo* layer = tmxMapInfo->getLayers().back();
+            
+            tmxMapInfo->setStoringCharacters(false);
+            std::string currentString = tmxMapInfo->getCurrentString();
+            
+            vector<string> gidTokens;
+            istringstream filestr(currentString);
+            string sRow;
+            while(getline(filestr, sRow, '\n')) {
+                string sGID;
+                istringstream rowstr(sRow);
+                while (getline(rowstr, sGID, ',')) {
+                    gidTokens.push_back(sGID);
+                }
+            }
+            
+            // 32-bits per gid
+            buffer = (unsigned char*)malloc(gidTokens.size() * 4);
+            if (!buffer)
+            {
+                CCLOG("cocos2d: TiledMap: CSV buffer not allocated.");
+                return;
+            }
+            
+            uint32_t* bufferPtr = reinterpret_cast<uint32_t*>(buffer);
+            for(auto gidToken : gidTokens) {
+                auto tileGid = (uint32_t)strtol(gidToken.c_str(), nullptr, 10);
+                *bufferPtr = tileGid;
+                bufferPtr++;
+            }
+            
+            layer->_tiles = reinterpret_cast<uint32_t*>(buffer);
+            
             tmxMapInfo->setCurrentString("");
         }
         else if (tmxMapInfo->getLayerAttribs() & TMXLayerAttribNone)
