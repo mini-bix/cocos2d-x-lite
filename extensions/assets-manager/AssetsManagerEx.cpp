@@ -470,22 +470,22 @@ void AssetsManagerEx::parseVersion()
     }
     else
     {
-        if (_localManifest->versionEquals(_remoteManifest))
-        {
-            _updateState = State::UP_TO_DATE;
-            dispatchUpdateEvent(EventAssetsManagerEx::EventCode::ALREADY_UP_TO_DATE);
-        }
-        else
+        if (_remoteManifest->versionGreater(_localManifest))
         {
             _updateState = State::NEED_UPDATE;
             dispatchUpdateEvent(EventAssetsManagerEx::EventCode::NEW_VERSION_FOUND);
-
+            
             // Wait to update so continue the process
             if (_waitToUpdate)
             {
                 _updateState = State::PREDOWNLOAD_MANIFEST;
                 downloadManifest();
             }
+        }
+        else
+        {
+            _updateState = State::UP_TO_DATE;
+            dispatchUpdateEvent(EventAssetsManagerEx::EventCode::ALREADY_UP_TO_DATE);
         }
     }
 }
@@ -526,20 +526,20 @@ void AssetsManagerEx::parseManifest()
     }
     else
     {
-        if (_localManifest->versionEquals(_remoteManifest))
-        {
-            _updateState = State::UP_TO_DATE;
-            dispatchUpdateEvent(EventAssetsManagerEx::EventCode::ALREADY_UP_TO_DATE);
-        }
-        else
+        if(_remoteManifest->versionGreater(_localManifest))
         {
             _updateState = State::NEED_UPDATE;
             dispatchUpdateEvent(EventAssetsManagerEx::EventCode::NEW_VERSION_FOUND);
-
+            
             if (_waitToUpdate)
             {
                 startUpdate();
             }
+        }
+        else
+        {
+            _updateState = State::UP_TO_DATE;
+            dispatchUpdateEvent(EventAssetsManagerEx::EventCode::ALREADY_UP_TO_DATE);
         }
     }
 }
