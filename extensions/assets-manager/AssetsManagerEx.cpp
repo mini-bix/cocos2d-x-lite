@@ -822,6 +822,7 @@ void AssetsManagerEx::updateAssets(const DownloadUnits& assets)
             _updateState = State::UPDATING;
             _downloadUnits.clear();
             _downloadUnits = assets;
+            _totalWaitToDownload = (int)_downloadUnits.size();
             this->batchDownload();
         }
         else if (size == 0 && _totalWaitToDownload == 0)
