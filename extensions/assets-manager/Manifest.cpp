@@ -28,6 +28,8 @@
 #include "json/stringbuffer.h"
 
 #include <fstream>
+#include <sstream>
+#include <stdlib.h>
 
 #define KEY_VERSION             "version"
 #define KEY_PACKAGE_URL         "packageUrl"
@@ -155,6 +157,28 @@ bool Manifest::versionEquals(const Manifest *b) const
         }
     }
     return true;
+}
+
+std::vector<int> Manifest::splitVersion(std::string s, char delim) const{
+    std::stringstream ss(s);
+    std::string item;
+    std::vector<int> tokens;
+    while (getline(ss, item, delim)) {
+        tokens.push_back(atoi(item.c_str()));
+    }
+    return tokens;
+}
+
+bool Manifest::versionGreater(const Manifest *b) const
+{
+    std::vector<int> tokensA = this->splitVersion(this->getVersion(), '.');
+    std::vector<int> tokensB = b->splitVersion(b->getVersion(), '.');
+    for (int i=0;i<tokensA.size();i++){
+        if (i>=tokensB.size() || tokensA[i] > tokensB[i]){
+            return true;
+        }
+    }
+    return false;
 }
 
 std::unordered_map<std::string, Manifest::AssetDiff> Manifest::genDiff(const Manifest *b) const
