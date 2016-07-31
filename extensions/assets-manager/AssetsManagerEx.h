@@ -272,6 +272,10 @@ private:
     double _downloadedAfterSaveManifest;
     
     std::vector<std::string> _filesToDelete;
+    
+    std::unordered_map<std::string, Manifest::AssetDiff> _diffsToDownload;
+    
+    std::unordered_map<std::string, Manifest::AssetDiff> _diffs;
 };
 
 NS_CC_EXT_END
