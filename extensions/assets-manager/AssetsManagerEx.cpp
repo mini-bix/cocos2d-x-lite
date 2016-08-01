@@ -541,18 +541,15 @@ void AssetsManagerEx::parseManifest()
                     CCLOG("Asset %s Already Downloaded ",it->second.asset.path.c_str());
                 }
             }
-            if (_diffsToDownload.size()  == 0){
-                updateSucceed();
-            }else{
-                std::ostringstream msg;
-                msg << "{\"files\":";
-                msg << _diffsToDownload.size();
-                msg << ",\"size\":";
-                msg << diffSize;
-                msg << "}";
-                
-                dispatchUpdateEvent(EventAssetsManagerEx::EventCode::NEW_VERSION_FOUND,"",msg.str());
-            }
+            std::ostringstream msg;
+            msg << "{\"files\":";
+            msg << _diffsToDownload.size();
+            msg << ",\"size\":";
+            msg << diffSize;
+            msg << "}";
+            
+            dispatchUpdateEvent(EventAssetsManagerEx::EventCode::NEW_VERSION_FOUND,"",msg.str());
+            
             
         }
         else
