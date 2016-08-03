@@ -70,6 +70,7 @@ public:
     struct Asset {
         std::string md5;
         std::string path;
+        int size;
         bool compressed;
         DownloadState downloadState;
     };
@@ -134,6 +135,10 @@ protected:
      * @param b   The other manifest
      */
     bool versionEquals(const Manifest *b) const;
+    
+    bool versionGreater(const Manifest *b) const;
+    
+    std::vector<int> splitVersion(std::string s, char delim) const;
     
     /** @brief Generate difference between this Manifest and another.
      * @param b   The other manifest

@@ -28,6 +28,8 @@
 #include "json/stringbuffer.h"
 
 #include <fstream>
+#include <sstream>
+#include <stdlib.h>
 
 #define KEY_VERSION             "version"
 #define KEY_PACKAGE_URL         "packageUrl"
@@ -41,6 +43,7 @@
 
 #define KEY_PATH                "path"
 #define KEY_MD5                 "md5"
+#define KEY_SIZE                "size"
 #define KEY_GROUP               "group"
 #define KEY_COMPRESSED          "compressed"
 #define KEY_COMPRESSED_FILE     "compressedFile"
@@ -155,6 +158,28 @@ bool Manifest::versionEquals(const Manifest *b) const
         }
     }
     return true;
+}
+
+std::vector<int> Manifest::splitVersion(std::string s, char delim) const{
+    std::stringstream ss(s);
+    std::string item;
+    std::vector<int> tokens;
+    while (getline(ss, item, delim)) {
+        tokens.push_back(atoi(item.c_str()));
+    }
+    return tokens;
+}
+
+bool Manifest::versionGreater(const Manifest *b) const
+{
+    std::vector<int> tokensA = this->splitVersion(this->getVersion(), '.');
+    std::vector<int> tokensB = b->splitVersion(b->getVersion(), '.');
+    for (int i=0;i<tokensA.size();i++){
+        if (i>=tokensB.size() || tokensA[i] > tokensB[i]){
+            return true;
+        }
+    }
+    return false;
 }
 
 std::unordered_map<std::string, Manifest::AssetDiff> Manifest::genDiff(const Manifest *b) const
@@ -379,6 +404,12 @@ Manifest::Asset Manifest::parseAsset(const std::string &path, const rapidjson::V
         asset.md5 = json[KEY_MD5].GetString();
     }
     else asset.md5 = "";
+    
+    if ( json.HasMember(KEY_SIZE) && json[KEY_SIZE].IsInt() )
+    {
+        asset.size = json[KEY_SIZE].GetInt();
+    }
+    else asset.size = 0;
     
     if ( json.HasMember(KEY_PATH) && json[KEY_PATH].IsString() )
     {
