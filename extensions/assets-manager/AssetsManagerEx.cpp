@@ -52,6 +52,7 @@ NS_CC_EXT_BEGIN
 
 const std::string AssetsManagerEx::VERSION_ID = "@version";
 const std::string AssetsManagerEx::MANIFEST_ID = "@manifest";
+const std::string AssetsManagerEx::DOWNLOAD_SUFFIX = ".remote";
 
 // Implementation of AssetsManagerEx
 
@@ -534,12 +535,17 @@ void AssetsManagerEx::parseManifest()
             int diffSize = 0;
             for (auto it = _diffs.begin(); it != _diffs.end(); ++it)
             {
-                if (it->second.asset.downloadState != Manifest::DownloadState::SUCCESSED){
-                    _diffsToDownload.emplace(it->first,it->second);
-                    diffSize += it->second.asset.size;
+                if (it->second.type == Manifest::DiffType::DELETED){
+                    _diffsToDelete.push_back(_storagePath + it->second.asset.path);
                 }else{
-                    CCLOG("Asset %s Already Downloaded ",it->second.asset.path.c_str());
+                    if (it->second.asset.downloadState != Manifest::DownloadState::SUCCESSED){
+                        _diffsToDownload.emplace(it->first,it->second);
+                        diffSize += it->second.asset.size;
+                    }else{
+                        CCLOG("Asset %s Already Downloaded ",it->second.asset.path.c_str());
+                    }
                 }
+                
             }
             std::ostringstream msg;
             msg << "{\"files\":";
@@ -584,29 +590,18 @@ void AssetsManagerEx::startUpdate()
     {
         // Generate download units for all assets that need to be updated or added
         std::string packageUrl = _tempManifest->getPackageUrl();
-        for (auto it = _diffs.begin(); it != _diffs.end(); ++it)
+        for (auto it = _diffsToDownload.begin(); it != _diffsToDownload.end(); ++it)
         {
             Manifest::AssetDiff diff = it->second;
+            std::string path = diff.asset.path;
+            // Create path
+            _fileUtils->createDirectory(basename(_storagePath + path));
             
-            if (diff.type == Manifest::DiffType::DELETED)
-            {
-                _filesToDelete.push_back(_storagePath + diff.asset.path);
-            }
-            else
-            {
-                if (_diffsToDownload.find(it->first) == _diffsToDownload.end()){
-                    continue;
-                }
-                std::string path = diff.asset.path;
-                // Create path
-                _fileUtils->createDirectory(basename(_storagePath + path));
-                
-                DownloadUnit unit;
-                unit.customId = it->first;
-                unit.srcUrl = packageUrl + path;
-                unit.storagePath = _storagePath + path;
-                _downloadUnits.emplace(unit.customId, unit);
-            }
+            DownloadUnit unit;
+            unit.customId = it->first;
+            unit.srcUrl = packageUrl + path;
+            unit.storagePath = _storagePath + path + DOWNLOAD_SUFFIX;
+            _downloadUnits.emplace(unit.customId, unit);
         }
         // Set other assets' downloadState to SUCCESSED
         auto &assets = _tempManifest->getAssets();
@@ -631,8 +626,22 @@ void AssetsManagerEx::startUpdate()
 
 void AssetsManagerEx::updateSucceed()
 {
-    for (std::vector<std::string>::const_iterator iter = _filesToDelete.cbegin(); iter!=_filesToDelete.cend(); iter++) {
-        _fileUtils->removeFile(*iter);
+    for (auto it = _diffs.begin(); it != _diffs.end(); ++it)
+    {
+        string filePath = _storagePath + it->second.asset.path;
+        if (it->second.type == Manifest::DiffType::DELETED){
+            _fileUtils->removeFile(filePath);
+        }else{
+            string oldPath = filePath+DOWNLOAD_SUFFIX;
+            if (_fileUtils->isFileExist(oldPath)){
+                string newPath = oldPath.substr(0,oldPath.length()-DOWNLOAD_SUFFIX.length());
+                _fileUtils->renameFile(oldPath, newPath);
+            }else{
+                CCLOG("File %s %s",it->second.asset.path.c_str()," is not exist when rename it at updateSucc");
+            }
+            
+        }
+        
     }
     // Every thing is correctly downloaded, do the following
     // 1. rename temporary manifest to valid manifest
@@ -929,7 +938,7 @@ void AssetsManagerEx::onSuccess(const std::string &srcUrl, const std::string &st
     }
     else
     {
-        auto &assets = _remoteManifest->getAssets();
+        auto &assets = _tempManifest->getAssets();
         auto assetIt = assets.find(customId);
         if (assetIt != assets.end())
         {
@@ -971,9 +980,8 @@ void AssetsManagerEx::onSuccess(const std::string &srcUrl, const std::string &st
             // Finished with error check
             if (_failedUnits.size() > 0)
             {
-                // Save current download manifest information for resuming
                 _tempManifest->saveToFile(_tempManifestPath);
-                
+                // Save current download manifest information for resuming
                 decompressDownloadedZip();
                 
                 _updateState = State::FAIL_TO_UPDATE;

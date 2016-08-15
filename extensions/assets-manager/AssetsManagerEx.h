@@ -69,6 +69,7 @@ public:
     
     const static std::string VERSION_ID;
     const static std::string MANIFEST_ID;
+    const static std::string DOWNLOAD_SUFFIX;
     
     /** @brief Create function for creating a new AssetsManagerEx
      @param manifestUrl   The url for the local manifest file
@@ -271,7 +272,7 @@ private:
     
     double _downloadedAfterSaveManifest;
     
-    std::vector<std::string> _filesToDelete;
+    std::vector<std::string> _diffsToDelete;
     
     std::unordered_map<std::string, Manifest::AssetDiff> _diffsToDownload;
     
