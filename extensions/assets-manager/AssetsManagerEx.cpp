@@ -868,6 +868,8 @@ void AssetsManagerEx::onError(const network::DownloadTask& task,
             _failedUnits.emplace(unit.customId, unit);
         }
         dispatchUpdateEvent(EventAssetsManagerEx::EventCode::ERROR_UPDATING, task.identifier, errorStr, errorCode, errorCodeInternal);
+        
+        checkUpdateIsFinish();
     }
 }
 
@@ -975,25 +977,32 @@ void AssetsManagerEx::onSuccess(const std::string &srcUrl, const std::string &st
             _failedUnits.erase(unitIt);
         }
         
-        if (_totalWaitToDownload <= 0)
+        checkUpdateIsFinish();
+        
+    }
+}
+
+void AssetsManagerEx::checkUpdateIsFinish()
+{
+    if (_totalWaitToDownload <= 0)
+    {
+        // Finished with error check
+        if (_failedUnits.size() > 0)
         {
-            // Finished with error check
-            if (_failedUnits.size() > 0)
-            {
-                _tempManifest->saveToFile(_tempManifestPath);
-                // Save current download manifest information for resuming
-                decompressDownloadedZip();
-                
-                _updateState = State::FAIL_TO_UPDATE;
-                dispatchUpdateEvent(EventAssetsManagerEx::EventCode::UPDATE_FAILED);
-            }
-            else
-            {
-                updateSucceed();
-            }
+            _tempManifest->saveToFile(_tempManifestPath);
+            // Save current download manifest information for resuming
+            decompressDownloadedZip();
+            
+            _updateState = State::FAIL_TO_UPDATE;
+            dispatchUpdateEvent(EventAssetsManagerEx::EventCode::UPDATE_FAILED);
+        }
+        else
+        {
+            updateSucceed();
         }
     }
 }
+
 
 void AssetsManagerEx::destroyDownloadedVersion()
 {

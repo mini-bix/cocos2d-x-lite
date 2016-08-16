@@ -189,6 +189,8 @@ protected:
     virtual void onSuccess(const std::string &srcUrl, const std::string &storagePath, const std::string &customId);
     
 private:
+    
+    void checkUpdateIsFinish();
     void batchDownload();
     
     //! The event of the current AssetsManagerEx in event dispatcher
