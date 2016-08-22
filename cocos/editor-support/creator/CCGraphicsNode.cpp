@@ -214,7 +214,7 @@ void GraphicsNode::arc(float cx, float cy, float r, float startAngle, float endA
 
     // Clamp angles
     da = endAngle - startAngle;
-    if (!counterclockwise) {
+    if (counterclockwise) {
         if (absf(da) >= PI_2) {
             da = PI_2;
         } else {
@@ -233,7 +233,7 @@ void GraphicsNode::arc(float cx, float cy, float r, float startAngle, float endA
     hda = (da / (float)ndivs) / 2.0f;
     kappa = absf(4.0f / 3.0f * (1.0f - cosf(hda)) / sinf(hda));
 
-    if (counterclockwise) {
+    if (!counterclockwise) {
         kappa = -kappa;
     }
 
@@ -846,7 +846,7 @@ void GraphicsNode::flattenPaths()
 {
     if (_curPath && _curPath->points.size() <= 1) {
         _nPath --;
-        _curPath = _paths[_nPath - 1];
+        _curPath = _nPath > 0 ? _paths[_nPath - 1] : nullptr;
     }
     
     for (int i = _pathOffset; i < _nPath; i++) {
