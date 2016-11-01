@@ -25,7 +25,7 @@
 #ifndef __COCOS2D_UI_VIDEOWEIGTH_H_
 #define __COCOS2D_UI_VIDEOWEIGTH_H_
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN) && !defined(CC_PLATFORM_OS_TVOS)
 
 #include "ui/UIWidget.h"
 
@@ -57,7 +57,10 @@ namespace experimental{
                 PLAYING = 0,
                 PAUSED,
                 STOPPED,
-                COMPLETED
+                COMPLETED,
+                META_LOADED,
+                CLICKED,
+                READY_TO_PLAY
             };
 
             /**
@@ -201,7 +204,6 @@ namespace experimental{
                 URL
             };
 
-            bool _isPlaying;
             bool _fullScreenDirty;
             bool _fullScreenEnabled;
             bool _keepAspectRatioEnabled;
@@ -222,4 +224,3 @@ NS_CC_END
 /// @}
 #endif
 #endif
-

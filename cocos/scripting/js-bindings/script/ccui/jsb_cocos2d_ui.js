@@ -240,12 +240,13 @@ ccui.ScrollView.EVENT_BOUNCE_TOP = 5;
 ccui.ScrollView.EVENT_BOUNCE_BOTTOM = 6;
 ccui.ScrollView.EVENT_BOUNCE_LEFT = 7;
 ccui.ScrollView.EVENT_BOUNCE_RIGHT = 8;
+ccui.ScrollView.EVENT_CONTAINER_MOVED = 9;
+ccui.ScrollView.EVENT_AUTOSCROLL_ENDED = 10;
 
-ccui.ScrollView.AUTO_SCROLL_MAX_SPEED = 1000;
-ccui.ScrollView.SCROLLDIR_UP = cc.p(0, 1);
-ccui.ScrollView.SCROLLDIR_DOWN = cc.p(0, -1);
-ccui.ScrollView.SCROLLDIR_LEFT = cc.p(-1, 0);
-ccui.ScrollView.SCROLLDIR_RIGHT = cc.p(1, 0);
+ccui.ScrollView.MOVEDIR_TOP = 0;
+ccui.ScrollView.MOVEDIR_BOTTOM = 1;
+ccui.ScrollView.MOVEDIR_LEFT = 2;
+ccui.ScrollView.MOVEDIR_RIGHT = 3;
 
 /*
  * UIPageView
@@ -260,8 +261,8 @@ ccui.PageView.TOUCH_DIR_UP = 2;
 ccui.PageView.TOUCH_DIR_DOWN = 3;
 
 //PageView direction
-ccui.PageView.DIRECTION_HORIZONTAL = 0;
-ccui.PageView.DIRECTION_VERTICAL = 1;
+ccui.PageView.DIRECTION_LEFT = 0;
+ccui.PageView.DIRECTION_RIGHT = 1;
 
 /*
  * UIButton
@@ -271,7 +272,7 @@ ccui.PRESSED_RENDERER_ZORDER = -2;
 ccui.DISABLED_RENDERER_ZORDER = -2;
 ccui.TITLE_RENDERER_ZORDER = -1;
 
-ccui.Scale9Sprite.POSITIONS_CENTRE = 0;
+ccui.Scale9Sprite.POSITIONS_CENTRE = 0;                //CCScale9Sprite.js
 ccui.Scale9Sprite.POSITIONS_TOP = 1;
 ccui.Scale9Sprite.POSITIONS_LEFT = 2;
 ccui.Scale9Sprite.POSITIONS_RIGHT = 3;
@@ -451,15 +452,18 @@ if (ccui.VideoPlayer)
      * @type {{PLAYING: string, PAUSED: string, STOPPED: string, COMPLETED: string}}
      */
     ccui.VideoPlayer.EventType = {
-        PLAYING: "play",
-        PAUSED: "pause",
-        STOPPED: "stop",
-        COMPLETED: "complete"
+        PLAYING: 0,
+        PAUSED: 1,
+        STOPPED: 2,
+        COMPLETED: 3,
+        META_LOADED: 4,
+        CLICKED: 5,
+        READY_TO_PLAY: 6
     };
 
     ccui.VideoPlayer.prototype._setURL = ccui.VideoPlayer.prototype.setURL;
     ccui.VideoPlayer.prototype.setURL = function (url) {
-        if (url.indexOf("http://") >= 0)
+        if (url.indexOf("http://") >= 0 || url.indexOf("https://") >=0)
         {
             this._setURL(url);
         }
@@ -475,20 +479,29 @@ if (ccui.VideoPlayer)
             this.videoPlayerCallback = function(sender, eventType){
                 cc.log("videoEventCallback eventType:" + eventType);
                 switch (eventType) {
-                    case 0:
-                        this["VideoPlayer_"+ccui.VideoPlayer.EventType.PLAYING] && this["VideoPlayer_"+ccui.VideoPlayer.EventType.PLAYING](sender);
-                        break;
-                    case 1:
-                        this["VideoPlayer_"+ccui.VideoPlayer.EventType.PAUSED] && this["VideoPlayer_"+ccui.VideoPlayer.EventType.PAUSED](sender);
-                        break;
-                    case 2:
-                        this["VideoPlayer_"+ccui.VideoPlayer.EventType.STOPPED] && this["VideoPlayer_"+ccui.VideoPlayer.EventType.STOPPED](sender);
-                        break;
-                    case 3:
-                        this["VideoPlayer_"+ccui.VideoPlayer.EventType.COMPLETED] && this["VideoPlayer_"+ccui.VideoPlayer.EventType.COMPLETED](sender);
-                        break;
-                    default:
-                        break;
+                  case 0:
+                      this["VideoPlayer_"+ccui.VideoPlayer.EventType.PLAYING] && this["VideoPlayer_"+ccui.VideoPlayer.EventType.PLAYING](sender);
+                      break;
+                  case 1:
+                      this["VideoPlayer_"+ccui.VideoPlayer.EventType.PAUSED] && this["VideoPlayer_"+ccui.VideoPlayer.EventType.PAUSED](sender);
+                      break;
+                  case 2:
+                      this["VideoPlayer_"+ccui.VideoPlayer.EventType.STOPPED] && this["VideoPlayer_"+ccui.VideoPlayer.EventType.STOPPED](sender);
+                      break;
+                  case 3:
+                      this["VideoPlayer_"+ccui.VideoPlayer.EventType.COMPLETED] && this["VideoPlayer_"+ccui.VideoPlayer.EventType.COMPLETED](sender);
+                      break;
+                  case 4:
+                      this["VideoPlayer_"+ccui.VideoPlayer.EventType.META_LOADED] && this["VideoPlayer_"+ccui.VideoPlayer.EventType.META_LOADED](sender);
+                      break;
+                  case 5:
+                      this["VideoPlayer_"+ccui.VideoPlayer.EventType.CLICKED] && this["VideoPlayer_"+ccui.VideoPlayer.EventType.CLICKED](sender);
+                      break;
+                  case 6:
+                      this["VideoPlayer_"+ccui.VideoPlayer.EventType.READY_TO_PLAY] && this["VideoPlayer_"+ccui.VideoPlayer.EventType.READY_TO_PLAY](sender);
+                      break;
+                  default:
+                      break;
                 }
             };
             this.addEventListener(this.videoPlayerCallback);
@@ -574,7 +587,7 @@ function _ui_applyEventListener(ctor) {
     var proto = ctor.prototype;
     proto._addEventListener = proto.addEventListener;
     proto.addEventListener = _ui_addEventListener;
-};
+}
 
 _ui_applyEventListener(ccui.CheckBox);
 _ui_applyEventListener(ccui.Slider);
