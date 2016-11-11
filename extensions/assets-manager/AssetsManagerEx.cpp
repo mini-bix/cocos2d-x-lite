@@ -333,6 +333,7 @@ bool AssetsManagerEx::decompress(const std::string &zip)
             return false;
         }
         const std::string fullPath = rootPath + fileName;
+        const std::string tmpPath = rootPath + fileName + ".tmp";
         
         // Check if this entry is a directory or a file.
         const size_t filenameLength = strlen(fileName);
@@ -360,7 +361,7 @@ bool AssetsManagerEx::decompress(const std::string &zip)
             }
             
             // Create a file to store current file.
-            FILE *out = fopen(FileUtils::getInstance()->getSuitableFOpen(fullPath).c_str(), "wb");
+            FILE *out = fopen(FileUtils::getInstance()->getSuitableFOpen(tmpPath).c_str(), "wb");
             if (!out)
             {
                 CCLOG("AssetsManagerEx : can not create decompress destination file %s\n", fullPath.c_str());
@@ -378,6 +379,7 @@ bool AssetsManagerEx::decompress(const std::string &zip)
                 {
                     CCLOG("AssetsManagerEx : can not read zip file %s, error code is %d\n", fileName, error);
                     fclose(out);
+                    _fileUtils->removeFile(tmpPath);
                     unzCloseCurrentFile(zipfile);
                     unzClose(zipfile);
                     return false;
@@ -390,6 +392,7 @@ bool AssetsManagerEx::decompress(const std::string &zip)
             } while(error > 0);
             
             fclose(out);
+            _fileUtils->renameFile(tmpPath, fullPath);
         }
         
         unzCloseCurrentFile(zipfile);
