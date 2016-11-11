@@ -629,11 +629,13 @@ void AssetsManagerEx::startUpdate()
 
 void AssetsManagerEx::updateSucceed()
 {
+    
+    
     for (auto it = _diffs.begin(); it != _diffs.end(); ++it)
     {
         string filePath = _storagePath + it->second.asset.path;
         if (it->second.type == Manifest::DiffType::DELETED){
-            _fileUtils->removeFile(filePath);
+            
         }else{
             string oldPath = filePath+DOWNLOAD_SUFFIX;
             string newPath = oldPath.substr(0,oldPath.length()-DOWNLOAD_SUFFIX.length());
@@ -642,14 +644,13 @@ void AssetsManagerEx::updateSucceed()
             }else{
                 CCLOG("File %s %s",it->second.asset.path.c_str()," is not exist when rename it at updateSucc");
             }
-            if (_fileUtils->isFileExist(newPath) && it->second.asset.compressed){
-                    _compressedFiles.push_back(newPath);
+            if (it->second.asset.compressed && _fileUtils->isFileExist(newPath)){
+                _compressedFiles.push_back(newPath);
             }
             
         }
         
     }
-
     _updateState = State::UNZIPPING;
     // 4. decompress all compressed files
     //decompressDownloadedZip();
@@ -668,6 +669,14 @@ void AssetsManagerEx::updateSucceed()
         AsyncData* asyncData = (AsyncData*)param;
         if (asyncData->errorCompressedFile.empty())
         {
+            
+            for (auto it = _diffs.begin(); it != _diffs.end(); ++it)
+            {
+                string filePath = _storagePath + it->second.asset.path;
+                if (it->second.type == Manifest::DiffType::DELETED){
+                    _fileUtils->removeFile(filePath);
+                }
+            }
             
             // Every thing is correctly downloaded, do the following
             // 1. rename temporary manifest to valid manifest
