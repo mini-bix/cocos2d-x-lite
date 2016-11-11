@@ -274,6 +274,8 @@ private:
     
     double _downloadedAfterSaveManifest;
     
+    std::vector<std::string> _filesUnziped;
+    
     std::vector<std::string> _diffsToDelete;
     
     std::unordered_map<std::string, Manifest::AssetDiff> _diffsToDownload;

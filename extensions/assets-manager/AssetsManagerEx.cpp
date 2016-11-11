@@ -35,6 +35,7 @@
 #include "unzip/unzip.h"
 #endif
 #include "base/CCAsyncTaskPool.h"
+#include <algorithm>
 
 using namespace cocos2d;
 using namespace std;
@@ -393,6 +394,7 @@ bool AssetsManagerEx::decompress(const std::string &zip)
             
             fclose(out);
             _fileUtils->renameFile(tmpPath, fullPath);
+            _filesUnziped.push_back(fullPath);
         }
         
         unzCloseCurrentFile(zipfile);
@@ -673,7 +675,7 @@ void AssetsManagerEx::updateSucceed()
             for (auto it = _diffs.begin(); it != _diffs.end(); ++it)
             {
                 string filePath = _storagePath + it->second.asset.path;
-                if (it->second.type == Manifest::DiffType::DELETED){
+                if (it->second.type == Manifest::DiffType::DELETED && find(_filesUnziped.begin(), _filesUnziped.end(), filePath) == _filesUnziped.end() ){
                     _fileUtils->removeFile(filePath);
                 }
             }
