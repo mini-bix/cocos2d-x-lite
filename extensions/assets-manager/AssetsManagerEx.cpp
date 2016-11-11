@@ -633,26 +633,19 @@ void AssetsManagerEx::updateSucceed()
             _fileUtils->removeFile(filePath);
         }else{
             string oldPath = filePath+DOWNLOAD_SUFFIX;
+            string newPath = oldPath.substr(0,oldPath.length()-DOWNLOAD_SUFFIX.length());
             if (_fileUtils->isFileExist(oldPath)){
-                string newPath = oldPath.substr(0,oldPath.length()-DOWNLOAD_SUFFIX.length());
                 _fileUtils->renameFile(oldPath, newPath);
             }else{
                 CCLOG("File %s %s",it->second.asset.path.c_str()," is not exist when rename it at updateSucc");
+            }
+            if (_fileUtils->isFileExist(newPath) && it->second.asset.compressed){
+                    _compressedFiles.push_back(newPath);
             }
             
         }
         
     }
-    // Every thing is correctly downloaded, do the following
-    // 1. rename temporary manifest to valid manifest
-    _fileUtils->renameFile(_storagePath, TEMP_MANIFEST_FILENAME, MANIFEST_FILENAME);
-    // 2. swap the localManifest
-    if (_localManifest != nullptr)
-        _localManifest->release();
-    _localManifest = _remoteManifest;
-    _remoteManifest = nullptr;
-    // 3. make local manifest take effect
-    prepareLocalManifest();
 
     _updateState = State::UNZIPPING;
     // 4. decompress all compressed files
@@ -672,6 +665,18 @@ void AssetsManagerEx::updateSucceed()
         AsyncData* asyncData = (AsyncData*)param;
         if (asyncData->errorCompressedFile.empty())
         {
+            
+            // Every thing is correctly downloaded, do the following
+            // 1. rename temporary manifest to valid manifest
+            _fileUtils->renameFile(_storagePath, TEMP_MANIFEST_FILENAME, MANIFEST_FILENAME);
+            // 2. swap the localManifest
+            if (_localManifest != nullptr)
+                _localManifest->release();
+            _localManifest = _remoteManifest;
+            _remoteManifest = nullptr;
+            // 3. make local manifest take effect
+            prepareLocalManifest();
+            
             // 5. Set update state
             _updateState = State::UP_TO_DATE;
             // 6. Notify finished event
@@ -951,9 +956,9 @@ void AssetsManagerEx::onSuccess(const std::string &srcUrl, const std::string &st
                 _downloadedAfterSaveManifest = 0;
             }
             // Add file to need decompress list
-            if (assetIt->second.compressed) {
-                _compressedFiles.push_back(storagePath);
-            }
+//            if (assetIt->second.compressed) {
+//                _compressedFiles.push_back(storagePath);
+//            }
         }
         
         auto unitIt = _downloadUnits.find(customId);
