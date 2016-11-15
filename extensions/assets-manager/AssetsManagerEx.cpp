@@ -609,16 +609,16 @@ void AssetsManagerEx::startUpdate()
             _downloadUnits.emplace(unit.customId, unit);
         }
         // Set other assets' downloadState to SUCCESSED
-        auto &assets = _tempManifest->getAssets();
-        for (auto it = assets.cbegin(); it != assets.cend(); ++it)
-        {
-            const std::string &key = it->first;
-            auto diffIt = _diffsToDownload.find(key);
-            if (diffIt == _diffsToDownload.end())
-            {
-                _tempManifest->setAssetDownloadState(key, Manifest::DownloadState::SUCCESSED);
-            }
-        }
+//        auto &assets = _tempManifest->getAssets();
+//        for (auto it = assets.cbegin(); it != assets.cend(); ++it)
+//        {
+//            const std::string &key = it->first;
+//            auto diffIt = _diffsToDownload.find(key);
+//            if (diffIt == _diffsToDownload.end())
+//            {
+//                _tempManifest->setAssetDownloadState(key, Manifest::DownloadState::SUCCESSED);
+//            }
+//        }
         _totalWaitToDownload = _totalToDownload = (int)_downloadUnits.size();
         this->batchDownload();
         
