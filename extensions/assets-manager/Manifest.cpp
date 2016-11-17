@@ -175,8 +175,13 @@ bool Manifest::versionGreater(const Manifest *b) const
     std::vector<int> tokensA = this->splitVersion(this->getVersion(), '.');
     std::vector<int> tokensB = b->splitVersion(b->getVersion(), '.');
     for (int i=0;i<tokensA.size();i++){
+        if (tokensA[i] == tokensB[i]){
+            continue;
+        }
         if (i>=tokensB.size() || tokensA[i] > tokensB[i]){
             return true;
+        }else{
+            return false;
         }
     }
     return false;
