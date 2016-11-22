@@ -18,6 +18,7 @@
 #include "network/XMLHTTPRequest.h"
 #include "network/jsb_websocket.h"
 #include "network/jsb_socketio.h"
+#include "jsb_baiyou_plugin_auto.hpp"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "jsb_cocos2dx_experimental_video_auto.hpp"
@@ -80,6 +81,8 @@ int js_module_register()
     sc->addRegisterCallback(register_jsb_websocket);
     // sokcet io can be commented out to reduce the package
     sc->addRegisterCallback(register_jsb_socketio);
+    // baiyou plugins
+    sc->addRegisterCallback(register_all_baiyou_plugin);
     
 #if CC_USE_3D_PHYSICS && CC_ENABLE_BULLET_INTEGRATION
     // Physics 3d can be commented out to reduce the package
