@@ -57,7 +57,7 @@ const std::string AssetsManagerEx::DOWNLOAD_SUFFIX = ".remote";
 
 // Implementation of AssetsManagerEx
 
-AssetsManagerEx::AssetsManagerEx(const std::string& manifestUrl, const std::string& storagePath)
+AssetsManagerEx::AssetsManagerEx(const std::string& manifestUrl, const std::string& storagePath,const std::string& packageURL)
 : _updateState(State::UNCHECKED)
 , _assets(nullptr)
 , _storagePath("")
@@ -98,6 +98,7 @@ AssetsManagerEx::AssetsManagerEx(const std::string& manifestUrl, const std::stri
         this->onSuccess(task.requestURL, task.storagePath, task.identifier);
     };
     setStoragePath(storagePath);
+    _packageURL = packageURL;
     _cacheVersionPath = _storagePath + VERSION_FILENAME;
     _cacheManifestPath = _storagePath + MANIFEST_FILENAME;
     _tempManifestPath = _storagePath + TEMP_MANIFEST_FILENAME;
@@ -117,9 +118,9 @@ AssetsManagerEx::~AssetsManagerEx()
     CC_SAFE_RELEASE(_remoteManifest);
 }
 
-AssetsManagerEx* AssetsManagerEx::create(const std::string& manifestUrl, const std::string& storagePath)
+AssetsManagerEx* AssetsManagerEx::create(const std::string& manifestUrl, const std::string& storagePath,const std::string& packageURL)
 {
-    AssetsManagerEx* ret = new (std::nothrow) AssetsManagerEx(manifestUrl, storagePath);
+    AssetsManagerEx* ret = new (std::nothrow) AssetsManagerEx(manifestUrl, storagePath,packageURL);
     if (ret)
     {
         ret->autorelease();
@@ -445,7 +446,7 @@ void AssetsManagerEx::downloadVersion()
     if (_updateState > State::PREDOWNLOAD_VERSION)
         return;
 
-    std::string versionUrl = _localManifest->getVersionFileUrl();
+    std::string versionUrl = _packageURL+VERSION_FILENAME;
 
     if (versionUrl.size() > 0)
     {
@@ -477,16 +478,23 @@ void AssetsManagerEx::parseVersion()
     }
     else
     {
-        if (_remoteManifest->versionGreater(_localManifest))
-        {
-            _updateState = State::PREDOWNLOAD_MANIFEST;
-            downloadManifest();
-        }
-        else
-        {
+        if (_remoteManifest->engineVersionGreater(_localManifest)){
             _updateState = State::UP_TO_DATE;
-            dispatchUpdateEvent(EventAssetsManagerEx::EventCode::ALREADY_UP_TO_DATE);
+            dispatchUpdateEvent(EventAssetsManagerEx::EventCode::NEW_ENGINE_FOUND);
+        }else{
+            if (_remoteManifest->versionGreater(_localManifest))
+            {
+                _updateState = State::PREDOWNLOAD_MANIFEST;
+                downloadManifest();
+            }
+            else
+            {
+                _updateState = State::UP_TO_DATE;
+                dispatchUpdateEvent(EventAssetsManagerEx::EventCode::ALREADY_UP_TO_DATE);
+            }
         }
+        
+        
     }
 }
 
@@ -495,7 +503,7 @@ void AssetsManagerEx::downloadManifest()
     if (_updateState != State::PREDOWNLOAD_MANIFEST)
         return;
 
-    std::string manifestUrl = _localManifest->getManifestFileUrl();
+    std::string manifestUrl = _packageURL+MANIFEST_FILENAME;
     if (manifestUrl.size() > 0)
     {
         _updateState = State::DOWNLOADING_MANIFEST;
@@ -526,47 +534,52 @@ void AssetsManagerEx::parseManifest()
     }
     else
     {
-        if(_remoteManifest->versionGreater(_localManifest))
-        {
-            _updateState = State::NEED_UPDATE;
-            
-            if (!_tempManifest->isLoaded() || !_tempManifest->versionEquals(_remoteManifest))
+        if (_remoteManifest->engineVersionGreater(_localManifest)){
+            _updateState = State::UP_TO_DATE;
+            dispatchUpdateEvent(EventAssetsManagerEx::EventCode::NEW_ENGINE_FOUND);
+        }else{
+            if(_remoteManifest->versionGreater(_localManifest))
             {
-                _tempManifest->release();
-                _tempManifest = _remoteManifest;
-            }
-            
-            _diffs = _localManifest->genDiff(_tempManifest);
-            int diffSize = 0;
-            for (auto it = _diffs.begin(); it != _diffs.end(); ++it)
-            {
-                if (it->second.type == Manifest::DiffType::DELETED){
-                    _diffsToDelete.push_back(_storagePath + it->second.asset.path);
-                }else{
-                    if (it->second.asset.downloadState != Manifest::DownloadState::SUCCESSED){
-                        _diffsToDownload.emplace(it->first,it->second);
-                        diffSize += it->second.asset.size;
-                    }else{
-                        CCLOG("Asset %s Already Downloaded ",it->second.asset.path.c_str());
-                    }
+                _updateState = State::NEED_UPDATE;
+                
+                if (!_tempManifest->isLoaded() || !_tempManifest->versionEquals(_remoteManifest))
+                {
+                    _tempManifest->release();
+                    _tempManifest = _remoteManifest;
                 }
                 
+                _diffs = _localManifest->genDiff(_tempManifest);
+                int diffSize = 0;
+                for (auto it = _diffs.begin(); it != _diffs.end(); ++it)
+                {
+                    if (it->second.type == Manifest::DiffType::DELETED){
+                        _diffsToDelete.push_back(_storagePath + it->second.asset.path);
+                    }else{
+                        if (it->second.asset.downloadState != Manifest::DownloadState::SUCCESSED){
+                            _diffsToDownload.emplace(it->first,it->second);
+                            diffSize += it->second.asset.size;
+                        }else{
+                            CCLOG("Asset %s Already Downloaded ",it->second.asset.path.c_str());
+                        }
+                    }
+                    
+                }
+                std::ostringstream msg;
+                msg << "{\"files\":";
+                msg << _diffsToDownload.size();
+                msg << ",\"size\":";
+                msg << diffSize;
+                msg << "}";
+                
+                dispatchUpdateEvent(EventAssetsManagerEx::EventCode::NEW_VERSION_FOUND,"",msg.str());
+                
+                
             }
-            std::ostringstream msg;
-            msg << "{\"files\":";
-            msg << _diffsToDownload.size();
-            msg << ",\"size\":";
-            msg << diffSize;
-            msg << "}";
-            
-            dispatchUpdateEvent(EventAssetsManagerEx::EventCode::NEW_VERSION_FOUND,"",msg.str());
-            
-            
-        }
-        else
-        {
-            _updateState = State::UP_TO_DATE;
-            dispatchUpdateEvent(EventAssetsManagerEx::EventCode::ALREADY_UP_TO_DATE);
+            else
+            {
+                _updateState = State::UP_TO_DATE;
+                dispatchUpdateEvent(EventAssetsManagerEx::EventCode::ALREADY_UP_TO_DATE);
+            }
         }
     }
 }
@@ -920,7 +933,7 @@ void AssetsManagerEx::onProgress(double total, double downloaded, const std::str
         if (!found)
         {
             // Set download state to DOWNLOADING, this will run only once in the download process
-            _tempManifest->setAssetDownloadState(customId, Manifest::DownloadState::DOWNLOADING);
+//            _tempManifest->setAssetDownloadState(customId, Manifest::DownloadState::DOWNLOADING);
             // Register the download size information
             _downloadedSize.emplace(customId, downloaded);
             _totalSize += total;

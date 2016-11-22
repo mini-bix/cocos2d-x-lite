@@ -160,7 +160,7 @@ bool Manifest::versionEquals(const Manifest *b) const
     return true;
 }
 
-std::vector<int> Manifest::splitVersion(std::string s, char delim) const{
+std::vector<int> splitVersion(std::string s, char delim){
     std::stringstream ss(s);
     std::string item;
     std::vector<int> tokens;
@@ -170,21 +170,30 @@ std::vector<int> Manifest::splitVersion(std::string s, char delim) const{
     return tokens;
 }
 
-bool Manifest::versionGreater(const Manifest *b) const
-{
-    std::vector<int> tokensA = this->splitVersion(this->getVersion(), '.');
-    std::vector<int> tokensB = b->splitVersion(b->getVersion(), '.');
+int Manifest::compareVersion(std::string va, std::string vb) const{
+    std::vector<int> tokensA = splitVersion(va, '.');
+    std::vector<int> tokensB = splitVersion(vb, '.');
     for (int i=0;i<tokensA.size();i++){
         if (tokensA[i] == tokensB[i]){
             continue;
         }
         if (i>=tokensB.size() || tokensA[i] > tokensB[i]){
-            return true;
+            return 1;
         }else{
-            return false;
+            return -1;
         }
     }
-    return false;
+    return 0;
+}
+
+bool Manifest::versionGreater(const Manifest *b) const
+{
+    return compareVersion(this->getVersion(), b->getVersion()) == 1;
+}
+
+bool Manifest::engineVersionGreater(const Manifest *b) const
+{
+    return compareVersion(this->getEngineVersion(), b->getEngineVersion()) == 1;
 }
 
 std::unordered_map<std::string, Manifest::AssetDiff> Manifest::genDiff(const Manifest *b) const
@@ -305,19 +314,14 @@ const std::string& Manifest::getPackageUrl() const
     return _packageUrl;
 }
 
-const std::string& Manifest::getManifestFileUrl() const
-{
-    return _remoteManifestUrl;
-}
-
-const std::string& Manifest::getVersionFileUrl() const
-{
-    return _remoteVersionUrl;
-}
-
 const std::string& Manifest::getVersion() const
 {
     return _version;
+}
+
+const std::string& Manifest::getEngineVersion() const
+{
+    return _engineVer;
 }
 
 const std::vector<std::string>& Manifest::getGroups() const

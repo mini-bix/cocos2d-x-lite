@@ -93,17 +93,11 @@ public:
      */
     const std::string& getPackageUrl() const;
     
-    /** @brief Gets remote manifest file url.
-     */
-    const std::string& getManifestFileUrl() const;
-    
-    /** @brief Gets remote version file url.
-     */
-    const std::string& getVersionFileUrl() const;
-    
     /** @brief Gets manifest version.
      */
     const std::string& getVersion() const;
+    
+    const std::string& getEngineVersion() const;
     
     /** @brief Get the search paths list related to the Manifest.
      */
@@ -138,7 +132,7 @@ protected:
     
     bool versionGreater(const Manifest *b) const;
     
-    std::vector<int> splitVersion(std::string s, char delim) const;
+    bool engineVersionGreater(const Manifest *b) const;
     
     /** @brief Generate difference between this Manifest and another.
      * @param b   The other manifest
@@ -231,6 +225,8 @@ private:
     std::vector<std::string> _searchPaths;
     
     rapidjson::Document _json;
+    
+    int compareVersion(std::string va, std::string vb) const;
 };
 
 NS_CC_EXT_END

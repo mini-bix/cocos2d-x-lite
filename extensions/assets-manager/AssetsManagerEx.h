@@ -77,7 +77,7 @@ public:
      @warning   The cached manifest in your storage path have higher priority and will be searched first,
                 only if it doesn't exist, AssetsManagerEx will use the given manifestUrl.
      */
-    static AssetsManagerEx* create(const std::string &manifestUrl, const std::string &storagePath);
+    static AssetsManagerEx* create(const std::string &manifestUrl, const std::string &storagePath,const std::string& packageURL);
     
     /** @brief  Check out if there is a new version of manifest.
      *          You may use this method before updating, then let user determine whether
@@ -111,7 +111,7 @@ public:
     
 CC_CONSTRUCTOR_ACCESS:
     
-    AssetsManagerEx(const std::string& manifestUrl, const std::string& storagePath);
+    AssetsManagerEx(const std::string& manifestUrl, const std::string& storagePath,const std::string& packageURL);
     
     virtual ~AssetsManagerEx();
     
@@ -212,6 +212,8 @@ private:
     
     //! The path to store downloaded resources.
     std::string _storagePath;
+    
+    std::string _packageURL;
     
     //! The local path of cached version file
     std::string _cacheVersionPath;

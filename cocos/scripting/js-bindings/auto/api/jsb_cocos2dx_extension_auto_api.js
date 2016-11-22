@@ -123,13 +123,13 @@ int
 cc.Manifest = {
 
 /**
- * @method getManifestFileUrl
- * @return {String}
+ * @method getSearchPaths
+ * @return {Array}
  */
-getManifestFileUrl : function (
+getSearchPaths : function (
 )
 {
-    return ;
+    return new Array();
 },
 
 /**
@@ -140,6 +140,16 @@ isVersionLoaded : function (
 )
 {
     return false;
+},
+
+/**
+ * @method getEngineVersion
+ * @return {String}
+ */
+getEngineVersion : function (
+)
+{
+    return ;
 },
 
 /**
@@ -170,26 +180,6 @@ getVersion : function (
 )
 {
     return ;
-},
-
-/**
- * @method getVersionFileUrl
- * @return {String}
- */
-getVersionFileUrl : function (
-)
-{
-    return ;
-},
-
-/**
- * @method getSearchPaths
- * @return {Array}
- */
-getSearchPaths : function (
-)
-{
-    return new Array();
 },
 
 };
@@ -267,9 +257,11 @@ downloadFailedAssets : function (
  * @method create
  * @param {String} arg0
  * @param {String} arg1
+ * @param {String} arg2
  * @return {cc.AssetsManagerEx}
  */
 create : function (
+str, 
 str, 
 str 
 )
@@ -282,8 +274,10 @@ str
  * @constructor
  * @param {String} arg0
  * @param {String} arg1
+ * @param {String} arg2
  */
 AssetsManagerEx : function (
+str, 
 str, 
 str 
 )
