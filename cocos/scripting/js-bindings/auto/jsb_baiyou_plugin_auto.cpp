@@ -1,6 +1,6 @@
 #include "jsb_baiyou_plugin_auto.hpp"
 #include "cocos2d_specifics.hpp"
-#include "baiyou/baiyou.h"
+#include "baiyou/BaiyouPlugin.h"
 
 template<class T>
 static bool dummy_constructor(JSContext *cx, uint32_t argc, jsval *vp) {

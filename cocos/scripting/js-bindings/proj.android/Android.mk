@@ -19,6 +19,7 @@ LOCAL_SRC_FILES := ../auto/jsb_cocos2dx_extension_auto.cpp \
                    ../auto/jsb_cocos2dx_builder_auto.cpp \
                    ../auto/jsb_cocos2dx_ui_auto.cpp \
                    ../auto/jsb_creator_auto.cpp \
+                   ../auto/jsb_baiyou_plugin_auto.cpp \
                    ../manual/js_module_register.cpp \
                    ../manual/ScriptingCore.cpp \
                    ../manual/cocos2d_specifics.cpp \
