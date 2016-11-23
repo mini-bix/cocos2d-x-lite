@@ -308,12 +308,6 @@ void Manifest::prependSearchPaths()
     }
 }
 
-
-const std::string& Manifest::getPackageUrl() const
-{
-    return _packageUrl;
-}
-
 const std::string& Manifest::getVersion() const
 {
     return _version;

@@ -99,6 +99,9 @@ AssetsManagerEx::AssetsManagerEx(const std::string& manifestUrl, const std::stri
     };
     setStoragePath(storagePath);
     _packageURL = packageURL;
+    if (_packageURL.c_str()[_packageURL.length()-1] != '/'){
+        _packageURL = _packageURL+"/";
+    }
     _cacheVersionPath = _storagePath + VERSION_FILENAME;
     _cacheManifestPath = _storagePath + MANIFEST_FILENAME;
     _tempManifestPath = _storagePath + TEMP_MANIFEST_FILENAME;
@@ -607,7 +610,7 @@ void AssetsManagerEx::startUpdate()
     else
     {
         // Generate download units for all assets that need to be updated or added
-        std::string packageUrl = _tempManifest->getPackageUrl();
+        std::string packageUrl = this->_packageURL;
         for (auto it = _diffsToDownload.begin(); it != _diffsToDownload.end(); ++it)
         {
             Manifest::AssetDiff diff = it->second;

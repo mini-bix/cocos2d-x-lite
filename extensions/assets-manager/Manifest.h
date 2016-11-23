@@ -89,10 +89,6 @@ public:
      */
     bool isLoaded() const;
     
-    /** @brief Gets remote package url.
-     */
-    const std::string& getPackageUrl() const;
-    
     /** @brief Gets manifest version.
      */
     const std::string& getVersion() const;

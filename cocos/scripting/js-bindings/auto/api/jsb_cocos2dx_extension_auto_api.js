@@ -123,13 +123,13 @@ int
 cc.Manifest = {
 
 /**
- * @method getSearchPaths
- * @return {Array}
+ * @method getVersion
+ * @return {String}
  */
-getSearchPaths : function (
+getVersion : function (
 )
 {
-    return new Array();
+    return ;
 },
 
 /**
@@ -140,6 +140,16 @@ isVersionLoaded : function (
 )
 {
     return false;
+},
+
+/**
+ * @method getSearchPaths
+ * @return {Array}
+ */
+getSearchPaths : function (
+)
+{
+    return new Array();
 },
 
 /**
@@ -160,26 +170,6 @@ isLoaded : function (
 )
 {
     return false;
-},
-
-/**
- * @method getPackageUrl
- * @return {String}
- */
-getPackageUrl : function (
-)
-{
-    return ;
-},
-
-/**
- * @method getVersion
- * @return {String}
- */
-getVersion : function (
-)
-{
-    return ;
 },
 
 };

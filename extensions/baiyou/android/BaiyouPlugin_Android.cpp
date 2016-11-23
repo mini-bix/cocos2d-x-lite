@@ -36,6 +36,6 @@ namespace baiyou {
         return true;
     }
     std::string BaiyouPlugin_Android::getProperty(const std::string& key) const{
-        return cocos2d::JniHelper::callStaticStringMethod("org/baiyou/BaiyouPlugin", "getProperty");
+        return cocos2d::JniHelper::callStaticStringMethod("org/baiyou/BaiyouPlugin", "getProperty",key);
     }
 }
