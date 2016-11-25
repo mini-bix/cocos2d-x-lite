@@ -2,8 +2,8 @@
 #ifndef __baiyou_plugin_h__
 #define __baiyou_plugin_h__
 
-#include "spidermonkey/jsapi.h"
-#include "spidermonkey/jsfriendapi.h"
+#include "jsapi.h"
+#include "jsfriendapi.h"
 
 extern JSClass  *jsb_baiyou_BaiyouPlugin_class;
 extern JSObject *jsb_baiyou_BaiyouPlugin_prototype;

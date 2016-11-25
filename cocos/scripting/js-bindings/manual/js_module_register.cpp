@@ -6,6 +6,7 @@
 #include "scripting/js-bindings/auto/jsb_cocos2dx_builder_auto.hpp"
 #include "scripting/js-bindings/auto/jsb_cocos2dx_spine_auto.hpp"
 #include "scripting/js-bindings/auto/jsb_cocos2dx_dragonbones_auto.hpp"
+#include "scripting/js-bindings/auto/jsb_baiyou_plugin_auto.hpp"
 #include "jsb_creator_auto.hpp"
 #include "scripting/js-bindings/auto/jsb_cocos2dx_extension_auto.hpp"
 #include "scripting/js-bindings/manual/ui/jsb_cocos2dx_ui_manual.h"
@@ -74,6 +75,8 @@ int js_module_register()
     // dragonbones can be commented out to reduce the package
     sc->addRegisterCallback(register_all_cocos2dx_dragonbones);
     sc->addRegisterCallback(register_all_cocos2dx_dragonbones_manual);
+    
+    sc->addRegisterCallback(register_all_baiyou_plugin);
 
     // register creator
     sc->addRegisterCallback(register_all_creator);
