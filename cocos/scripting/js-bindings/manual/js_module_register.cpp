@@ -75,11 +75,11 @@ int js_module_register()
     // dragonbones can be commented out to reduce the package
     sc->addRegisterCallback(register_all_cocos2dx_dragonbones);
     sc->addRegisterCallback(register_all_cocos2dx_dragonbones_manual);
-    
-    sc->addRegisterCallback(register_all_baiyou_plugin);
 
     // register creator
     sc->addRegisterCallback(register_all_creator);
+    
+    sc->addRegisterCallback(register_all_baiyou_plugin);
     
     // XmlHttpRequest can be commented out to reduce the package
     sc->addRegisterCallback(MinXmlHttpRequest::_js_register);

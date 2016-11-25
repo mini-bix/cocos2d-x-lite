@@ -113,7 +113,7 @@ void js_register_baiyou_plugin_BaiyouPlugin(JSContext *cx, JS::HandleObject glob
         cx, global,
         JS::NullPtr(),
         jsb_baiyou_BaiyouPlugin_class,
-        dummy_constructor<baiyou::BaiyouPlugin>, 0, // no constructor
+        empty_constructor, 0,
         properties,
         funcs,
         NULL, // no static properties
