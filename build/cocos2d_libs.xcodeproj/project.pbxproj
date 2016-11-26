@@ -1168,6 +1168,10 @@
 		A63CF00C1CD9CF3500A6971D /* CCUITextFieldFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = A63CF0011CD9CF3500A6971D /* CCUITextFieldFormatter.h */; };
 		A63CF00D1CD9CF3500A6971D /* CCUITextFieldFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = A63CF0021CD9CF3500A6971D /* CCUITextFieldFormatter.m */; };
 		A63CF00E1CD9CF3500A6971D /* CCUITextInput.h in Headers */ = {isa = PBXBuildFile; fileRef = A63CF0031CD9CF3500A6971D /* CCUITextInput.h */; };
+		A66C93801DE95CA1009B3EA8 /* MD5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A66C937E1DE95CA1009B3EA8 /* MD5.cpp */; };
+		A66C93811DE95CA1009B3EA8 /* MD5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A66C937E1DE95CA1009B3EA8 /* MD5.cpp */; };
+		A66C93821DE95CA1009B3EA8 /* MD5.h in Headers */ = {isa = PBXBuildFile; fileRef = A66C937F1DE95CA1009B3EA8 /* MD5.h */; };
+		A66C93831DE95CA1009B3EA8 /* MD5.h in Headers */ = {isa = PBXBuildFile; fileRef = A66C937F1DE95CA1009B3EA8 /* MD5.h */; };
 		A679D0D91C71D90A00620A6C /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6A554241C2A7C4400FDD954 /* libssl.a */; };
 		A679D0DA1C71D93200620A6C /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6A554221C2A7C3100FDD954 /* libcrypto.a */; };
 		A679D0F51C74BA3600620A6C /* CCArmature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A679D0E71C74BA3600620A6C /* CCArmature.cpp */; };
@@ -2150,6 +2154,8 @@
 		A63CF0011CD9CF3500A6971D /* CCUITextFieldFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCUITextFieldFormatter.h; path = Mac/CCUITextFieldFormatter.h; sourceTree = "<group>"; };
 		A63CF0021CD9CF3500A6971D /* CCUITextFieldFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CCUITextFieldFormatter.m; path = Mac/CCUITextFieldFormatter.m; sourceTree = "<group>"; };
 		A63CF0031CD9CF3500A6971D /* CCUITextInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCUITextInput.h; path = Mac/CCUITextInput.h; sourceTree = "<group>"; };
+		A66C937E1DE95CA1009B3EA8 /* MD5.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MD5.cpp; sourceTree = "<group>"; };
+		A66C937F1DE95CA1009B3EA8 /* MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MD5.h; sourceTree = "<group>"; };
 		A679D0E71C74BA3600620A6C /* CCArmature.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCArmature.cpp; path = Armature/CCArmature.cpp; sourceTree = "<group>"; };
 		A679D0E81C74BA3600620A6C /* CCArmature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCArmature.h; path = Armature/CCArmature.h; sourceTree = "<group>"; };
 		A679D0E91C74BA3600620A6C /* CCArmatureAnimation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCArmatureAnimation.cpp; path = Armature/CCArmatureAnimation.cpp; sourceTree = "<group>"; };
@@ -3209,6 +3215,7 @@
 		46A167981807AF4D005B8026 /* extensions */ = {
 			isa = PBXGroup;
 			children = (
+				A66C937D1DE95C88009B3EA8 /* md5 */,
 				A6D40F431DE56C6F0049EA0B /* baiyou */,
 				BA679B271CEC371100F875FA /* assets-manager */,
 				A60A9D5A1C200DD00070800A /* PhysicsSprite */,
@@ -3614,6 +3621,15 @@
 				A63CF0031CD9CF3500A6971D /* CCUITextInput.h */,
 			);
 			name = Mac;
+			sourceTree = "<group>";
+		};
+		A66C937D1DE95C88009B3EA8 /* md5 */ = {
+			isa = PBXGroup;
+			children = (
+				A66C937E1DE95CA1009B3EA8 /* MD5.cpp */,
+				A66C937F1DE95CA1009B3EA8 /* MD5.h */,
+			);
+			path = md5;
 			sourceTree = "<group>";
 		};
 		A679D0E61C74BA1700620A6C /* Armature */ = {
@@ -4136,6 +4152,7 @@
 				50ABBD5A1925AB0000A911A9 /* Vec2.h in Headers */,
 				15AE1BDB19AAE01E00C27E9E /* CCControlSwitch.h in Headers */,
 				B24AA987195A675C007B4522 /* CCFastTMXLayer.h in Headers */,
+				A66C93821DE95CA1009B3EA8 /* MD5.h in Headers */,
 				15AE188F19AAD33D00C27E9E /* CCLabelTTFLoader.h in Headers */,
 				A679D0F81C74BA3600620A6C /* CCArmatureAnimation.h in Headers */,
 				50ABBEBD1925AB6F00A911A9 /* ccUtils.h in Headers */,
@@ -4436,6 +4453,7 @@
 				15AE1BF219AAE01E00C27E9E /* CCControlPotentiometer.h in Headers */,
 				15AE1BEB19AAE01E00C27E9E /* CCControlButton.h in Headers */,
 				1A570281180BCC900088DEC7 /* CCSprite.h in Headers */,
+				A66C93831DE95CA1009B3EA8 /* MD5.h in Headers */,
 				1A570285180BCC900088DEC7 /* CCSpriteBatchNode.h in Headers */,
 				1A570289180BCC900088DEC7 /* CCSpriteFrame.h in Headers */,
 				15AE1B7F19AADA9A00C27E9E /* UIText.h in Headers */,
@@ -4776,6 +4794,7 @@
 				15AE186D19AAD31D00C27E9E /* SimpleAudioEngine_objc.m in Sources */,
 				1A57011B180BC90D0088DEC7 /* CCGrabber.cpp in Sources */,
 				B29A7E3719EE1B7700872B35 /* AnimationStateData.c in Sources */,
+				A66C93801DE95CA1009B3EA8 /* MD5.cpp in Sources */,
 				1A57011F180BC90D0088DEC7 /* CCGrid.cpp in Sources */,
 				A679D0F91C74BA3600620A6C /* CCArmatureDataManager.cpp in Sources */,
 				15AE187A19AAD33D00C27E9E /* CCBAnimationManager.cpp in Sources */,
@@ -5159,6 +5178,7 @@
 				50ABBE241925AB6F00A911A9 /* base64.cpp in Sources */,
 				1A5701A6180BCB590088DEC7 /* CCFontAtlasCache.cpp in Sources */,
 				4D76BE3B1A4AAF0A00102962 /* CCActionTimelineNode.cpp in Sources */,
+				A66C93811DE95CA1009B3EA8 /* MD5.cpp in Sources */,
 				1A5701B2180BCB590088DEC7 /* CCFontFNT.cpp in Sources */,
 				1A5701B6180BCB590088DEC7 /* CCFontFreeType.cpp in Sources */,
 				50ABBEAC1925AB6F00A911A9 /* ccTypes.cpp in Sources */,

@@ -36,6 +36,8 @@
 #endif
 #include "base/CCAsyncTaskPool.h"
 #include <algorithm>
+#include <crypt.h>
+#include "MD5.h"
 
 using namespace cocos2d;
 using namespace std;
@@ -975,21 +977,6 @@ void AssetsManagerEx::onSuccess(const std::string &srcUrl, const std::string &st
     }
     else
     {
-        auto &assets = _tempManifest->getAssets();
-        auto assetIt = assets.find(customId);
-        if (assetIt != assets.end())
-        {
-            // Set download state to SUCCESSED
-            _tempManifest->setAssetDownloadState(customId, Manifest::DownloadState::SUCCESSED);
-            if (_downloadedAfterSaveManifest > 500000){
-                _tempManifest->saveToFile(_tempManifestPath);
-                _downloadedAfterSaveManifest = 0;
-            }
-            // Add file to need decompress list
-//            if (assetIt->second.compressed) {
-//                _compressedFiles.push_back(storagePath);
-//            }
-        }
         
         auto unitIt = _downloadUnits.find(customId);
         if (unitIt != _downloadUnits.end())
@@ -1001,19 +988,35 @@ void AssetsManagerEx::onSuccess(const std::string &srcUrl, const std::string &st
             // Notify progression event
             dispatchUpdateEvent(EventAssetsManagerEx::EventCode::UPDATE_PROGRESSION, "");
         }
-        // Notify asset updated event
-        dispatchUpdateEvent(EventAssetsManagerEx::EventCode::ASSET_UPDATED, customId);
         
-        unitIt = _failedUnits.find(customId);
+        auto failUnitIt = _failedUnits.find(customId);
         // Found unit and delete it
-        if (unitIt != _failedUnits.end())
+        if (failUnitIt != _failedUnits.end())
         {
             // Remove from failed units list
-            _failedUnits.erase(unitIt);
+            _failedUnits.erase(failUnitIt);
         }
         
+        auto &assets = _tempManifest->getAssets();
+        auto assetIt = assets.find(customId);
+        if (assetIt != assets.end())
+        {
+            ifstream downFileStream(storagePath);
+            MD5 *alg = new MD5(downFileStream);
+            auto md5 = alg->toString();
+            CCLOG("%s md5 is %s -- %s ",storagePath.c_str(),md5.c_str(),assetIt->second.md5.c_str());
+            if (md5.compare(assetIt->second.md5) == 0){
+                // Set download state to SUCCESSED
+                _tempManifest->setAssetDownloadState(customId, Manifest::DownloadState::SUCCESSED);
+                if (_downloadedAfterSaveManifest > 500000){
+                    _tempManifest->saveToFile(_tempManifestPath);
+                    _downloadedAfterSaveManifest = 0;
+                }
+            }else{
+                _failedUnits.emplace(customId,unitIt->second);
+            }
+        }
         checkUpdateIsFinish();
-        
     }
 }
 
@@ -1026,8 +1029,6 @@ void AssetsManagerEx::checkUpdateIsFinish()
         {
             _tempManifest->saveToFile(_tempManifestPath);
             // Save current download manifest information for resuming
-            decompressDownloadedZip();
-            
             _updateState = State::FAIL_TO_UPDATE;
             dispatchUpdateEvent(EventAssetsManagerEx::EventCode::UPDATE_FAILED);
         }
