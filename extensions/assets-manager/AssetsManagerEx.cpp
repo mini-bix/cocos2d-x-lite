@@ -36,7 +36,7 @@
 #endif
 #include "base/CCAsyncTaskPool.h"
 #include <algorithm>
-#include "MD5.h"
+#include "../md5/MD5.h"
 
 using namespace cocos2d;
 using namespace std;
