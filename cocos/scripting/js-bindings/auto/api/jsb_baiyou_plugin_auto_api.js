@@ -9,6 +9,16 @@ var baiyou = baiyou || {};
 baiyou.BaiyouPlugin = {
 
 /**
+ * @method openURL
+ * @param {String} arg0
+ */
+openURL : function (
+str 
+)
+{
+},
+
+/**
  * @method init
  * @return {bool}
  */
@@ -28,6 +38,14 @@ str
 )
 {
     return ;
+},
+
+/**
+ * @method restart
+ */
+restart : function (
+)
+{
 },
 
 /**

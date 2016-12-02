@@ -22,6 +22,26 @@ static bool js_is_native_obj(JSContext *cx, uint32_t argc, jsval *vp)
 JSClass  *jsb_baiyou_BaiyouPlugin_class;
 JSObject *jsb_baiyou_BaiyouPlugin_prototype;
 
+bool js_baiyou_plugin_BaiyouPlugin_openURL(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
+    js_proxy_t *proxy = jsb_get_js_proxy(obj);
+    baiyou::BaiyouPlugin* cobj = (baiyou::BaiyouPlugin *)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2( cobj, cx, false, "js_baiyou_plugin_BaiyouPlugin_openURL : Invalid Native Object");
+    if (argc == 1) {
+        std::string arg0;
+        ok &= jsval_to_std_string(cx, args.get(0), &arg0);
+        JSB_PRECONDITION2(ok, cx, false, "js_baiyou_plugin_BaiyouPlugin_openURL : Error processing arguments");
+        cobj->openURL(arg0);
+        args.rval().setUndefined();
+        return true;
+    }
+
+    JS_ReportError(cx, "js_baiyou_plugin_BaiyouPlugin_openURL : wrong number of arguments: %d, was expecting %d", argc, 1);
+    return false;
+}
 bool js_baiyou_plugin_BaiyouPlugin_init(JSContext *cx, uint32_t argc, jsval *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
@@ -62,6 +82,22 @@ bool js_baiyou_plugin_BaiyouPlugin_getProperty(JSContext *cx, uint32_t argc, jsv
     JS_ReportError(cx, "js_baiyou_plugin_BaiyouPlugin_getProperty : wrong number of arguments: %d, was expecting %d", argc, 1);
     return false;
 }
+bool js_baiyou_plugin_BaiyouPlugin_restart(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
+    js_proxy_t *proxy = jsb_get_js_proxy(obj);
+    baiyou::BaiyouPlugin* cobj = (baiyou::BaiyouPlugin *)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2( cobj, cx, false, "js_baiyou_plugin_BaiyouPlugin_restart : Invalid Native Object");
+    if (argc == 0) {
+        cobj->restart();
+        args.rval().setUndefined();
+        return true;
+    }
+
+    JS_ReportError(cx, "js_baiyou_plugin_BaiyouPlugin_restart : wrong number of arguments: %d, was expecting %d", argc, 0);
+    return false;
+}
 bool js_baiyou_plugin_BaiyouPlugin_getInstance(JSContext *cx, uint32_t argc, jsval *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
@@ -99,8 +135,10 @@ void js_register_baiyou_plugin_BaiyouPlugin(JSContext *cx, JS::HandleObject glob
     };
 
     static JSFunctionSpec funcs[] = {
+        JS_FN("openURL", js_baiyou_plugin_BaiyouPlugin_openURL, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("init", js_baiyou_plugin_BaiyouPlugin_init, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("getProperty", js_baiyou_plugin_BaiyouPlugin_getProperty, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("restart", js_baiyou_plugin_BaiyouPlugin_restart, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FS_END
     };
 

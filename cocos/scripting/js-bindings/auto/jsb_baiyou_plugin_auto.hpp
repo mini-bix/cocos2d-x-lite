@@ -12,8 +12,10 @@ bool js_baiyou_plugin_BaiyouPlugin_constructor(JSContext *cx, uint32_t argc, jsv
 void js_baiyou_plugin_BaiyouPlugin_finalize(JSContext *cx, JSObject *obj);
 void js_register_baiyou_plugin_BaiyouPlugin(JSContext *cx, JS::HandleObject global);
 void register_all_baiyou_plugin(JSContext* cx, JS::HandleObject obj);
+bool js_baiyou_plugin_BaiyouPlugin_openURL(JSContext *cx, uint32_t argc, jsval *vp);
 bool js_baiyou_plugin_BaiyouPlugin_init(JSContext *cx, uint32_t argc, jsval *vp);
 bool js_baiyou_plugin_BaiyouPlugin_getProperty(JSContext *cx, uint32_t argc, jsval *vp);
+bool js_baiyou_plugin_BaiyouPlugin_restart(JSContext *cx, uint32_t argc, jsval *vp);
 bool js_baiyou_plugin_BaiyouPlugin_getInstance(JSContext *cx, uint32_t argc, jsval *vp);
 
 #endif // __baiyou_plugin_h__

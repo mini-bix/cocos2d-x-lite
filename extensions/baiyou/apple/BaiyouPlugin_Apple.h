@@ -16,6 +16,7 @@ namespace baiyou {
     class BaiyouPlugin_Apple : public BaiyouPlugin{
         ~BaiyouPlugin_Apple();
         std::string getProperty(const std::string& key) const;
+        void restart() const;
         bool init();
     };
 }

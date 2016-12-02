@@ -7,6 +7,9 @@
 //
 
 #include "BaiyouPlugin_Apple.h"
+
+#import <UIKit/UIKit.h>
+
 namespace baiyou {
     
     BaiyouPlugin_Apple::~BaiyouPlugin_Apple(){
@@ -37,5 +40,8 @@ namespace baiyou {
         }else{
             return std::string(str.UTF8String);
         }
+    }
+    
+    void BaiyouPlugin_Apple::restart() const{
     }
 }

@@ -16,6 +16,7 @@ namespace baiyou {
     class BaiyouPlugin_Android : public BaiyouPlugin{
         ~BaiyouPlugin_Android();
         std::string getProperty(const std::string& key) const;
+        void restart() const;
         bool init();
     };
 }
