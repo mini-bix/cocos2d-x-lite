@@ -8,8 +8,6 @@
 
 #include "BaiyouPlugin_Apple.h"
 
-#import <UIKit/UIKit.h>
-
 namespace baiyou {
     
     BaiyouPlugin_Apple::~BaiyouPlugin_Apple(){
