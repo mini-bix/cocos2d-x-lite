@@ -800,8 +800,5 @@ void RenderTexture::end()
     director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
 }
 
-void RenderTexture::readPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid *pixels){
-}
-
 NS_CC_END
 

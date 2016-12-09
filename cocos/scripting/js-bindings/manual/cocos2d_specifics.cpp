@@ -4621,38 +4621,6 @@ bool js_cocos2dx_RenderTexture_saveToFile(JSContext *cx, uint32_t argc, jsval *v
     return false;
 }
 
-bool js_cocos2dx_RenderTexture_readPixels(JSContext *cx, uint32_t argc, jsval *vp){
-    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-    bool ok = true;
-    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
-    js_proxy_t *proxy = jsb_get_js_proxy(obj);
-    cocos2d::RenderTexture* cobj = (cocos2d::RenderTexture *)(proxy ? proxy->ptr : NULL);
-    JSB_PRECONDITION2( cobj, cx, false, "js_cocos2dx_RenderTexture_readPixels : Invalid Native Object");
-    if (argc == 7) {
-        int arg0 = 0;
-        int arg1 = 0;
-        int arg2 = 0;
-        int arg3 = 0;
-        unsigned int arg4 = 0;
-        unsigned int arg5 = 0;
-        void* arg6 = nullptr;
-        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
-        ok &= jsval_to_int32(cx, args.get(1), (int32_t *)&arg1);
-        ok &= jsval_to_int32(cx, args.get(2), (int32_t *)&arg2);
-        ok &= jsval_to_int32(cx, args.get(3), (int32_t *)&arg3);
-        ok &= jsval_to_uint32(cx, args.get(4), &arg4);
-        ok &= jsval_to_uint32(cx, args.get(5), &arg5);
-        GLsizei count;
-        ok &= JSB_get_arraybufferview_dataptr( cx, args.get(6), &count, &arg6);
-        JSB_PRECONDITION2(ok, cx, false, "js_cocos2dx_RenderTexture_readPixels : Error processing arguments");
-        cobj->readPixels(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
-        args.rval().setUndefined();
-        return true;
-    }
-    JS_ReportError(cx, "js_cocos2dx_RenderTexture_readPixels : wrong number of arguments: %d, was expecting %d", argc, 7);
-    return false;
-}
-
 bool js_cocos2dx_Node_setAdditionalTransform(JSContext *cx, uint32_t argc, jsval *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
@@ -5574,7 +5542,6 @@ void register_cocos2dx_js_core(JSContext* cx, JS::HandleObject global)
 
     tmpObj.set(jsb_cocos2d_RenderTexture_prototype);
     JS_DefineFunction(cx, tmpObj, "saveToFile", js_cocos2dx_RenderTexture_saveToFile, 4, JSPROP_ENUMERATE | JSPROP_PERMANENT);
-    JS_DefineFunction(cx, tmpObj, "readPixels", js_cocos2dx_RenderTexture_readPixels, 7, JSPROP_ENUMERATE | JSPROP_PERMANENT);
 
     JS_GetProperty(cx, ccObj, "Menu", &tmpVal);
     tmpObj = tmpVal.toObjectOrNull();
