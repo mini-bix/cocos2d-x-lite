@@ -20,6 +20,7 @@ namespace baiyou {
             virtual std::string getProperty(const std::string& key) const;
             virtual void restart() const;
             void openURL(const std::string& url) const;
+            virtual std::string getUUID() const;
             virtual bool init();
     protected:
         static BaiyouPlugin* s_sharedBaiyouPlugin;

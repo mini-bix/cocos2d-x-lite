@@ -19,13 +19,13 @@ str
 },
 
 /**
- * @method init
- * @return {bool}
+ * @method getUUID
+ * @return {String}
  */
-init : function (
+getUUID : function (
 )
 {
-    return false;
+    return ;
 },
 
 /**
@@ -38,6 +38,16 @@ str
 )
 {
     return ;
+},
+
+/**
+ * @method init
+ * @return {bool}
+ */
+init : function (
+)
+{
+    return false;
 },
 
 /**

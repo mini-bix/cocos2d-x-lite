@@ -22,6 +22,9 @@ namespace baiyou {
     void BaiyouPlugin::openURL(const std::string& url) const{
         cocos2d::Application::getInstance()->openURL(url);
     }
+    std::string BaiyouPlugin::getUUID() const{
+        return "";
+    }
     bool BaiyouPlugin::init(){
         return true;
     }

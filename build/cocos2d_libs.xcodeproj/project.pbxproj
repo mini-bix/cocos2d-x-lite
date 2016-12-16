@@ -1143,6 +1143,10 @@
 		A6F0D7A61C27964D0029CC44 /* UIPageViewIndicator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6F0D7A41C27964D0029CC44 /* UIPageViewIndicator.cpp */; };
 		A6F0D7A71C27964D0029CC44 /* UIPageViewIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = A6F0D7A51C27964D0029CC44 /* UIPageViewIndicator.h */; };
 		A6F0D7A81C2796500029CC44 /* UIPageViewIndicator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6F0D7A41C27964D0029CC44 /* UIPageViewIndicator.cpp */; };
+		A6F7BB821E0382C700B116FE /* KeyChainStore.m in Sources */ = {isa = PBXBuildFile; fileRef = A6F7BB811E0382C700B116FE /* KeyChainStore.m */; };
+		A6F7BB831E0382C700B116FE /* KeyChainStore.m in Sources */ = {isa = PBXBuildFile; fileRef = A6F7BB811E0382C700B116FE /* KeyChainStore.m */; };
+		A6F7BB851E0382D800B116FE /* KeyChainStore.h in Headers */ = {isa = PBXBuildFile; fileRef = A6F7BB841E0382D800B116FE /* KeyChainStore.h */; };
+		A6F7BB861E0382D800B116FE /* KeyChainStore.h in Headers */ = {isa = PBXBuildFile; fileRef = A6F7BB841E0382D800B116FE /* KeyChainStore.h */; };
 		B2165EEA19921124000BE3E6 /* CCPrimitiveCommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B257B45E198A353E00D9A687 /* CCPrimitiveCommand.cpp */; };
 		B217703C1977ECB4009EE11B /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B217703B1977ECB4009EE11B /* IOKit.framework */; };
 		B21770401977ECE6009EE11B /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B217703F1977ECE6009EE11B /* OpenGL.framework */; };
@@ -2350,6 +2354,8 @@
 		A6F0D7A01C2796020029CC44 /* CCStencilStateManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CCStencilStateManager.hpp; path = ../base/CCStencilStateManager.hpp; sourceTree = "<group>"; };
 		A6F0D7A41C27964D0029CC44 /* UIPageViewIndicator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UIPageViewIndicator.cpp; sourceTree = "<group>"; };
 		A6F0D7A51C27964D0029CC44 /* UIPageViewIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIPageViewIndicator.h; sourceTree = "<group>"; };
+		A6F7BB811E0382C700B116FE /* KeyChainStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyChainStore.m; sourceTree = "<group>"; };
+		A6F7BB841E0382D800B116FE /* KeyChainStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyChainStore.h; sourceTree = "<group>"; };
 		B20564AA1A6E5744001C1B6E /* ccShader_PositionColorTextureAsPointsize.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ccShader_PositionColorTextureAsPointsize.vert; sourceTree = "<group>"; };
 		B217703B1977ECB4009EE11B /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		B217703D1977ECC1009EE11B /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -4020,6 +4026,8 @@
 			children = (
 				A6D40F861DE7E15B0049EA0B /* BaiyouPlugin_Apple.h */,
 				A6D40F871DE7E15B0049EA0B /* BaiyouPlugin_Apple.mm */,
+				A6F7BB811E0382C700B116FE /* KeyChainStore.m */,
+				A6F7BB841E0382D800B116FE /* KeyChainStore.h */,
 			);
 			path = apple;
 			sourceTree = "<group>";
@@ -4702,6 +4710,7 @@
 				15AE1BB419AADFEF00C27E9E /* HttpResponse.h in Headers */,
 				50ABBE291925AB6F00A911A9 /* CCAutoreleasePool.h in Headers */,
 				299CF1FD19A434BC00C378C1 /* ccRandom.h in Headers */,
+				A6F7BB851E0382D800B116FE /* KeyChainStore.h in Headers */,
 				505385021B01887A00793096 /* CCProperties.h in Headers */,
 				50ABBE471925AB6F00A911A9 /* CCEvent.h in Headers */,
 				15AE1B9E19AADFDF00C27E9E /* UIVBox.h in Headers */,
@@ -4968,6 +4977,7 @@
 				BAFF7CAB1D59E0DA0051B92F /* CCComBase.h in Headers */,
 				BAFF7CBB1D59E0DB0051B92F /* CCDataReaderHelper.h in Headers */,
 				BA68D7B51D62F66300B7A3F9 /* CCPass.h in Headers */,
+				A6F7BB861E0382D800B116FE /* KeyChainStore.h in Headers */,
 				BAFF7C8D1D59E0DA0051B92F /* CCArmatureAnimation.h in Headers */,
 				50ABBFFE1926664800A911A9 /* CCFileUtils-apple.h in Headers */,
 				1A5701A4180BCB590088DEC7 /* CCFontAtlas.h in Headers */,
@@ -5502,6 +5512,7 @@
 				BAFF7DB21D5C1CF80051B92F /* SkeletonData.c in Sources */,
 				BA68D7BC1D62F71700B7A3F9 /* CCFrameBuffer.cpp in Sources */,
 				1A5701EE180BCB8C0088DEC7 /* CCTransitionProgress.cpp in Sources */,
+				A6F7BB821E0382C700B116FE /* KeyChainStore.m in Sources */,
 				15AE186619AAD31D00C27E9E /* CDOpenALSupport.m in Sources */,
 				1A5701F7180BCBAD0088DEC7 /* CCMenu.cpp in Sources */,
 				ED3057821BEC76C90083C3ED /* unzip.cpp in Sources */,
@@ -5988,6 +5999,7 @@
 				BAFF7CEF1D59E0DB0051B92F /* DictionaryHelper.cpp in Sources */,
 				1A570293180BCCAB0088DEC7 /* CCAnimation.cpp in Sources */,
 				15AE1B8C19AADA9A00C27E9E /* UIScale9Sprite.cpp in Sources */,
+				A6F7BB831E0382C700B116FE /* KeyChainStore.m in Sources */,
 				BAFF7D471D5C1CF80051B92F /* Animation.c in Sources */,
 				1A570297180BCCAB0088DEC7 /* CCAnimationCache.cpp in Sources */,
 				BAFF7CCD1D59E0DB0051B92F /* CCInputDelegate.cpp in Sources */,
