@@ -43,4 +43,8 @@ namespace baiyou {
         cocos2d::JniHelper::callStaticVoidMethod("org/baiyou/BaiyouPlugin", "restart");
     }
     
+    std::string BaiyouPlugin_Android::getUUID() const{
+        return cocos2d::JniHelper::callStaticStringMethod("org/baiyou/BaiyouPlugin", "getUUID");
+    }
+    
 }
