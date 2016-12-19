@@ -28,12 +28,11 @@ package org.cocos2dx.javascript;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
 import org.cocos2dx.lib.Cocos2dxGLSurfaceView;
-
 import org.cocos2dx.javascript.SDKWrapper;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Bundle;
 
 public class AppActivity extends Cocos2dxActivity {
 
