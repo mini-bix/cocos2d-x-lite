@@ -558,7 +558,7 @@ void AssetsManagerEx::parseVersion()
     }
     else
     {
-        if (_remoteManifest->engineVersionGreater(_localManifest)){
+        if (_remoteManifest->engineVersionGreater(_localManifest,_versionCompareHandle)){
             _updateState = State::UP_TO_DATE;
             dispatchUpdateEvent(EventAssetsManagerEx::EventCode::NEW_ENGINE_FOUND);
         }else{
@@ -628,7 +628,7 @@ void AssetsManagerEx::parseManifest()
     }
     else
     {
-        if (_remoteManifest->engineVersionGreater(_localManifest)){
+        if (_remoteManifest->engineVersionGreater(_localManifest,_versionCompareHandle)){
             _updateState = State::UP_TO_DATE;
             dispatchUpdateEvent(EventAssetsManagerEx::EventCode::NEW_ENGINE_FOUND);
         }else{

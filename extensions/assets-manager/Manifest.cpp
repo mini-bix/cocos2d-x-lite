@@ -176,40 +176,20 @@ bool Manifest::versionGreater(const Manifest *b, const std::function<bool(const 
     return greater;
 }
 
-std::vector<int> splitVersion(std::string s, char delim){
-    std::stringstream ss(s);
-    std::string item;
-    std::vector<int> tokens;
-    while (getline(ss, item, delim)) {
-        tokens.push_back(atoi(item.c_str()));
-    }
-    return tokens;
-}
-
-int Manifest::compareVersion(std::string va, std::string vb) const{
-    std::vector<int> tokensA = splitVersion(va, '.');
-    std::vector<int> tokensB = splitVersion(vb, '.');
-    for (int i=0;i<tokensA.size();i++){
-        if (tokensA[i] == tokensB[i]){
-            continue;
-        }
-        if (i>=tokensB.size() || tokensA[i] > tokensB[i]){
-            return 1;
-        }else{
-            return -1;
-        }
-    }
-    return 0;
-}
-
-bool Manifest::versionGreater(const Manifest *b) const
+bool Manifest::engineVersionGreater(const Manifest *b, const std::function<bool(const std::string& versionA, const std::string& versionB)>& handle) const
 {
-    return compareVersion(this->getVersion(), b->getVersion()) == 1;
-}
-
-bool Manifest::engineVersionGreater(const Manifest *b) const
-{
-    return compareVersion(this->getEngineVersion(), b->getEngineVersion()) == 1;
+    std::string localVersion = getEngineVersion();
+    std::string bVersion = b->getEngineVersion();
+    bool greater;
+    if (handle)
+    {
+        greater = handle(localVersion, bVersion);
+    }
+    else
+    {
+        greater = strcmp(localVersion.c_str(), bVersion.c_str()) >= 0;
+    }
+    return greater;
 }
 
 std::unordered_map<std::string, Manifest::AssetDiff> Manifest::genDiff(const Manifest *b) const
