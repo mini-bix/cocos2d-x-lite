@@ -45,7 +45,6 @@
 #define KEY_SIZE                "size"
 #define KEY_GROUP               "group"
 #define KEY_COMPRESSED          "compressed"
-#define KEY_SIZE                "size"
 #define KEY_COMPRESSED_FILE     "compressedFile"
 #define KEY_DOWNLOAD_STATE      "downloadState"
 
@@ -417,12 +416,6 @@ Manifest::Asset Manifest::parseAsset(const std::string &path, const rapidjson::V
     }
     else asset.md5 = "";
     
-    if ( json.HasMember(KEY_SIZE) && json[KEY_SIZE].IsInt() )
-    {
-        asset.size = json[KEY_SIZE].GetInt();
-    }
-    else asset.size = 0;
-    
     if ( json.HasMember(KEY_PATH) && json[KEY_PATH].IsString() )
     {
         asset.path = json[KEY_PATH].GetString();
@@ -434,15 +427,15 @@ Manifest::Asset Manifest::parseAsset(const std::string &path, const rapidjson::V
     }
     else asset.compressed = false;
     
-    if ( json.HasMember(KEY_SIZE) && json[KEY_SIZE].IsFloat() )
+    if ( json.HasMember(KEY_SIZE) && (json[KEY_SIZE].IsFloat() || json[KEY_SIZE].IsInt()) )
     {
-        asset.size = json[KEY_COMPRESSED].GetFloat();
+        asset.size = json[KEY_SIZE].GetFloat();
     }
     else asset.size = 0;
     
     if ( json.HasMember(KEY_DOWNLOAD_STATE) && json[KEY_DOWNLOAD_STATE].IsInt() )
     {
-        asset.downloadState = (DownloadState)(json[KEY_DOWNLOAD_STATE].GetInt());
+        asset.downloadState = (json[KEY_DOWNLOAD_STATE].GetInt());
     }
     else asset.downloadState = DownloadState::UNSTARTED;
     

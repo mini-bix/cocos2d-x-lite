@@ -54,7 +54,8 @@ public:
         UPDATE_FINISHED,
         UPDATE_FAILED,
         ERROR_DECOMPRESS,
-        NEW_ENGINE_FOUND
+        NEW_ENGINE_FOUND,
+        NEW_VERSION_DETAIL
     };
     
     inline EventCode getEventCode() const { return _code; };

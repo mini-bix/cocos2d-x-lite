@@ -505,6 +505,12 @@ void AssetsManagerEx::dispatchUpdateEvent(EventAssetsManagerEx::EventCode code, 
         case EventAssetsManagerEx::EventCode::NEW_VERSION_FOUND:
             if (_updateEntry == UpdateEntry::CHECK_UPDATE)
             {
+                _updateEntry = UpdateEntry::CHECK_MANIFEST;
+            }
+            break;
+        case EventAssetsManagerEx::EventCode::NEW_VERSION_DETAIL:
+            if (_updateEntry == UpdateEntry::CHECK_MANIFEST)
+            {
                 _updateEntry = UpdateEntry::NONE;
             }
             break;
@@ -576,7 +582,7 @@ void AssetsManagerEx::parseVersion()
                 dispatchUpdateEvent(EventAssetsManagerEx::EventCode::NEW_VERSION_FOUND);
                 
                 // Wait to update so continue the process
-                if (oldUpdateEntry == UpdateEntry::DO_UPDATE)
+                if (oldUpdateEntry == UpdateEntry::CHECK_UPDATE)
                 {
                     _updateState = State::PREDOWNLOAD_MANIFEST;
                     downloadManifest();
@@ -642,7 +648,7 @@ void AssetsManagerEx::parseManifest()
                 _updateState = State::NEED_UPDATE;
                 dispatchUpdateEvent(EventAssetsManagerEx::EventCode::NEW_VERSION_FOUND);
                 
-                if (_updateEntry == UpdateEntry::DO_UPDATE)
+                if (_updateEntry == UpdateEntry::CHECK_MANIFEST)
                 {
                     _updateState = State::NEED_UPDATE;
                     
@@ -675,7 +681,7 @@ void AssetsManagerEx::parseManifest()
                     msg << diffSize;
                     msg << "}";
                     
-                    dispatchUpdateEvent(EventAssetsManagerEx::EventCode::NEW_VERSION_FOUND,"",msg.str());
+                    dispatchUpdateEvent(EventAssetsManagerEx::EventCode::NEW_VERSION_DETAIL,"",msg.str());
                     
                     
                 }
@@ -893,7 +899,7 @@ void AssetsManagerEx::update()
         return;
     }
 
-    _updateEntry = UpdateEntry::DO_UPDATE;
+    
 
     switch (_updateState) {
         case State::UNCHECKED:
@@ -932,6 +938,7 @@ void AssetsManagerEx::update()
             else
             {
                 startUpdate();
+                _updateEntry = UpdateEntry::DO_UPDATE;
             }
         }
             break;
@@ -1167,7 +1174,7 @@ void AssetsManagerEx::batchDownload()
     _queue.clear();
     for(auto iter : _downloadUnits)
     {
-        DownloadUnit& unit = iter.second;
+        const DownloadUnit& unit = iter.second;
         if (unit.size > 0)
         {
             _totalSize += unit.size;
@@ -1187,7 +1194,7 @@ void AssetsManagerEx::batchDownload()
 
 void AssetsManagerEx::queueDowload()
 {
-    if (_totalWaitToDownload == 0)
+    if (_queue.size() == 0)
     {
         this->onDownloadUnitsFinished();
         return;

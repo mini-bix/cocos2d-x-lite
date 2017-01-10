@@ -38,7 +38,7 @@
 #include "Manifest.h"
 #include "extensions/ExtensionMacros.h"
 #include "extensions/ExtensionExport.h"
-#include "json/document.h"
+#include "json/document-wrapper.h"
 
 
 NS_CC_EXT_BEGIN
@@ -269,6 +269,7 @@ private:
     {
         NONE,
         CHECK_UPDATE,
+        CHECK_MANIFEST,
         DO_UPDATE
     };
 
