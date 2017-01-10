@@ -140,8 +140,12 @@ AssetsManagerEx::AssetsManagerEx(const std::string& manifestUrl, const std::stri
         ifstream downFileStream(path);
         MD5 *alg = new MD5(downFileStream);
         auto md5 = alg->toString();
-        CCLOG("%s md5 is %s -- %s ",path.c_str(),md5.c_str(),asset.md5.c_str());
-        return md5.compare(asset.md5) == 0;
+        bool ok = md5.compare(asset.md5) == 0;
+        if (!ok){
+            CCLOG("md5 verify failed %s md5 is %s -- %s ",path.c_str(),md5.c_str(),asset.md5.c_str());
+
+        }
+        return ok;
     };
 
     initManifests(manifestUrl);
@@ -568,7 +572,7 @@ void AssetsManagerEx::parseVersion()
             _updateState = State::UP_TO_DATE;
             dispatchUpdateEvent(EventAssetsManagerEx::EventCode::NEW_ENGINE_FOUND);
         }else{
-            if (_localManifest->versionGreater(_remoteManifest, _versionCompareHandle))
+            if (!_remoteManifest->versionGreater(_localManifest, _versionCompareHandle))
             {
                 _updateState = State::UP_TO_DATE;
                 dispatchUpdateEvent(EventAssetsManagerEx::EventCode::ALREADY_UP_TO_DATE);
@@ -638,7 +642,7 @@ void AssetsManagerEx::parseManifest()
             _updateState = State::UP_TO_DATE;
             dispatchUpdateEvent(EventAssetsManagerEx::EventCode::NEW_ENGINE_FOUND);
         }else{
-            if (_localManifest->versionGreater(_remoteManifest, _versionCompareHandle))
+            if (!_remoteManifest->versionGreater(_localManifest, _versionCompareHandle))
             {
                 _updateState = State::UP_TO_DATE;
                 dispatchUpdateEvent(EventAssetsManagerEx::EventCode::ALREADY_UP_TO_DATE);
@@ -1064,6 +1068,7 @@ void AssetsManagerEx::onError(const network::DownloadTask& task,
     else
     {
         fileError(task.identifier, errorStr, errorCode, errorCodeInternal);
+        checkUpdateIsFinish();
     }
 }
 
@@ -1154,10 +1159,27 @@ void AssetsManagerEx::onSuccess(const std::string &/*srcUrl*/, const std::string
         {
             bool compressed = assetIt != assets.end() ? assetIt->second.compressed : false;
             fileSuccess(customId, storagePath, compressed);
+            if (_downloadedAfterSaveManifest > 500000){
+                _tempManifest->saveToFile(_tempManifestPath);
+                _downloadedAfterSaveManifest = 0;
+            }
         }
         else
         {
             fileError(customId, "Asset file verification failed after downloaded");
+        }
+        checkUpdateIsFinish();
+    }
+}
+
+void AssetsManagerEx::checkUpdateIsFinish(){
+    if (_totalWaitToDownload <= 0){
+        if (_failedUnits.size() > 0){
+            _tempManifest->saveToFile(_tempManifestPath);
+            _updateState = State::FAIL_TO_UPDATE;
+            dispatchUpdateEvent(EventAssetsManagerEx::EventCode::UPDATE_FAILED);
+        }else{
+            updateSucceed();
         }
     }
 }
@@ -1196,7 +1218,6 @@ void AssetsManagerEx::queueDowload()
 {
     if (_queue.size() == 0)
     {
-        this->onDownloadUnitsFinished();
         return;
     }
     

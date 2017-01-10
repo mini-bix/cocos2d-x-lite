@@ -216,6 +216,8 @@ protected:
     
 private:
     
+    void checkUpdateIsFinish();
+    
     void batchDownload();
 
     // Called when one DownloadUnits finished
