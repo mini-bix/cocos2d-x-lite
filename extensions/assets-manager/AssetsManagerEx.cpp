@@ -721,12 +721,12 @@ void AssetsManagerEx::startUpdate()
     }
     else
     {
-        // Remove all temp files
-        _tempManifest->cleanupDownloadingAssets();
-        _tempManifest->release();
-        // Temporary manifest will be used to register the download states of each asset,
-        // in this case, it equals remote manifest.
-        _tempManifest = _remoteManifest;
+//        // Remove all temp files
+//        _tempManifest->cleanupDownloadingAssets();
+//        _tempManifest->release();
+//        // Temporary manifest will be used to register the download states of each asset,
+//        // in this case, it equals remote manifest.
+//        _tempManifest = _remoteManifest;
         
         // Generate download units for all assets that need to be updated or added
         std::string packageUrl = this->_packageURL;
@@ -1020,9 +1020,9 @@ void AssetsManagerEx::fileSuccess(const std::string &customId, const std::string
     _tempManifest->setAssetDownloadState(customId, Manifest::DownloadState::SUCCESSED);
     
     // Add file to need decompress list
-    if (compressed) {
-        _compressedFiles.push_back(storagePath);
-    }
+//    if (compressed) {
+//        _compressedFiles.push_back(storagePath);
+//    }
     
     auto unitIt = _failedUnits.find(customId);
     // Found unit and delete it
@@ -1144,7 +1144,7 @@ void AssetsManagerEx::onSuccess(const std::string &/*srcUrl*/, const std::string
     else
     {
         bool ok = true;
-        auto &assets = _remoteManifest->getAssets();
+        auto &assets = _tempManifest->getAssets();
         auto assetIt = assets.find(customId);
         if (assetIt != assets.end())
         {
