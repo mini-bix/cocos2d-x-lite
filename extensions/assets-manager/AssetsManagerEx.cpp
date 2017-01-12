@@ -586,16 +586,16 @@ void AssetsManagerEx::parseVersion()
                 dispatchUpdateEvent(EventAssetsManagerEx::EventCode::NEW_VERSION_FOUND);
                 
                 // Wait to update so continue the process
-                if (oldUpdateEntry == UpdateEntry::CHECK_UPDATE)
-                {
-                    _updateState = State::PREDOWNLOAD_MANIFEST;
-                    downloadManifest();
-                }
-                else
-                {
-                    _updateState = State::UP_TO_DATE;
-                    dispatchUpdateEvent(EventAssetsManagerEx::EventCode::ALREADY_UP_TO_DATE);
-                }
+//                if (oldUpdateEntry == UpdateEntry::CHECK_UPDATE)
+//                {
+//                    _updateState = State::PREDOWNLOAD_MANIFEST;
+//                    downloadManifest();
+//                }
+//                else
+//                {
+//                    _updateState = State::UP_TO_DATE;
+//                    dispatchUpdateEvent(EventAssetsManagerEx::EventCode::ALREADY_UP_TO_DATE);
+//                }
             }
         }
         
@@ -650,7 +650,7 @@ void AssetsManagerEx::parseManifest()
             else
             {
                 _updateState = State::NEED_UPDATE;
-                dispatchUpdateEvent(EventAssetsManagerEx::EventCode::NEW_VERSION_FOUND);
+//                dispatchUpdateEvent(EventAssetsManagerEx::EventCode::NEW_VERSION_FOUND);
                 
                 if (_updateEntry == UpdateEntry::CHECK_MANIFEST)
                 {
@@ -885,11 +885,11 @@ void AssetsManagerEx::checkUpdate()
 
 void AssetsManagerEx::update()
 {
-    if (_updateEntry != UpdateEntry::NONE)
-    {
-        CCLOGERROR("AssetsManagerEx::update, updateEntry isn't NONE");
-        return;
-    }
+//    if (_updateEntry != UpdateEntry::NONE)
+//    {
+//        CCLOGERROR("AssetsManagerEx::update, updateEntry isn't NONE");
+//        return;
+//    }
 
     if (!_inited){
         CCLOG("AssetsManagerEx : Manifests uninited.\n");
