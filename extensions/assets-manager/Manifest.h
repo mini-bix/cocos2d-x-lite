@@ -74,7 +74,8 @@ public:
         DOWNLOADING,
         SUCCESSED
     };
-
+    
+    //! Asset object
     typedef ManifestAsset Asset;
     
     //! Object indicate the difference between two Assets
@@ -91,15 +92,27 @@ public:
      */
     bool isLoaded() const;
     
+    /** @brief Gets remote package url.
+     */
+    const std::string& getPackageUrl() const;
+    
+    /** @brief Gets remote manifest file url.
+     */
+    const std::string& getManifestFileUrl() const;
+    
+    /** @brief Gets remote version file url.
+     */
+    const std::string& getVersionFileUrl() const;
+    
     /** @brief Gets manifest version.
      */
     const std::string& getVersion() const;
     
-    const std::string& getEngineVersion() const;
-    
     /** @brief Get the search paths list related to the Manifest.
      */
     std::vector<std::string> getSearchPaths() const;
+    
+    const std::string& getEngineVersion() const;
     
 protected:
     
@@ -135,8 +148,6 @@ protected:
      * @return Greater or not
      */
     bool versionGreater(const Manifest *b, const std::function<int(const std::string& versionA, const std::string& versionB)>& handle) const;
-    
-    bool engineVersionGreater(const Manifest *b, const std::function<bool(const std::string& versionA, const std::string& versionB)>& handle) const;
     
     /** @brief Generate difference between this Manifest and another.
      * @param b   The other manifest
@@ -189,6 +200,8 @@ protected:
     
     void setManifestRoot(const std::string &root) {_manifestRoot = root;};
     
+    bool engineVersionGreater(const Manifest *b, const std::function<int(const std::string& versionA, const std::string& versionB)>& handle) const;
+    
 private:
     
     //! Indicate whether the version informations have been fully loaded
@@ -231,7 +244,6 @@ private:
     std::vector<std::string> _searchPaths;
     
     rapidjson::Document _json;
-
 };
 
 NS_CC_EXT_END

@@ -123,10 +123,10 @@ int
 cc.Manifest = {
 
 /**
- * @method getVersion
+ * @method getManifestFileUrl
  * @return {String}
  */
-getVersion : function (
+getManifestFileUrl : function (
 )
 {
     return ;
@@ -143,26 +143,6 @@ isVersionLoaded : function (
 },
 
 /**
- * @method getSearchPaths
- * @return {Array}
- */
-getSearchPaths : function (
-)
-{
-    return new Array();
-},
-
-/**
- * @method getEngineVersion
- * @return {String}
- */
-getEngineVersion : function (
-)
-{
-    return ;
-},
-
-/**
  * @method isLoaded
  * @return {bool}
  */
@@ -170,6 +150,46 @@ isLoaded : function (
 )
 {
     return false;
+},
+
+/**
+ * @method getPackageUrl
+ * @return {String}
+ */
+getPackageUrl : function (
+)
+{
+    return ;
+},
+
+/**
+ * @method getVersion
+ * @return {String}
+ */
+getVersion : function (
+)
+{
+    return ;
+},
+
+/**
+ * @method getVersionFileUrl
+ * @return {String}
+ */
+getVersionFileUrl : function (
+)
+{
+    return ;
+},
+
+/**
+ * @method getSearchPaths
+ * @return {Array}
+ */
+getSearchPaths : function (
+)
+{
+    return new Array();
 },
 
 };
@@ -208,16 +228,6 @@ checkUpdate : function (
 },
 
 /**
- * @method setVerifyCallback
- * @param {function} arg0
- */
-setVerifyCallback : function (
-func 
-)
-{
-},
-
-/**
  * @method getStoragePath
  * @return {String}
  */
@@ -231,16 +241,6 @@ getStoragePath : function (
  * @method update
  */
 update : function (
-)
-{
-},
-
-/**
- * @method setVersionCompareHandle
- * @param {function} arg0
- */
-setVersionCompareHandle : function (
-func 
 )
 {
 },

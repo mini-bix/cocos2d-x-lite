@@ -27,6 +27,7 @@
 #include "base/CCDirector.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #ifdef MINIZIP_FROM_SYSTEM
 #include <minizip/unzip.h>
@@ -34,6 +35,7 @@
 #include "unzip/unzip.h"
 #endif
 #include "base/CCAsyncTaskPool.h"
+#include "../md5/MD5.h"
 
 NS_CC_EXT_BEGIN
 
@@ -50,9 +52,35 @@ NS_CC_EXT_BEGIN
 const std::string AssetsManagerEx::VERSION_ID = "@version";
 const std::string AssetsManagerEx::MANIFEST_ID = "@manifest";
 
+std::vector<int> splitVersion(std::string s, char delim){
+    std::stringstream ss(s);
+    std::string item;
+    std::vector<int> tokens;
+    while (getline(ss, item, delim)) {
+        tokens.push_back(atoi(item.c_str()));
+    }
+    return tokens;
+}
+
+int compareVersion(std::string va, std::string vb){
+    std::vector<int> tokensA = splitVersion(va, '.');
+    std::vector<int> tokensB = splitVersion(vb, '.');
+    for (int i=0;i<tokensA.size();i++){
+        if (tokensA[i] == tokensB[i]){
+            continue;
+        }
+        if (i>=tokensB.size() || tokensA[i] > tokensB[i]){
+            return 1;
+        }else{
+            return -1;
+        }
+    }
+    return 0;
+}
+
 // Implementation of AssetsManagerEx
 
-AssetsManagerEx::AssetsManagerEx(const std::string& manifestUrl, const std::string& storagePath)
+AssetsManagerEx::AssetsManagerEx(const std::string& manifestUrl, const std::string& storagePath, const std::string &packageURL)
 : _updateState(State::UNCHECKED)
 , _assets(nullptr)
 , _storagePath("")
@@ -73,6 +101,7 @@ AssetsManagerEx::AssetsManagerEx(const std::string& manifestUrl, const std::stri
 , _versionCompareHandle(nullptr)
 , _verifyCallback(nullptr)
 , _inited(false)
+, _packageURL(packageURL)
 {
     // Init variables
     _eventDispatcher = Director::getInstance()->getEventDispatcher();
@@ -104,6 +133,25 @@ AssetsManagerEx::AssetsManagerEx(const std::string& manifestUrl, const std::stri
     _tempVersionPath = _tempStoragePath + VERSION_FILENAME;
     _cacheManifestPath = _storagePath + MANIFEST_FILENAME;
     _tempManifestPath = _tempStoragePath + TEMP_MANIFEST_FILENAME;
+    
+    if (_packageURL.c_str()[_packageURL.length()-1] != '/'){
+        _packageURL = _packageURL+"/";
+    }
+    _versionCompareHandle = [](const std::string& versionA, const std::string& versionB)-> int{
+        return compareVersion(versionA, versionB);
+    };
+    
+    _verifyCallback = [](const std::string& path, Manifest::Asset asset)->bool{
+        ifstream downFileStream(path);
+        MD5 *alg = new MD5(downFileStream);
+        auto md5 = alg->toString();
+        bool ok = md5.compare(asset.md5) == 0;
+        if (!ok){
+            CCLOG("md5 verify failed %s md5 is %s -- %s ",path.c_str(),md5.c_str(),asset.md5.c_str());
+            
+        }
+        return ok;
+    };
 
     initManifests(manifestUrl);
 }
@@ -120,9 +168,9 @@ AssetsManagerEx::~AssetsManagerEx()
     CC_SAFE_RELEASE(_remoteManifest);
 }
 
-AssetsManagerEx* AssetsManagerEx::create(const std::string& manifestUrl, const std::string& storagePath)
+AssetsManagerEx* AssetsManagerEx::create(const std::string& manifestUrl, const std::string& storagePath, const std::string &packageURL)
 {
-    AssetsManagerEx* ret = new (std::nothrow) AssetsManagerEx(manifestUrl, storagePath);
+    AssetsManagerEx* ret = new (std::nothrow) AssetsManagerEx(manifestUrl, storagePath,packageURL);
     if (ret)
     {
         ret->autorelease();
@@ -527,7 +575,7 @@ void AssetsManagerEx::downloadVersion()
     if (_updateState > State::PREDOWNLOAD_VERSION)
         return;
 
-    std::string versionUrl = _localManifest->getVersionFileUrl();
+    std::string versionUrl = _packageURL+VERSION_FILENAME;
 
     if (versionUrl.size() > 0)
     {
@@ -559,23 +607,28 @@ void AssetsManagerEx::parseVersion()
     }
     else
     {
-        if (_localManifest->versionGreater(_remoteManifest, _versionCompareHandle))
-        {
-            _updateState = State::UP_TO_DATE;
-            _fileUtils->removeDirectory(_tempStoragePath);
-            dispatchUpdateEvent(EventAssetsManagerEx::EventCode::ALREADY_UP_TO_DATE);
-        }
-        else
-        {
-            _updateState = State::NEED_UPDATE;
-            dispatchUpdateEvent(EventAssetsManagerEx::EventCode::NEW_VERSION_FOUND);
-
-            // Wait to update so continue the process
-            if (_updateEntry == UpdateEntry::DO_UPDATE)
+        if (_localManifest->engineVersionGreater(_remoteManifest, _versionCompareHandle)){
+            if (_localManifest->versionGreater(_remoteManifest, _versionCompareHandle))
             {
-                _updateState = State::PREDOWNLOAD_MANIFEST;
-                downloadManifest();
+                _updateState = State::UP_TO_DATE;
+                _fileUtils->removeDirectory(_tempStoragePath);
+                dispatchUpdateEvent(EventAssetsManagerEx::EventCode::ALREADY_UP_TO_DATE);
             }
+            else
+            {
+                _updateState = State::NEED_UPDATE;
+                dispatchUpdateEvent(EventAssetsManagerEx::EventCode::NEW_VERSION_FOUND);
+                
+                // Wait to update so continue the process
+                if (_updateEntry == UpdateEntry::DO_UPDATE)
+                {
+                    _updateState = State::PREDOWNLOAD_MANIFEST;
+                    downloadManifest();
+                }
+            }
+        }else{
+            _updateState = State::UP_TO_DATE;
+            dispatchUpdateEvent(EventAssetsManagerEx::EventCode::NEW_ENGINE_FOUND);
         }
     }
 }
@@ -585,12 +638,13 @@ void AssetsManagerEx::downloadManifest()
     if (_updateState != State::PREDOWNLOAD_MANIFEST)
         return;
 
-    std::string manifestUrl;
-    if (_remoteManifest->isVersionLoaded()) {
-        manifestUrl = _remoteManifest->getManifestFileUrl();
-    } else {
-        manifestUrl = _localManifest->getManifestFileUrl();
-    }
+//    std::string manifestUrl;
+//    if (_remoteManifest->isVersionLoaded()) {
+//        manifestUrl = _remoteManifest->getManifestFileUrl();
+//    } else {
+//        manifestUrl = _localManifest->getManifestFileUrl();
+//    }
+    std::string manifestUrl = _packageURL+MANIFEST_FILENAME;
 
     if (manifestUrl.size() > 0)
     {

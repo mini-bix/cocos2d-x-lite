@@ -195,6 +195,21 @@ bool Manifest::versionGreater(const Manifest *b, const std::function<int(const s
     return greater;
 }
 
+bool Manifest::engineVersionGreater(const Manifest *b, const std::function<int(const std::string& versionA, const std::string& versionB)>& handle) const{
+    std::string localVersion = getEngineVersion();
+    std::string bVersion = b->getEngineVersion();
+    bool greater;
+    if (handle)
+    {
+        greater = handle(localVersion, bVersion) >= 0;
+    }
+    else
+    {
+        greater = cmpVersion(localVersion, bVersion) >= 0;
+    }
+    return greater;
+}
+
 std::unordered_map<std::string, Manifest::AssetDiff> Manifest::genDiff(const Manifest *b) const
 {
     std::unordered_map<std::string, AssetDiff> diff_map;
@@ -330,6 +345,10 @@ const std::string& Manifest::getVersion() const
     return _version;
 }
 
+const std::string& Manifest::getEngineVersion() const{
+    return _engineVer;
+}
+
 const std::vector<std::string>& Manifest::getGroups() const
 {
     return _groups;
@@ -428,7 +447,7 @@ Manifest::Asset Manifest::parseAsset(const std::string &path, const rapidjson::V
     }
     else asset.compressed = false;
     
-    if ( json.HasMember(KEY_SIZE) && json[KEY_SIZE].IsFloat() )
+    if ( json.HasMember(KEY_SIZE) && (json[KEY_SIZE].IsFloat() || json[KEY_SIZE].IsInt() ) )
     {
         asset.size = json[KEY_SIZE].GetFloat();
     }
