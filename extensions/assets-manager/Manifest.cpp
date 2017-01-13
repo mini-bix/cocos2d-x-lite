@@ -27,8 +27,7 @@
 #include "json/stringbuffer.h"
 
 #include <fstream>
-#include <sstream>
-#include <stdlib.h>
+#include <stdio.h>
 
 #define KEY_VERSION             "version"
 #define KEY_PACKAGE_URL         "packageUrl"
@@ -42,13 +41,34 @@
 
 #define KEY_PATH                "path"
 #define KEY_MD5                 "md5"
-#define KEY_SIZE                "size"
 #define KEY_GROUP               "group"
 #define KEY_COMPRESSED          "compressed"
+#define KEY_SIZE                "size"
 #define KEY_COMPRESSED_FILE     "compressedFile"
 #define KEY_DOWNLOAD_STATE      "downloadState"
 
 NS_CC_EXT_BEGIN
+
+static int cmpVersion(const std::string& v1, const std::string& v2)
+{
+    int i;
+    int oct_v1[4] = {0}, oct_v2[4] = {0};
+    int filled1 = std::sscanf(v1.c_str(), "%d.%d.%d.%d", &oct_v1[0], &oct_v1[1], &oct_v1[2], &oct_v1[3]);
+    int filled2 = std::sscanf(v2.c_str(), "%d.%d.%d.%d", &oct_v2[0], &oct_v2[1], &oct_v2[2], &oct_v2[3]);
+    
+    if (filled1 == 0 || filled2 == 0)
+    {
+        return strcmp(v1.c_str(), v2.c_str());
+    }
+    for (i = 0; i < 4; i++)
+    {
+        if (oct_v1[i] > oct_v2[i])
+            return 1;
+        else if (oct_v1[i] < oct_v2[i])
+            return -1;
+    }
+    return 0;
+}
 
 Manifest::Manifest(const std::string& manifestUrl/* = ""*/)
 : _versionLoaded(false)
@@ -159,34 +179,18 @@ bool Manifest::versionEquals(const Manifest *b) const
     return true;
 }
 
-bool Manifest::versionGreater(const Manifest *b, const std::function<bool(const std::string& versionA, const std::string& versionB)>& handle) const
+bool Manifest::versionGreater(const Manifest *b, const std::function<int(const std::string& versionA, const std::string& versionB)>& handle) const
 {
     std::string localVersion = getVersion();
     std::string bVersion = b->getVersion();
     bool greater;
     if (handle)
     {
-        greater = handle(localVersion, bVersion);
+        greater = handle(localVersion, bVersion) >= 0;
     }
     else
     {
-        greater = strcmp(localVersion.c_str(), bVersion.c_str()) >= 0;
-    }
-    return greater;
-}
-
-bool Manifest::engineVersionGreater(const Manifest *b, const std::function<bool(const std::string& versionA, const std::string& versionB)>& handle) const
-{
-    std::string localVersion = getEngineVersion();
-    std::string bVersion = b->getEngineVersion();
-    bool greater;
-    if (handle)
-    {
-        greater = handle(localVersion, bVersion);
-    }
-    else
-    {
-        greater = strcmp(localVersion.c_str(), bVersion.c_str()) >= 0;
+        greater = cmpVersion(localVersion, bVersion) >= 0;
     }
     return greater;
 }
@@ -262,20 +266,6 @@ void Manifest::genResumeAssetsList(DownloadUnits *units) const
     }
 }
 
-void Manifest::cleanupDownloadingAssets() const
-{
-    for (auto it = _assets.begin(); it != _assets.end(); ++it)
-    {
-        Asset asset = it->second;
-        
-        if (asset.downloadState == DownloadState::DOWNLOADING)
-        {
-            std::string storagePath = _manifestRoot + asset.path;
-            _fileUtils->removeFile(storagePath);
-        }
-    }
-}
-
 std::vector<std::string> Manifest::getSearchPaths() const
 {
     std::vector<std::string> searchPaths;
@@ -319,14 +309,25 @@ void Manifest::prependSearchPaths()
     }
 }
 
+
+const std::string& Manifest::getPackageUrl() const
+{
+    return _packageUrl;
+}
+
+const std::string& Manifest::getManifestFileUrl() const
+{
+    return _remoteManifestUrl;
+}
+
+const std::string& Manifest::getVersionFileUrl() const
+{
+    return _remoteVersionUrl;
+}
+
 const std::string& Manifest::getVersion() const
 {
     return _version;
-}
-
-const std::string& Manifest::getEngineVersion() const
-{
-    return _engineVer;
 }
 
 const std::vector<std::string>& Manifest::getGroups() const
@@ -427,7 +428,7 @@ Manifest::Asset Manifest::parseAsset(const std::string &path, const rapidjson::V
     }
     else asset.compressed = false;
     
-    if ( json.HasMember(KEY_SIZE) && (json[KEY_SIZE].IsFloat()|| json[KEY_SIZE].IsInt()) )
+    if ( json.HasMember(KEY_SIZE) && json[KEY_SIZE].IsFloat() )
     {
         asset.size = json[KEY_SIZE].GetFloat();
     }

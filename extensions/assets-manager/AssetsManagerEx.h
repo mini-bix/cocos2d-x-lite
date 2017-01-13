@@ -69,7 +69,6 @@ public:
     
     const static std::string VERSION_ID;
     const static std::string MANIFEST_ID;
-    const static std::string DOWNLOAD_SUFFIX;
     
     /** @brief Create function for creating a new AssetsManagerEx
      @param manifestUrl   The url for the local manifest file
@@ -77,7 +76,7 @@ public:
      @warning   The cached manifest in your storage path have higher priority and will be searched first,
                 only if it doesn't exist, AssetsManagerEx will use the given manifestUrl.
      */
-    static AssetsManagerEx* create(const std::string &manifestUrl, const std::string &storagePath,const std::string& packageURL);
+    static AssetsManagerEx* create(const std::string &manifestUrl, const std::string &storagePath);
     
     /** @brief  Check out if there is a new version of manifest.
      *          You may use this method before updating, then let user determine whether
@@ -120,7 +119,7 @@ public:
     /** @brief Set the handle function for comparing manifests versions
      * @param handle    The compare function
      */
-    void setVersionCompareHandle(const std::function<bool(const std::string& versionA, const std::string& versionB)>& handle) {_versionCompareHandle = handle;};
+    void setVersionCompareHandle(const std::function<int(const std::string& versionA, const std::string& versionB)>& handle) {_versionCompareHandle = handle;};
     
     /** @brief Set the verification function for checking whether downloaded asset is correct, e.g. using md5 verification
      * @param callback  The verify callback function
@@ -129,7 +128,7 @@ public:
     
 CC_CONSTRUCTOR_ACCESS:
     
-    AssetsManagerEx(const std::string& manifestUrl, const std::string& storagePath,const std::string& packageURL);
+    AssetsManagerEx(const std::string& manifestUrl, const std::string& storagePath);
     
     virtual ~AssetsManagerEx();
     
@@ -158,7 +157,7 @@ protected:
     void startUpdate();
     void updateSucceed();
     bool decompress(const std::string &filename);
-    void decompressDownloadedZip();
+    void decompressDownloadedZip(const std::string &customId, const std::string &storagePath);
     
     /** @brief Update a list of assets under the current AssetsManagerEx context
      */
@@ -178,7 +177,7 @@ protected:
     
     void fileError(const std::string& identifier, const std::string& errorStr, int errorCode = 0, int errorCodeInternal = 0);
     
-    void fileSuccess(const std::string &customId, const std::string &storagePath, bool compressed);
+    void fileSuccess(const std::string &customId, const std::string &storagePath);
     
     /** @brief  Call back function for error handling,
      the error will then be reported to user's listener registed in addUpdateEventListener
@@ -215,9 +214,6 @@ protected:
     virtual void onSuccess(const std::string &srcUrl, const std::string &storagePath, const std::string &customId);
     
 private:
-    
-    void checkUpdateIsFinish();
-    
     void batchDownload();
 
     // Called when one DownloadUnits finished
@@ -240,13 +236,14 @@ private:
     //! The reference to the local assets
     const std::unordered_map<std::string, Manifest::Asset> *_assets;
     
-    //! The path to store downloaded resources.
+    //! The path to store successfully downloaded version.
     std::string _storagePath;
     
-    std::string _packageURL;
+    //! The path to store downloading version.
+    std::string _tempStoragePath;
     
-    //! The local path of cached version file
-    std::string _cacheVersionPath;
+    //! The local path of cached temporary version file
+    std::string _tempVersionPath;
     
     //! The local path of cached manifest file
     std::string _cacheManifestPath;
@@ -271,7 +268,6 @@ private:
     {
         NONE,
         CHECK_UPDATE,
-        CHECK_MANIFEST,
         DO_UPDATE
     };
 
@@ -291,9 +287,6 @@ private:
     
     //! Current concurrent task count
     int _currConcurrentTask;
-    
-    //! All files to be decompressed
-    std::vector<std::string> _compressedFiles;
     
     //! Download percent
     float _percent;
@@ -319,23 +312,13 @@ private:
     int _totalWaitToDownload;
     
     //! Handle function to compare versions between different manifests
-    std::function<bool(const std::string& versionA, const std::string& versionB)> _versionCompareHandle;
+    std::function<int(const std::string& versionA, const std::string& versionB)> _versionCompareHandle;
     
     //! Callback function to verify the downloaded assets
     std::function<bool(const std::string& path, Manifest::Asset asset)> _verifyCallback;
     
     //! Marker for whether the assets manager is inited
     bool _inited;
-    
-    double _downloadedAfterSaveManifest;
-    
-    std::vector<std::string> _filesUnziped;
-    
-    std::vector<std::string> _diffsToDelete;
-    
-    std::unordered_map<std::string, Manifest::AssetDiff> _diffsToDownload;
-    
-    std::unordered_map<std::string, Manifest::AssetDiff> _diffs;
 };
 
 NS_CC_EXT_END
