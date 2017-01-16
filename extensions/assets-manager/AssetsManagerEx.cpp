@@ -156,7 +156,6 @@ AssetsManagerEx::AssetsManagerEx(const std::string& manifestUrl, const std::stri
 
     initManifests(manifestUrl);
     
-    this->setMaxConcurrentTask(1);
 }
 
 AssetsManagerEx::~AssetsManagerEx()
@@ -641,7 +640,7 @@ void AssetsManagerEx::downloadManifest()
     if (_updateState != State::PREDOWNLOAD_MANIFEST)
         return;
     
-    if (_remoteManifest && _tempManifest->isLoaded() && _tempManifest->versionEquals(_remoteManifest)){
+    if (_remoteManifest && _tempManifest && _tempManifest->isLoaded() && _tempManifest->versionEquals(_remoteManifest)){
         _updateState = State::MANIFEST_LOADED;
         parseManifest();
         return;
@@ -717,16 +716,20 @@ void AssetsManagerEx::parseManifest()
             for (auto it = diff_map.begin(); it != diff_map.end(); ++it)
             {
                 Manifest::AssetDiff diff = it->second;
-                if (diff.type != Manifest::DiffType::DELETED && _tempManifest->getAssetDownloadState(it->first) != Manifest::DownloadState::SUCCESSED)
-                {
-                    std::string path = diff.asset.path;
-                    DownloadUnit unit;
-                    unit.customId = it->first;
-                    unit.srcUrl = packageUrl + path;
-                    unit.storagePath = _tempStoragePath + path;
-                    unit.size = diff.asset.size;
-                    _downloadUnits.emplace(unit.customId, unit);
-                    diffSize += it->second.asset.size;
+                if (diff.type == Manifest::DiffType::DELETED){
+                    _diffsToDelete.push_back(it->second.asset.path);
+                }else{
+                    if (_tempManifest->getAssetDownloadState(it->first) != Manifest::DownloadState::SUCCESSED)
+                    {
+                        std::string path = diff.asset.path;
+                        DownloadUnit unit;
+                        unit.customId = it->first;
+                        unit.srcUrl = packageUrl + path;
+                        unit.storagePath = _tempStoragePath + path;
+                        unit.size = diff.asset.size;
+                        _downloadUnits.emplace(unit.customId, unit);
+                        diffSize += it->second.asset.size;
+                    }
                 }
             }
             
@@ -801,6 +804,16 @@ void AssetsManagerEx::updateSucceed()
         // Remove temp storage path
         _fileUtils->removeDirectory(_tempStoragePath);
     }
+    
+    for (auto it = _diffsToDelete.begin(); it != _diffsToDelete.end(); ++it)
+    {
+        auto delPath = _storagePath + *it;
+        if (_fileUtils->isFileExist(delPath)){
+            CCLOG("DeleteFile %s",it->c_str());
+            _fileUtils->removeFile(delPath);
+        }
+    }
+    
     // 3. swap the localManifest
     CC_SAFE_RELEASE(_localManifest);
     _localManifest = _remoteManifest;

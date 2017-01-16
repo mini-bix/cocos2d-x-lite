@@ -323,6 +323,8 @@ private:
     std::string _packageURL;
     
     int downloadedAfterSaveManifest;
+    
+    std::vector<std::string> _diffsToDelete;
 };
 
 NS_CC_EXT_END
