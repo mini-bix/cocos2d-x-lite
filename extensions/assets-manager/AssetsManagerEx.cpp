@@ -1216,7 +1216,7 @@ void AssetsManagerEx::queueDowload()
     if (taskCreated)
     {
         // Save current download manifest information for resuming
-        _tempManifest->saveToFile(_tempManifestPath);
+        //_tempManifest->saveToFile(_tempManifestPath);
     }
 }
 
