@@ -143,6 +143,16 @@ isVersionLoaded : function (
 },
 
 /**
+ * @method getEngineVersion
+ * @return {String}
+ */
+getEngineVersion : function (
+)
+{
+    return ;
+},
+
+/**
  * @method isLoaded
  * @return {bool}
  */

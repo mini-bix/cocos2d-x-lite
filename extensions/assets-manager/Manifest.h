@@ -196,6 +196,9 @@ protected:
      * @param key   Key of the asset to set
      * @param state The current download state of the asset
      */
+    
+    DownloadState getAssetDownloadState(const std::string &key) const;
+    
     void setAssetDownloadState(const std::string &key, const DownloadState &state);
     
     void setManifestRoot(const std::string &root) {_manifestRoot = root;};

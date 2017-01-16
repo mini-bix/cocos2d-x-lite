@@ -369,6 +369,17 @@ const std::unordered_map<std::string, Manifest::Asset>& Manifest::getAssets() co
     return _assets;
 }
 
+Manifest::DownloadState Manifest::getAssetDownloadState(const std::string &key) const{
+    auto valueIt = _assets.find(key);
+    if (valueIt != _assets.end())
+    {
+        return (Manifest::DownloadState)valueIt->second.downloadState;
+    }else{
+        return Manifest::DownloadState::UNSTARTED;
+    }
+
+}
+
 void Manifest::setAssetDownloadState(const std::string &key, const Manifest::DownloadState &state)
 {
     auto valueIt = _assets.find(key);

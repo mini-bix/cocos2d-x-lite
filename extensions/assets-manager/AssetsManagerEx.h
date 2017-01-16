@@ -321,6 +321,8 @@ private:
     bool _inited;
     
     std::string _packageURL;
+    
+    int downloadedAfterSaveManifest;
 };
 
 NS_CC_EXT_END
