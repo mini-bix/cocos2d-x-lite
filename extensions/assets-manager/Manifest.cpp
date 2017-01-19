@@ -46,6 +46,7 @@
 #define KEY_SIZE                "size"
 #define KEY_COMPRESSED_FILE     "compressedFile"
 #define KEY_DOWNLOAD_STATE      "downloadState"
+#define KEY_MARKET_URL          "marketURL"
 
 NS_CC_EXT_BEGIN
 
@@ -349,6 +350,10 @@ const std::string& Manifest::getEngineVersion() const{
     return _engineVer;
 }
 
+const std::string& Manifest::getMarketURL() const{
+    return _marketURL;
+}
+
 const std::vector<std::string>& Manifest::getGroups() const
 {
     return _groups;
@@ -424,6 +429,7 @@ void Manifest::clear()
         _remoteVersionUrl = "";
         _version = "";
         _engineVer = "";
+        _marketURL = "";
         
         _versionLoaded = false;
     }
@@ -517,6 +523,11 @@ void Manifest::loadVersion(const rapidjson::Document &json)
     if ( json.HasMember(KEY_ENGINE_VERSION) && json[KEY_ENGINE_VERSION].IsString() )
     {
         _engineVer = json[KEY_ENGINE_VERSION].GetString();
+    }
+    
+    if ( json.HasMember(KEY_MARKET_URL) && json[KEY_MARKET_URL].IsString() )
+    {
+        _marketURL = json[KEY_MARKET_URL].GetString();
     }
     
     _versionLoaded = true;

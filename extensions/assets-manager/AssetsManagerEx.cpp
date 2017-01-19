@@ -630,7 +630,7 @@ void AssetsManagerEx::parseVersion()
             }
         }else{
             _updateState = State::UP_TO_DATE;
-            dispatchUpdateEvent(EventAssetsManagerEx::EventCode::NEW_ENGINE_FOUND);
+            dispatchUpdateEvent(EventAssetsManagerEx::EventCode::NEW_ENGINE_FOUND,_remoteManifest->getMarketURL());
         }
     }
 }

@@ -114,6 +114,8 @@ public:
     
     const std::string& getEngineVersion() const;
     
+    const std::string& getMarketURL() const;
+    
 protected:
     
     /** @brief Constructor for Manifest class
@@ -247,6 +249,8 @@ private:
     std::vector<std::string> _searchPaths;
     
     rapidjson::Document _json;
+    
+    std::string _marketURL;
 };
 
 NS_CC_EXT_END
