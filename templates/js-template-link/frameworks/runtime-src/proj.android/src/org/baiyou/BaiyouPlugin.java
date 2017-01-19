@@ -44,7 +44,7 @@ public class BaiyouPlugin {
     }
     
     public static String getPackageName(){
-        return this.App().getPackageName();
+        return App().getPackageName();
     }
     
 }
