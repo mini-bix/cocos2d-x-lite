@@ -129,7 +129,7 @@ void Manifest::parse(const std::string& manifestUrl)
 {
     loadJson(manifestUrl);
 	
-    if (_json.IsObject())
+    if (!_json.HasParseError() && _json.IsObject())
     {
         // Register the local manifest root
         size_t found = manifestUrl.find_last_of("/\\");
@@ -270,7 +270,7 @@ void Manifest::genResumeAssetsList(DownloadUnits *units) const
     {
         Asset asset = it->second;
         
-        if (asset.downloadState != DownloadState::SUCCESSED)
+        if (asset.downloadState != DownloadState::SUCCESSED && asset.downloadState != DownloadState::UNMARKED)
         {
             DownloadUnit unit;
             unit.customId = it->first;
@@ -474,7 +474,7 @@ Manifest::Asset Manifest::parseAsset(const std::string &path, const rapidjson::V
     {
         asset.downloadState = (json[KEY_DOWNLOAD_STATE].GetInt());
     }
-    else asset.downloadState = DownloadState::UNSTARTED;
+    else asset.downloadState = DownloadState::UNMARKED;
     
     return asset;
 }
