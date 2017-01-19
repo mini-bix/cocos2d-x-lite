@@ -19,6 +19,7 @@ namespace baiyou {
         std::string getUUID() const;
         void restart() const;
         bool init();
+        std::string getBundleId() const;
     };
 }
 

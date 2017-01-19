@@ -41,12 +41,16 @@ bool js_cocos2dx_network_Downloader_setOnTaskError(JSContext *cx, uint32_t argc,
 		        auto lambda = [=](const cocos2d::network::DownloadTask & larg0, int larg1, int larg2, const std::basic_string<char> & larg3) -> void {
 		            JSB_AUTOCOMPARTMENT_WITH_GLOBAL_OBJCET
 		            jsval largv[4];
-		            largv[0] = downloadTask_to_jsval(cx, larg0);
+		            if (larg0) {
+		            largv[0] = OBJECT_TO_JSVAL(js_get_or_create_jsobject<cocos2d::network::DownloadTask &>(cx, (cocos2d::network::DownloadTask &)larg0));
+		        } else {
+		            largv[0] = JSVAL_NULL;
+		        };
 		            largv[1] = int32_to_jsval(cx, larg1);
 		            largv[2] = int32_to_jsval(cx, larg2);
 		            largv[3] = std_string_to_jsval(cx, larg3);
 		            JS::RootedValue rval(cx);
-		            bool succeed = func->invoke(JS::HandleValueArray::fromMarkedLocation(4, largv), &rval);
+		            bool succeed = func->invoke(4, &largv[0], &rval);
 		            if (!succeed && JS_IsExceptionPending(cx)) {
 		                JS_ReportPendingException(cx);
 		            }
@@ -86,12 +90,16 @@ bool js_cocos2dx_network_Downloader_setOnTaskProgress(JSContext *cx, uint32_t ar
 		        auto lambda = [=](const cocos2d::network::DownloadTask & larg0, long long larg1, long long larg2, long long larg3) -> void {
 		            JSB_AUTOCOMPARTMENT_WITH_GLOBAL_OBJCET
 		            jsval largv[4];
-		            largv[0] = downloadTask_to_jsval(cx, larg0);
+		            if (larg0) {
+		            largv[0] = OBJECT_TO_JSVAL(js_get_or_create_jsobject<cocos2d::network::DownloadTask &>(cx, (cocos2d::network::DownloadTask &)larg0));
+		        } else {
+		            largv[0] = JSVAL_NULL;
+		        };
 		            largv[1] = long_long_to_jsval(cx, larg1);
 		            largv[2] = long_long_to_jsval(cx, larg2);
 		            largv[3] = long_long_to_jsval(cx, larg3);
 		            JS::RootedValue rval(cx);
-		            bool succeed = func->invoke(JS::HandleValueArray::fromMarkedLocation(4, largv), &rval);
+		            bool succeed = func->invoke(4, &largv[0], &rval);
 		            if (!succeed && JS_IsExceptionPending(cx)) {
 		                JS_ReportPendingException(cx);
 		            }
@@ -129,7 +137,11 @@ bool js_cocos2dx_network_Downloader_createDownloadFileTask(JSContext *cx, uint32
         JSB_PRECONDITION2(ok, cx, false, "js_cocos2dx_network_Downloader_createDownloadFileTask : Error processing arguments");
         std::shared_ptr<const cocos2d::network::DownloadTask> ret = cobj->createDownloadFileTask(arg0, arg1);
         JS::RootedValue jsret(cx);
-        jsret = downloadTask_to_jsval(cx, *ret);
+        if (ret) {
+            jsret = OBJECT_TO_JSVAL(js_get_or_create_jsobject<std::shared_ptr<cocos2d::network::DownloadTask>>(cx, (std::shared_ptr<cocos2d::network::DownloadTask>)ret));
+        } else {
+            jsret = JSVAL_NULL;
+        };
         args.rval().set(jsret);
         return true;
     }
@@ -143,7 +155,11 @@ bool js_cocos2dx_network_Downloader_createDownloadFileTask(JSContext *cx, uint32
         JSB_PRECONDITION2(ok, cx, false, "js_cocos2dx_network_Downloader_createDownloadFileTask : Error processing arguments");
         std::shared_ptr<const cocos2d::network::DownloadTask> ret = cobj->createDownloadFileTask(arg0, arg1, arg2);
         JS::RootedValue jsret(cx);
-        jsret = downloadTask_to_jsval(cx, *ret);
+        if (ret) {
+            jsret = OBJECT_TO_JSVAL(js_get_or_create_jsobject<std::shared_ptr<cocos2d::network::DownloadTask>>(cx, (std::shared_ptr<cocos2d::network::DownloadTask>)ret));
+        } else {
+            jsret = JSVAL_NULL;
+        };
         args.rval().set(jsret);
         return true;
     }
@@ -169,9 +185,13 @@ bool js_cocos2dx_network_Downloader_setOnFileTaskSuccess(JSContext *cx, uint32_t
 		        auto lambda = [=](const cocos2d::network::DownloadTask & larg0) -> void {
 		            JSB_AUTOCOMPARTMENT_WITH_GLOBAL_OBJCET
 		            jsval largv[1];
-		            largv[0] = downloadTask_to_jsval(cx, larg0);
+		            if (larg0) {
+		            largv[0] = OBJECT_TO_JSVAL(js_get_or_create_jsobject<cocos2d::network::DownloadTask &>(cx, (cocos2d::network::DownloadTask &)larg0));
+		        } else {
+		            largv[0] = JSVAL_NULL;
+		        };
 		            JS::RootedValue rval(cx);
-		            bool succeed = func->invoke(JS::HandleValueArray::fromMarkedLocation(1, largv), &rval);
+		            bool succeed = func->invoke(1, &largv[0], &rval);
 		            if (!succeed && JS_IsExceptionPending(cx)) {
 		                JS_ReportPendingException(cx);
 		            }
@@ -204,7 +224,15 @@ bool js_cocos2dx_network_Downloader_constructor(JSContext *cx, uint32_t argc, js
         ok = true;
         if (argc == 1) {
             cocos2d::network::DownloaderHints arg0;
-            ok &= jsval_to_DownloaderHints(cx, args.get(0), &arg0);
+            do {
+                if (args.get(0).isNull()) { arg0 = nullptr; break; }
+                if (!args.get(0).isObject()) { ok = false; break; }
+                js_proxy_t *jsProxy;
+                JS::RootedObject tmpObj(cx, args.get(0).toObjectOrNull());
+                jsProxy = jsb_get_js_proxy(tmpObj);
+                arg0 = (const cocos2d::network::DownloaderHints&)(jsProxy ? jsProxy->ptr : NULL);
+                JSB_PRECONDITION2( arg0, cx, false, "Invalid Native Object");
+            } while (0);
             if (!ok) { ok = true; break; }
             cobj = new (std::nothrow) cocos2d::network::Downloader(arg0);
 
@@ -213,7 +241,7 @@ bool js_cocos2dx_network_Downloader_constructor(JSContext *cx, uint32_t argc, js
             JS::RootedObject parent(cx, typeClass->parentProto.ref());
             obj = JS_NewObject(cx, typeClass->jsclass, proto, parent);
             js_proxy_t* p = jsb_new_proxy(cobj, obj);
-            jsb_non_ref_init(cx, &p->obj, cobj, "cocos2d::network::Downloader");
+            jsb_ref_init(cx, &p->obj, cobj, "cocos2d::network::Downloader");
         }
     } while(0);
 
@@ -227,7 +255,7 @@ bool js_cocos2dx_network_Downloader_constructor(JSContext *cx, uint32_t argc, js
             JS::RootedObject parent(cx, typeClass->parentProto.ref());
             obj = JS_NewObject(cx, typeClass->jsclass, proto, parent);
             js_proxy_t* p = jsb_new_proxy(cobj, obj);
-            jsb_non_ref_init(cx, &p->obj, cobj, "cocos2d::network::Downloader");
+            jsb_ref_init(cx, &p->obj, cobj, "cocos2d::network::Downloader");
         }
     } while(0);
 

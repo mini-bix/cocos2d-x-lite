@@ -183,6 +183,16 @@ getVersion : function (
 },
 
 /**
+ * @method getMarketURL
+ * @return {String}
+ */
+getMarketURL : function (
+)
+{
+    return ;
+},
+
+/**
  * @method getVersionFileUrl
  * @return {String}
  */

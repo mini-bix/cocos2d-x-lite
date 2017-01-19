@@ -64,4 +64,9 @@ namespace baiyou {
         }
         return std::string([strUUID UTF8String]);
     }
+    
+    std::string BaiyouPlugin_Apple::getBundleId() const{
+        NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
+        return std::string(bundleIdentifier.UTF8String);
+    }
 }

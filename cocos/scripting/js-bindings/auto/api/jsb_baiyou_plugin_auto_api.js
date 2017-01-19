@@ -19,13 +19,23 @@ str
 },
 
 /**
- * @method getUUID
+ * @method getBundleId
  * @return {String}
  */
-getUUID : function (
+getBundleId : function (
 )
 {
     return ;
+},
+
+/**
+ * @method init
+ * @return {bool}
+ */
+init : function (
+)
+{
+    return false;
 },
 
 /**
@@ -41,13 +51,13 @@ str
 },
 
 /**
- * @method init
- * @return {bool}
+ * @method getUUID
+ * @return {String}
  */
-init : function (
+getUUID : function (
 )
 {
-    return false;
+    return ;
 },
 
 /**

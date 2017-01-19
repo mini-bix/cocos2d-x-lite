@@ -29,4 +29,8 @@ namespace baiyou {
         return true;
     }
     
+    std::string BaiyouPlugin::getBundleId() const{
+        return "";
+    }
+    
 }

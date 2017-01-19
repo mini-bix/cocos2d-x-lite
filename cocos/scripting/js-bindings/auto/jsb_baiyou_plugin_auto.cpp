@@ -42,22 +42,40 @@ bool js_baiyou_plugin_BaiyouPlugin_openURL(JSContext *cx, uint32_t argc, jsval *
     JS_ReportError(cx, "js_baiyou_plugin_BaiyouPlugin_openURL : wrong number of arguments: %d, was expecting %d", argc, 1);
     return false;
 }
-bool js_baiyou_plugin_BaiyouPlugin_getUUID(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_baiyou_plugin_BaiyouPlugin_getBundleId(JSContext *cx, uint32_t argc, jsval *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
     js_proxy_t *proxy = jsb_get_js_proxy(obj);
     baiyou::BaiyouPlugin* cobj = (baiyou::BaiyouPlugin *)(proxy ? proxy->ptr : NULL);
-    JSB_PRECONDITION2( cobj, cx, false, "js_baiyou_plugin_BaiyouPlugin_getUUID : Invalid Native Object");
+    JSB_PRECONDITION2( cobj, cx, false, "js_baiyou_plugin_BaiyouPlugin_getBundleId : Invalid Native Object");
     if (argc == 0) {
-        std::string ret = cobj->getUUID();
+        std::string ret = cobj->getBundleId();
         JS::RootedValue jsret(cx);
         jsret = std_string_to_jsval(cx, ret);
         args.rval().set(jsret);
         return true;
     }
 
-    JS_ReportError(cx, "js_baiyou_plugin_BaiyouPlugin_getUUID : wrong number of arguments: %d, was expecting %d", argc, 0);
+    JS_ReportError(cx, "js_baiyou_plugin_BaiyouPlugin_getBundleId : wrong number of arguments: %d, was expecting %d", argc, 0);
+    return false;
+}
+bool js_baiyou_plugin_BaiyouPlugin_init(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
+    js_proxy_t *proxy = jsb_get_js_proxy(obj);
+    baiyou::BaiyouPlugin* cobj = (baiyou::BaiyouPlugin *)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2( cobj, cx, false, "js_baiyou_plugin_BaiyouPlugin_init : Invalid Native Object");
+    if (argc == 0) {
+        bool ret = cobj->init();
+        JS::RootedValue jsret(cx);
+        jsret = BOOLEAN_TO_JSVAL(ret);
+        args.rval().set(jsret);
+        return true;
+    }
+
+    JS_ReportError(cx, "js_baiyou_plugin_BaiyouPlugin_init : wrong number of arguments: %d, was expecting %d", argc, 0);
     return false;
 }
 bool js_baiyou_plugin_BaiyouPlugin_getProperty(JSContext *cx, uint32_t argc, jsval *vp)
@@ -82,22 +100,22 @@ bool js_baiyou_plugin_BaiyouPlugin_getProperty(JSContext *cx, uint32_t argc, jsv
     JS_ReportError(cx, "js_baiyou_plugin_BaiyouPlugin_getProperty : wrong number of arguments: %d, was expecting %d", argc, 1);
     return false;
 }
-bool js_baiyou_plugin_BaiyouPlugin_init(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_baiyou_plugin_BaiyouPlugin_getUUID(JSContext *cx, uint32_t argc, jsval *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
     js_proxy_t *proxy = jsb_get_js_proxy(obj);
     baiyou::BaiyouPlugin* cobj = (baiyou::BaiyouPlugin *)(proxy ? proxy->ptr : NULL);
-    JSB_PRECONDITION2( cobj, cx, false, "js_baiyou_plugin_BaiyouPlugin_init : Invalid Native Object");
+    JSB_PRECONDITION2( cobj, cx, false, "js_baiyou_plugin_BaiyouPlugin_getUUID : Invalid Native Object");
     if (argc == 0) {
-        bool ret = cobj->init();
+        std::string ret = cobj->getUUID();
         JS::RootedValue jsret(cx);
-        jsret = BOOLEAN_TO_JSVAL(ret);
+        jsret = std_string_to_jsval(cx, ret);
         args.rval().set(jsret);
         return true;
     }
 
-    JS_ReportError(cx, "js_baiyou_plugin_BaiyouPlugin_init : wrong number of arguments: %d, was expecting %d", argc, 0);
+    JS_ReportError(cx, "js_baiyou_plugin_BaiyouPlugin_getUUID : wrong number of arguments: %d, was expecting %d", argc, 0);
     return false;
 }
 bool js_baiyou_plugin_BaiyouPlugin_restart(JSContext *cx, uint32_t argc, jsval *vp)
@@ -154,9 +172,10 @@ void js_register_baiyou_plugin_BaiyouPlugin(JSContext *cx, JS::HandleObject glob
 
     static JSFunctionSpec funcs[] = {
         JS_FN("openURL", js_baiyou_plugin_BaiyouPlugin_openURL, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("getUUID", js_baiyou_plugin_BaiyouPlugin_getUUID, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("getProperty", js_baiyou_plugin_BaiyouPlugin_getProperty, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("getBundleId", js_baiyou_plugin_BaiyouPlugin_getBundleId, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("init", js_baiyou_plugin_BaiyouPlugin_init, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("getProperty", js_baiyou_plugin_BaiyouPlugin_getProperty, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("getUUID", js_baiyou_plugin_BaiyouPlugin_getUUID, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("restart", js_baiyou_plugin_BaiyouPlugin_restart, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FS_END
     };

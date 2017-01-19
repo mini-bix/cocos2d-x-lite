@@ -43,4 +43,8 @@ public class BaiyouPlugin {
         return uniqueId;
     }
     
+    public static String getPackageName(){
+        return this.App().getPackageName();
+    }
+    
 }
