@@ -58,9 +58,9 @@ bool AppDelegate::applicationDidFinishLaunching()
     auto glview = director->getOpenGLView();
     if(!glview) {
 #if(CC_TARGET_PLATFORM == CC_PLATFORM_WP8) || (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
-        glview = GLViewImpl::create("dkd");
+        glview = GLViewImpl::create("HelloJavascript");
 #else
-        glview = GLViewImpl::createWithRect("dkd", Rect(0,0,900,640));
+        glview = GLViewImpl::createWithRect("HelloJavascript", Rect(0,0,900,640));
 #endif
         director->setOpenGLView(glview);
     }
@@ -74,7 +74,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS) && PACKAGE_AS    
     sc->addRegisterCallback(register_all_anysdk_framework);
     sc->addRegisterCallback(register_all_anysdk_manual);
-#endif 
+#endif
     sc->start();
     sc->runScript("script/jsb_boot.js");
 #if defined(COCOS2D_DEBUG) && (COCOS2D_DEBUG > 0)
@@ -100,8 +100,4 @@ void AppDelegate::applicationWillEnterForeground()
     auto director = Director::getInstance();
     director->startAnimation();
     director->getEventDispatcher()->dispatchCustomEvent("game_on_show");
-}
-
-void AppDelegate::receiveMemoryWarning(const int level){
-    ScriptingCore::getInstance()->evalString("if (cc.onMemoryWarning){cc.onMemoryWarning();}");
 }

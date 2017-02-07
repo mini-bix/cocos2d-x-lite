@@ -41,8 +41,6 @@ public:
      @param  the pointer of the application
      */
     virtual void applicationWillEnterForeground();
-    
-    virtual void receiveMemoryWarning(const int level);
 };
 
 #endif // _APP_DELEGATE_H_
