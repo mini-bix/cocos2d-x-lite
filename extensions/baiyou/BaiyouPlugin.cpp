@@ -33,4 +33,8 @@ namespace baiyou {
         return "";
     }
     
+    void BaiyouPlugin::setIdleTimerDisabled(bool) const{
+        
+    }
+    
 }

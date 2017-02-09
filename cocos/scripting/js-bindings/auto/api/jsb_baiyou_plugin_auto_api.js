@@ -39,6 +39,16 @@ init : function (
 },
 
 /**
+ * @method setIdleTimerDisabled
+ * @param {bool} arg0
+ */
+setIdleTimerDisabled : function (
+bool 
+)
+{
+},
+
+/**
  * @method getProperty
  * @param {String} arg0
  * @return {String}

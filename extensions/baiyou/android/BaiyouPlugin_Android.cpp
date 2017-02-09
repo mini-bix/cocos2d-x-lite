@@ -51,4 +51,7 @@ namespace baiyou {
         return cocos2d::JniHelper::callStaticStringMethod("org/baiyou/BaiyouPlugin", "getPackageName");
     }
     
+    void BaiyouPlugin_Android::setIdleTimerDisabled(bool dis) const{
+    }
+    
 }

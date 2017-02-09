@@ -23,6 +23,7 @@ namespace baiyou {
             virtual std::string getUUID() const;
             virtual bool init();
             virtual std::string getBundleId() const;
+            virtual void setIdleTimerDisabled(bool) const;
     protected:
         static BaiyouPlugin* s_sharedBaiyouPlugin;
     };

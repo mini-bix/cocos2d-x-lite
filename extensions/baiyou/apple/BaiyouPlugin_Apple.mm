@@ -69,4 +69,10 @@ namespace baiyou {
         NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
         return std::string(bundleIdentifier.UTF8String);
     }
+    
+    void BaiyouPlugin_Apple::setIdleTimerDisabled(bool dis) const{
+#if TARGET_OS_IOS
+        [[UIApplication sharedApplication] setIdleTimerDisabled:dis];
+#endif
+    }
 }

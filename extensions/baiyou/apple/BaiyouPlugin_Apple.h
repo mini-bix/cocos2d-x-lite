@@ -20,6 +20,7 @@ namespace baiyou {
         void restart() const;
         bool init();
         std::string getBundleId() const;
+        void setIdleTimerDisabled(bool) const;
     };
 }
 

@@ -78,6 +78,26 @@ bool js_baiyou_plugin_BaiyouPlugin_init(JSContext *cx, uint32_t argc, jsval *vp)
     JS_ReportError(cx, "js_baiyou_plugin_BaiyouPlugin_init : wrong number of arguments: %d, was expecting %d", argc, 0);
     return false;
 }
+bool js_baiyou_plugin_BaiyouPlugin_setIdleTimerDisabled(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
+    js_proxy_t *proxy = jsb_get_js_proxy(obj);
+    baiyou::BaiyouPlugin* cobj = (baiyou::BaiyouPlugin *)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2( cobj, cx, false, "js_baiyou_plugin_BaiyouPlugin_setIdleTimerDisabled : Invalid Native Object");
+    if (argc == 1) {
+        bool arg0;
+        arg0 = JS::ToBoolean(args.get(0));
+        JSB_PRECONDITION2(ok, cx, false, "js_baiyou_plugin_BaiyouPlugin_setIdleTimerDisabled : Error processing arguments");
+        cobj->setIdleTimerDisabled(arg0);
+        args.rval().setUndefined();
+        return true;
+    }
+
+    JS_ReportError(cx, "js_baiyou_plugin_BaiyouPlugin_setIdleTimerDisabled : wrong number of arguments: %d, was expecting %d", argc, 1);
+    return false;
+}
 bool js_baiyou_plugin_BaiyouPlugin_getProperty(JSContext *cx, uint32_t argc, jsval *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
@@ -174,6 +194,7 @@ void js_register_baiyou_plugin_BaiyouPlugin(JSContext *cx, JS::HandleObject glob
         JS_FN("openURL", js_baiyou_plugin_BaiyouPlugin_openURL, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("getBundleId", js_baiyou_plugin_BaiyouPlugin_getBundleId, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("init", js_baiyou_plugin_BaiyouPlugin_init, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("setIdleTimerDisabled", js_baiyou_plugin_BaiyouPlugin_setIdleTimerDisabled, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("getProperty", js_baiyou_plugin_BaiyouPlugin_getProperty, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("getUUID", js_baiyou_plugin_BaiyouPlugin_getUUID, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("restart", js_baiyou_plugin_BaiyouPlugin_restart, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
