@@ -257,10 +257,6 @@ jsval spanimationstate_to_jsval(JSContext* cx, spAnimationState& v)
 
 jsval spanimation_to_jsval(JSContext* cx, spAnimation& v)
 {
-    if (&v == (spAnimation *)(0)){
-        return JSVAL_NULL;
-    }
-    
     JS::RootedObject tmp(cx, JS_NewObject(cx, nullptr, JS::NullPtr(), JS::NullPtr()));
     if (!tmp) return JSVAL_NULL;
 
