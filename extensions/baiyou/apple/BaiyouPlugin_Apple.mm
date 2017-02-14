@@ -77,6 +77,7 @@ namespace baiyou {
     }
     
     void BaiyouPlugin_Apple::scheduleLocalNotification(const std::string& title,const std::string& content,int delay) const{
+#if TARGET_OS_IOS
         
         UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
         
@@ -84,7 +85,6 @@ namespace baiyou {
         
         [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
         
-#if TARGET_OS_IOS
         NSDate *itemDate = [NSDate dateWithTimeIntervalSinceNow:delay];
         
         UILocalNotification *localNotif = [[UILocalNotification alloc] init];
