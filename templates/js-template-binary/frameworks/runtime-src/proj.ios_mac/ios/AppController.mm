@@ -42,7 +42,6 @@ static AppDelegate s_sharedApplication;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    application.applicationIconBadgeNumber = 0;
     // Override point for customization after application launch.
 
     // Add the view controller's view to the window and display.
@@ -99,6 +98,7 @@ static AppDelegate s_sharedApplication;
     /*
      Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
      */
+    application.applicationIconBadgeNumber = 0;
     cocos2d::Director::getInstance()->resume();
 }
 
