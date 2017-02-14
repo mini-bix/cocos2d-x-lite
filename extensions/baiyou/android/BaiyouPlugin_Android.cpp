@@ -52,14 +52,15 @@ namespace baiyou {
     }
     
     void BaiyouPlugin_Android::setIdleTimerDisabled(bool dis) const{
+        cocos2d::JniHelper::callStaticVoidMethod("org/baiyou/BaiyouPlugin", "setIdleTimerDisabled",dis);
     }
     
     void BaiyouPlugin_Android::scheduleLocalNotification(const std::string& title,const std::string& content,int delay) const{
-        
+        cocos2d::JniHelper::callStaticVoidMethod("org/baiyou/BaiyouPlugin", "scheduleLocalNotification",title,content,delay);
     }
     
     void BaiyouPlugin_Android::unScheduleAllLocalNotification() const{
-        
+        cocos2d::JniHelper::callStaticVoidMethod("org/baiyou/BaiyouPlugin", "unScheduleAllLocalNotification");
     }
     
 }
