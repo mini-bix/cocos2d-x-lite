@@ -19,6 +19,28 @@ str
 },
 
 /**
+ * @method unScheduleAllLocalNotification
+ */
+unScheduleAllLocalNotification : function (
+)
+{
+},
+
+/**
+ * @method scheduleLocalNotification
+ * @param {String} arg0
+ * @param {String} arg1
+ * @param {int} arg2
+ */
+scheduleLocalNotification : function (
+str, 
+str, 
+int 
+)
+{
+},
+
+/**
  * @method getBundleId
  * @return {String}
  */

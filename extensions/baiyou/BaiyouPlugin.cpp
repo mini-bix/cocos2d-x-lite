@@ -37,4 +37,12 @@ namespace baiyou {
         
     }
     
+    void BaiyouPlugin::scheduleLocalNotification(const std::string& title,const std::string& content,int delay) const{
+        
+    }
+    
+    void BaiyouPlugin::unScheduleAllLocalNotification() const{
+        
+    }
+    
 }

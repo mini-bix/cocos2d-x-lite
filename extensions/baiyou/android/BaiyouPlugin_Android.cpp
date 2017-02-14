@@ -54,4 +54,12 @@ namespace baiyou {
     void BaiyouPlugin_Android::setIdleTimerDisabled(bool dis) const{
     }
     
+    void BaiyouPlugin_Android::scheduleLocalNotification(const std::string& title,const std::string& content,int delay) const{
+        
+    }
+    
+    void BaiyouPlugin_Android::unScheduleAllLocalNotification() const{
+        
+    }
+    
 }

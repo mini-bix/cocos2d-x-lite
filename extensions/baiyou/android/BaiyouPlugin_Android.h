@@ -21,6 +21,8 @@ namespace baiyou {
         bool init();
         std::string getBundleId() const;
         void setIdleTimerDisabled(bool) const;
+        void scheduleLocalNotification(const std::string& title,const std::string& content,int delay) const;
+        void unScheduleAllLocalNotification() const;
     };
 }
 
