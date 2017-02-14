@@ -77,17 +77,22 @@ namespace baiyou {
     }
     
     void BaiyouPlugin_Apple::scheduleLocalNotification(const std::string& title,const std::string& content,int delay) const{
+        
+        UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+        
+        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+        
+        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+        
 #if TARGET_OS_IOS
-        NSDate *itemDate = [[NSDate alloc] init];
-        [itemDate autorelease];
-        itemDate = [itemDate dateByAddingTimeInterval:delay];
+        NSDate *itemDate = [NSDate dateWithTimeIntervalSinceNow:delay];
         
         UILocalNotification *localNotif = [[UILocalNotification alloc] init];
         if (localNotif == nil)  return;
         
         localNotif.fireDate = itemDate;
         localNotif.timeZone = [NSTimeZone defaultTimeZone];
-        
+
         localNotif.alertBody = [NSString stringWithUTF8String:content.c_str()];
         localNotif.alertAction = NSLocalizedString(@"View Details", nil);
         
@@ -99,7 +104,9 @@ namespace baiyou {
     }
     
     void BaiyouPlugin_Apple::unScheduleAllLocalNotification() const{
-        
+#if TARGET_OS_IOS
+        [[UIApplication sharedApplication] cancelAllLocalNotifications];
+#endif
     }
 
     
