@@ -78,35 +78,39 @@ namespace baiyou {
     
     void BaiyouPlugin_Apple::scheduleLocalNotification(const std::string& title,const std::string& content,int delay) const{
 #if TARGET_OS_IOS
-        if ([[[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."] objectAtIndex:0] intValue]>=8){
+        if ([[UIApplication sharedApplication] respondsToSelector:@selector(registerUserNotificationSettings:)]) {
             UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
             
             UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
             
             [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+            
+            NSDate *itemDate = [NSDate dateWithTimeIntervalSinceNow:delay];
+            
+            UILocalNotification *localNotif = [[UILocalNotification alloc] init];
+            if (localNotif == nil)  return;
+            
+            localNotif.fireDate = itemDate;
+            localNotif.timeZone = [NSTimeZone defaultTimeZone];
+            
+            localNotif.alertBody = [NSString stringWithUTF8String:content.c_str()];
+            localNotif.alertAction = NSLocalizedString(@"View Details", nil);
+            
+            localNotif.soundName = UILocalNotificationDefaultSoundName;
+            localNotif.applicationIconBadgeNumber = 1;
+            
+            [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
+            
+        }else{
+            [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
         }
-    
-        NSDate *itemDate = [NSDate dateWithTimeIntervalSinceNow:delay];
-        
-        UILocalNotification *localNotif = [[UILocalNotification alloc] init];
-        if (localNotif == nil)  return;
-        
-        localNotif.fireDate = itemDate;
-        localNotif.timeZone = [NSTimeZone defaultTimeZone];
-
-        localNotif.alertBody = [NSString stringWithUTF8String:content.c_str()];
-        localNotif.alertAction = NSLocalizedString(@"View Details", nil);
-        
-        localNotif.soundName = UILocalNotificationDefaultSoundName;
-        localNotif.applicationIconBadgeNumber = 1;
-        
-        [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
 #endif
     }
     
     void BaiyouPlugin_Apple::unScheduleAllLocalNotification() const{
 #if TARGET_OS_IOS
         [[UIApplication sharedApplication] cancelAllLocalNotifications];
+        
 #endif
     }
 
