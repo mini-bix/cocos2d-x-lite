@@ -776,6 +776,16 @@ void AssetsManagerEx::updateSucceed()
     // Every thing is correctly downloaded, do the following
     // 1. rename temporary manifest to valid manifest
     _fileUtils->renameFile(_tempStoragePath, TEMP_MANIFEST_FILENAME, MANIFEST_FILENAME);
+    
+    for (auto it = _diffsToDelete.begin(); it != _diffsToDelete.end(); ++it)
+    {
+        auto delPath = _storagePath + *it;
+        if (_fileUtils->isFileExist(delPath)){
+            CCLOG("DeleteFile %s",it->c_str());
+            _fileUtils->removeFile(delPath);
+        }
+    }
+    
     // 2. merge temporary storage path to storage path so that temporary version turns to cached version
     if (_fileUtils->isDirectoryExist(_tempStoragePath))
     {
@@ -802,15 +812,6 @@ void AssetsManagerEx::updateSucceed()
         }
         // Remove temp storage path
         _fileUtils->removeDirectory(_tempStoragePath);
-    }
-    
-    for (auto it = _diffsToDelete.begin(); it != _diffsToDelete.end(); ++it)
-    {
-        auto delPath = _storagePath + *it;
-        if (_fileUtils->isFileExist(delPath)){
-            CCLOG("DeleteFile %s",it->c_str());
-            _fileUtils->removeFile(delPath);
-        }
     }
     
     // 3. swap the localManifest
