@@ -9,6 +9,7 @@
 #include "BaiyouPlugin_Apple.h"
 
 #import "KeyChainStore.h"
+#import "KeychainIDFA.h"
 
 #define KEY_UUID @"COM.AIYOU.DAOKEDAOZHIFANRENXIUXIAN.UUID"
 
@@ -48,21 +49,24 @@ namespace baiyou {
     }
     
     std::string BaiyouPlugin_Apple::getUUID() const{
-        NSString * strUUID = (NSString *)[KeyChainStore load:KEY_UUID];
-        
-        //首次执行该方法时，uuid为空
-        if ([strUUID isEqualToString:@""] || !strUUID)
-        {
-            //生成一个uuid的方法
-            CFUUIDRef uuidRef = CFUUIDCreate(kCFAllocatorDefault);
-            
-            strUUID = (NSString *)CFBridgingRelease(CFUUIDCreateString (kCFAllocatorDefault,uuidRef));
-            
-            //将该uuid保存到keychain
-            [KeyChainStore save:KEY_UUID data:strUUID];
-            
-        }
-        return std::string([strUUID UTF8String]);
+//        NSString * strUUID = (NSString *)[KeyChainStore load:KEY_UUID];
+//        
+//        //首次执行该方法时，uuid为空
+//        if ([strUUID isEqualToString:@""] || !strUUID)
+//        {
+//            //生成一个uuid的方法
+//            CFUUIDRef uuidRef = CFUUIDCreate(kCFAllocatorDefault);
+//            
+//            strUUID = (NSString *)CFBridgingRelease(CFUUIDCreateString (kCFAllocatorDefault,uuidRef));
+//            
+//            //将该uuid保存到keychain
+//            [KeyChainStore save:KEY_UUID data:strUUID];
+//            
+//        }
+//        return std::string([strUUID UTF8String]);
+        NSString *idfa = [KeychainIDFA IDFA];
+        NSLog(@"Apple IDFA is %@",idfa);
+        return std::string([idfa UTF8String]);
     }
     
     std::string BaiyouPlugin_Apple::getBundleId() const{
