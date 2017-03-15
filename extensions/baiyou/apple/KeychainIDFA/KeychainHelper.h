@@ -6,7 +6,7 @@
 //  Copyright (c) 2014年 Qixin. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 @interface KeychainHelper : NSObject
 + (void)save:(NSString *)service data:(id)data;

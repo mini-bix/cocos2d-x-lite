@@ -8,7 +8,9 @@
 
 #import "KeychainIDFA.h"
 #import "KeychainHelper.h"
+#if TARGET_OS_IOS
 #import <AdSupport/AdSupport.h>
+#endif
 
 #define kIsStringValid(text) (text && text!=NULL && text.length>0)
 
@@ -32,6 +34,7 @@
     }
     else
     {
+#if TARGET_OS_IOS
         //1.取IDFA,可能会取不到,如用户关闭IDFA
         if ([ASIdentifierManager sharedManager].advertisingTrackingEnabled)
         {
@@ -40,6 +43,7 @@
             return deviceID;
         }
         else
+#endif
         {
             //2.如果取不到,就生成UUID,当成IDFA
             deviceID = [KeychainIDFA getUUID];
