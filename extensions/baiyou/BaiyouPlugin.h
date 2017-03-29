@@ -17,6 +17,8 @@ namespace baiyou {
     public:
             virtual ~BaiyouPlugin();
             static BaiyouPlugin* getInstance();
+            static bool GetAnySDKUserInitFinished();
+            static void SetAnySDKUserInitFinished(bool finished);
             virtual std::string getProperty(const std::string& key) const;
             virtual void restart() const;
             void openURL(const std::string& url) const;

@@ -12,6 +12,8 @@
 namespace baiyou {
     BaiyouPlugin* BaiyouPlugin::s_sharedBaiyouPlugin = nullptr;
     
+    bool _anySdkUserInitFinished;
+    
     BaiyouPlugin::~BaiyouPlugin(){
         
     }
@@ -43,6 +45,13 @@ namespace baiyou {
     
     void BaiyouPlugin::unScheduleAllLocalNotification() const{
         
+    }
+    
+    bool BaiyouPlugin::GetAnySDKUserInitFinished(){
+        return _anySdkUserInitFinished;
+    }
+    void BaiyouPlugin::SetAnySDKUserInitFinished(bool finished){
+        _anySdkUserInitFinished = finished;
     }
     
 }

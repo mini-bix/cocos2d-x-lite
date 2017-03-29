@@ -101,6 +101,26 @@ restart : function (
 },
 
 /**
+ * @method GetAnySDKUserInitFinished
+ * @return {bool}
+ */
+GetAnySDKUserInitFinished : function (
+)
+{
+    return false;
+},
+
+/**
+ * @method SetAnySDKUserInitFinished
+ * @param {bool} arg0
+ */
+SetAnySDKUserInitFinished : function (
+bool 
+)
+{
+},
+
+/**
  * @method getInstance
  * @return {baiyou::BaiyouPlugin}
  */

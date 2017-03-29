@@ -194,6 +194,37 @@ bool js_baiyou_plugin_BaiyouPlugin_restart(JSContext *cx, uint32_t argc, jsval *
     JS_ReportError(cx, "js_baiyou_plugin_BaiyouPlugin_restart : wrong number of arguments: %d, was expecting %d", argc, 0);
     return false;
 }
+bool js_baiyou_plugin_BaiyouPlugin_GetAnySDKUserInitFinished(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    if (argc == 0) {
+
+        bool ret = baiyou::BaiyouPlugin::GetAnySDKUserInitFinished();
+        jsval jsret = JSVAL_NULL;
+        jsret = BOOLEAN_TO_JSVAL(ret);
+        args.rval().set(jsret);
+        return true;
+    }
+    JS_ReportError(cx, "js_baiyou_plugin_BaiyouPlugin_GetAnySDKUserInitFinished : wrong number of arguments");
+    return false;
+}
+
+bool js_baiyou_plugin_BaiyouPlugin_SetAnySDKUserInitFinished(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    if (argc == 1) {
+        bool arg0;
+        arg0 = JS::ToBoolean(args.get(0));
+        JSB_PRECONDITION2(ok, cx, false, "js_baiyou_plugin_BaiyouPlugin_SetAnySDKUserInitFinished : Error processing arguments");
+        baiyou::BaiyouPlugin::SetAnySDKUserInitFinished(arg0);
+        args.rval().setUndefined();
+        return true;
+    }
+    JS_ReportError(cx, "js_baiyou_plugin_BaiyouPlugin_SetAnySDKUserInitFinished : wrong number of arguments");
+    return false;
+}
+
 bool js_baiyou_plugin_BaiyouPlugin_getInstance(JSContext *cx, uint32_t argc, jsval *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
@@ -244,6 +275,8 @@ void js_register_baiyou_plugin_BaiyouPlugin(JSContext *cx, JS::HandleObject glob
     };
 
     static JSFunctionSpec st_funcs[] = {
+        JS_FN("GetAnySDKUserInitFinished", js_baiyou_plugin_BaiyouPlugin_GetAnySDKUserInitFinished, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("SetAnySDKUserInitFinished", js_baiyou_plugin_BaiyouPlugin_SetAnySDKUserInitFinished, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("getInstance", js_baiyou_plugin_BaiyouPlugin_getInstance, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FS_END
     };

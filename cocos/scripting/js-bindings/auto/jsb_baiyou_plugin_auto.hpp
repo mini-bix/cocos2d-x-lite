@@ -21,6 +21,8 @@ bool js_baiyou_plugin_BaiyouPlugin_setIdleTimerDisabled(JSContext *cx, uint32_t 
 bool js_baiyou_plugin_BaiyouPlugin_getProperty(JSContext *cx, uint32_t argc, jsval *vp);
 bool js_baiyou_plugin_BaiyouPlugin_getUUID(JSContext *cx, uint32_t argc, jsval *vp);
 bool js_baiyou_plugin_BaiyouPlugin_restart(JSContext *cx, uint32_t argc, jsval *vp);
+bool js_baiyou_plugin_BaiyouPlugin_GetAnySDKUserInitFinished(JSContext *cx, uint32_t argc, jsval *vp);
+bool js_baiyou_plugin_BaiyouPlugin_SetAnySDKUserInitFinished(JSContext *cx, uint32_t argc, jsval *vp);
 bool js_baiyou_plugin_BaiyouPlugin_getInstance(JSContext *cx, uint32_t argc, jsval *vp);
 
 #endif // __baiyou_plugin_h__
