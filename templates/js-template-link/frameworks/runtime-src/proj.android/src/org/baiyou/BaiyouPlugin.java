@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.os.PowerManager;
 import android.os.SystemClock;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -25,6 +26,8 @@ public class BaiyouPlugin {
 	private static int currentNotificationID;
 	
 	private static ArrayList<PendingIntent> pendingInAlarms = new ArrayList<PendingIntent>();
+	
+	private static PowerManager.WakeLock mWakeLock;
 	
 	public static  Activity App(){
 		if (_app == null){
@@ -61,11 +64,21 @@ public class BaiyouPlugin {
         return App().getPackageName();
     }
     
-    public static void setIdleTimerDisabled(Boolean dis){
+    public static void setIdleTimerDisabled(boolean dis){
     	if (dis){
-    		_app.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON); 
+    		if (mWakeLock == null){
+    			PowerManager pm = (PowerManager) App().getSystemService(Context.POWER_SERVICE);  
+    			mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "My Tag"); 
+    		}
+    		if (!mWakeLock.isHeld()){
+    			Log.d("cocos2d-x BaiyouPlugin","Wake Lock Acquuire Called");
+    			mWakeLock.acquire();
+    		}
     	}else{
-    		_app.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON); 
+    		if (mWakeLock != null && mWakeLock.isHeld()){
+    			Log.d("cocos2d-x BaiyouPlugin","Wake Lock Release Called");
+    			mWakeLock.release();
+    		}
     	}
     }
     
