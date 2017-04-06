@@ -137,8 +137,6 @@ public class BaiyouPlugin {
 			info.put("systemVersion",android.os.Build.VERSION.RELEASE);
 			info.put("device",android.os.Build.DEVICE);
 			info.put("model",android.os.Build.MODEL);
-			info.put("product",android.os.Build.PRODUCT);
-			info.put("hardware",android.os.Build.HARDWARE);
 			return info.toString(2);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
