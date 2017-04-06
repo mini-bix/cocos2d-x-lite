@@ -9,6 +9,16 @@ var baiyou = baiyou || {};
 baiyou.BaiyouPlugin = {
 
 /**
+ * @method getBundleVersion
+ * @return {String}
+ */
+getBundleVersion : function (
+)
+{
+    return ;
+},
+
+/**
  * @method openURL
  * @param {String} arg0
  */
@@ -98,6 +108,16 @@ getUUID : function (
 restart : function (
 )
 {
+},
+
+/**
+ * @method getDeviceInfo
+ * @return {String}
+ */
+getDeviceInfo : function (
+)
+{
+    return ;
 },
 
 /**

@@ -35,6 +35,13 @@ namespace baiyou {
         return "";
     }
     
+    std::string BaiyouPlugin::getBundleVersion() const{
+        return "";
+    }
+    std::string BaiyouPlugin::getDeviceInfo() const{
+        return "{}";
+    }
+    
     void BaiyouPlugin::setIdleTimerDisabled(bool) const{
         
     }

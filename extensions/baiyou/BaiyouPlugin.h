@@ -25,6 +25,8 @@ namespace baiyou {
             virtual std::string getUUID() const;
             virtual bool init();
             virtual std::string getBundleId() const;
+            virtual std::string getBundleVersion() const;
+            virtual std::string getDeviceInfo() const;
             virtual void setIdleTimerDisabled(bool) const;
             virtual void scheduleLocalNotification(const std::string& title,const std::string& content,int delay) const;
             virtual void unScheduleAllLocalNotification() const;

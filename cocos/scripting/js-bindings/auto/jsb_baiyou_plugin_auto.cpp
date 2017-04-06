@@ -22,6 +22,24 @@ static bool js_is_native_obj(JSContext *cx, uint32_t argc, jsval *vp)
 JSClass  *jsb_baiyou_BaiyouPlugin_class;
 JSObject *jsb_baiyou_BaiyouPlugin_prototype;
 
+bool js_baiyou_plugin_BaiyouPlugin_getBundleVersion(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
+    js_proxy_t *proxy = jsb_get_js_proxy(obj);
+    baiyou::BaiyouPlugin* cobj = (baiyou::BaiyouPlugin *)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2( cobj, cx, false, "js_baiyou_plugin_BaiyouPlugin_getBundleVersion : Invalid Native Object");
+    if (argc == 0) {
+        std::string ret = cobj->getBundleVersion();
+        JS::RootedValue jsret(cx);
+        jsret = std_string_to_jsval(cx, ret);
+        args.rval().set(jsret);
+        return true;
+    }
+
+    JS_ReportError(cx, "js_baiyou_plugin_BaiyouPlugin_getBundleVersion : wrong number of arguments: %d, was expecting %d", argc, 0);
+    return false;
+}
 bool js_baiyou_plugin_BaiyouPlugin_openURL(JSContext *cx, uint32_t argc, jsval *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
@@ -194,6 +212,24 @@ bool js_baiyou_plugin_BaiyouPlugin_restart(JSContext *cx, uint32_t argc, jsval *
     JS_ReportError(cx, "js_baiyou_plugin_BaiyouPlugin_restart : wrong number of arguments: %d, was expecting %d", argc, 0);
     return false;
 }
+bool js_baiyou_plugin_BaiyouPlugin_getDeviceInfo(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
+    js_proxy_t *proxy = jsb_get_js_proxy(obj);
+    baiyou::BaiyouPlugin* cobj = (baiyou::BaiyouPlugin *)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2( cobj, cx, false, "js_baiyou_plugin_BaiyouPlugin_getDeviceInfo : Invalid Native Object");
+    if (argc == 0) {
+        std::string ret = cobj->getDeviceInfo();
+        JS::RootedValue jsret(cx);
+        jsret = std_string_to_jsval(cx, ret);
+        args.rval().set(jsret);
+        return true;
+    }
+
+    JS_ReportError(cx, "js_baiyou_plugin_BaiyouPlugin_getDeviceInfo : wrong number of arguments: %d, was expecting %d", argc, 0);
+    return false;
+}
 bool js_baiyou_plugin_BaiyouPlugin_GetAnySDKUserInitFinished(JSContext *cx, uint32_t argc, jsval *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
@@ -262,6 +298,7 @@ void js_register_baiyou_plugin_BaiyouPlugin(JSContext *cx, JS::HandleObject glob
     };
 
     static JSFunctionSpec funcs[] = {
+        JS_FN("getBundleVersion", js_baiyou_plugin_BaiyouPlugin_getBundleVersion, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("openURL", js_baiyou_plugin_BaiyouPlugin_openURL, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("unScheduleAllLocalNotification", js_baiyou_plugin_BaiyouPlugin_unScheduleAllLocalNotification, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("scheduleLocalNotification", js_baiyou_plugin_BaiyouPlugin_scheduleLocalNotification, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),
@@ -271,6 +308,7 @@ void js_register_baiyou_plugin_BaiyouPlugin(JSContext *cx, JS::HandleObject glob
         JS_FN("getProperty", js_baiyou_plugin_BaiyouPlugin_getProperty, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("getUUID", js_baiyou_plugin_BaiyouPlugin_getUUID, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("restart", js_baiyou_plugin_BaiyouPlugin_restart, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("getDeviceInfo", js_baiyou_plugin_BaiyouPlugin_getDeviceInfo, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FS_END
     };
 

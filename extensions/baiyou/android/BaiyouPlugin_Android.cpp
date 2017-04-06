@@ -63,4 +63,11 @@ namespace baiyou {
         cocos2d::JniHelper::callStaticVoidMethod("org/baiyou/BaiyouPlugin", "unScheduleAllLocalNotification");
     }
     
+    std::string BaiyouPlugin_Android::getBundleVersion() const{
+        return cocos2d::JniHelper::callStaticStringMethod("org/baiyou/BaiyouPlugin", "getVersionName");
+    }
+    std::string BaiyouPlugin_Android::getDeviceInfo() const{
+        return cocos2d::JniHelper::callStaticStringMethod("org/baiyou/BaiyouPlugin", "getDeviceInfo");
+    }
+    
 }

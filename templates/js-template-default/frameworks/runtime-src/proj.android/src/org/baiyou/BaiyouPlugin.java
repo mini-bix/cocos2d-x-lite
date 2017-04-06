@@ -10,7 +10,9 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.PowerManager;
 import android.os.SystemClock;
 import android.telephony.TelephonyManager;
@@ -18,6 +20,8 @@ import android.util.Log;
 import android.view.WindowManager;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class BaiyouPlugin {
 	
@@ -113,6 +117,34 @@ public class BaiyouPlugin {
 			}
 		}
 		pendingInAlarms.clear();
+    }
+    
+    public static String getVersionName(){
+    	PackageInfo pInfo;
+		try {
+			pInfo = App().getPackageManager().getPackageInfo(App().getPackageName(), 0);
+			return pInfo.versionName;
+		} catch (NameNotFoundException e) {
+			e.printStackTrace();
+			return "";
+		}
+    }
+    public static String getDeviceInfo(){
+    	
+    	try {
+    		JSONObject info = new JSONObject();
+    		info.put("systemName", "android");
+			info.put("systemVersion",android.os.Build.VERSION.RELEASE);
+			info.put("device",android.os.Build.DEVICE);
+			info.put("model",android.os.Build.MODEL);
+			info.put("product",android.os.Build.PRODUCT);
+			info.put("hardware",android.os.Build.HARDWARE);
+			return info.toString(2);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "{}";
+		}
     }
     
 }

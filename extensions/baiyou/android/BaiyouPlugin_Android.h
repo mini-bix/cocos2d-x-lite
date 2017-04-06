@@ -20,6 +20,8 @@ namespace baiyou {
         void restart() const;
         bool init();
         std::string getBundleId() const;
+        std::string getBundleVersion() const;
+        std::string getDeviceInfo() const;
         void setIdleTimerDisabled(bool) const;
         void scheduleLocalNotification(const std::string& title,const std::string& content,int delay) const;
         void unScheduleAllLocalNotification() const;

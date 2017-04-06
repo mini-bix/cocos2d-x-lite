@@ -7,6 +7,7 @@
 //
 
 #include "BaiyouPlugin_Apple.h"
+#import <sys/utsname.h>
 
 #import "KeyChainStore.h"
 #import "KeychainIDFA.h"
@@ -115,6 +116,45 @@ namespace baiyou {
 #if TARGET_OS_IOS
         [[UIApplication sharedApplication] cancelAllLocalNotifications];
         
+#endif
+    }
+    
+    
+    std::string BaiyouPlugin_Apple::getBundleVersion() const{
+        NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+        return std::string([version UTF8String]);
+    }
+    std::string BaiyouPlugin_Apple::getDeviceInfo() const{
+        
+#if TARGET_OS_IOS
+        
+        struct utsname systemInfo;
+        
+        uname(&systemInfo);
+        
+        NSString* code = [NSString stringWithCString:systemInfo.machine
+                                            encoding:NSUTF8StringEncoding];
+        
+        NSDictionary *info = [NSDictionary dictionaryWithObjectsAndKeys:
+                              [[UIDevice currentDevice] name],@"name",
+                              [[UIDevice currentDevice] systemName],@"systemName",
+                              [[UIDevice currentDevice] systemVersion],@"systemVersion",
+                              [[UIDevice currentDevice] model],@"model",
+                              code,@"deviceName",
+                              nil];
+        NSError *error = nil;
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:info
+                                                           options:NSJSONWritingPrettyPrinted
+                                                             error:&error];
+        
+        if ([jsonData length] > 0 && error == nil){
+            NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+            return std::string([jsonString UTF8String]);
+        }else{
+            return "{}";
+        }
+#else
+        return "{}";
 #endif
     }
 
