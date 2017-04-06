@@ -136,7 +136,6 @@ namespace baiyou {
                                             encoding:NSUTF8StringEncoding];
         
         NSDictionary *info = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [[UIDevice currentDevice] name],@"name",
                               [[UIDevice currentDevice] systemName],@"systemName",
                               [[UIDevice currentDevice] systemVersion],@"systemVersion",
                               [[UIDevice currentDevice] model],@"model",
