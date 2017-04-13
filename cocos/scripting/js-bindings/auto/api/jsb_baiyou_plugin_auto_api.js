@@ -19,6 +19,18 @@ getBundleVersion : function (
 },
 
 /**
+ * @method MessageBox
+ * @param {String} arg0
+ * @param {String} arg1
+ */
+MessageBox : function (
+str, 
+str 
+)
+{
+},
+
+/**
  * @method openURL
  * @param {String} arg0
  */

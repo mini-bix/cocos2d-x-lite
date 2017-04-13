@@ -8,6 +8,7 @@
 
 #include "BaiyouPlugin.h"
 #include "CCApplication.h"
+#include "CCCommon.h"
 
 namespace baiyou {
     BaiyouPlugin* BaiyouPlugin::s_sharedBaiyouPlugin = nullptr;
@@ -59,6 +60,10 @@ namespace baiyou {
     }
     void BaiyouPlugin::SetAnySDKUserInitFinished(bool finished){
         _anySdkUserInitFinished = finished;
+    }
+    
+    void BaiyouPlugin::MessageBox(const std::string& title,const std::string& msg) const{
+        cocos2d::MessageBox(msg.c_str(), title.c_str());
     }
     
 }

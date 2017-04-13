@@ -40,6 +40,28 @@ bool js_baiyou_plugin_BaiyouPlugin_getBundleVersion(JSContext *cx, uint32_t argc
     JS_ReportError(cx, "js_baiyou_plugin_BaiyouPlugin_getBundleVersion : wrong number of arguments: %d, was expecting %d", argc, 0);
     return false;
 }
+bool js_baiyou_plugin_BaiyouPlugin_MessageBox(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
+    js_proxy_t *proxy = jsb_get_js_proxy(obj);
+    baiyou::BaiyouPlugin* cobj = (baiyou::BaiyouPlugin *)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2( cobj, cx, false, "js_baiyou_plugin_BaiyouPlugin_MessageBox : Invalid Native Object");
+    if (argc == 2) {
+        std::string arg0;
+        std::string arg1;
+        ok &= jsval_to_std_string(cx, args.get(0), &arg0);
+        ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+        JSB_PRECONDITION2(ok, cx, false, "js_baiyou_plugin_BaiyouPlugin_MessageBox : Error processing arguments");
+        cobj->MessageBox(arg0, arg1);
+        args.rval().setUndefined();
+        return true;
+    }
+
+    JS_ReportError(cx, "js_baiyou_plugin_BaiyouPlugin_MessageBox : wrong number of arguments: %d, was expecting %d", argc, 2);
+    return false;
+}
 bool js_baiyou_plugin_BaiyouPlugin_openURL(JSContext *cx, uint32_t argc, jsval *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
@@ -299,6 +321,7 @@ void js_register_baiyou_plugin_BaiyouPlugin(JSContext *cx, JS::HandleObject glob
 
     static JSFunctionSpec funcs[] = {
         JS_FN("getBundleVersion", js_baiyou_plugin_BaiyouPlugin_getBundleVersion, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("MessageBox", js_baiyou_plugin_BaiyouPlugin_MessageBox, 2, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("openURL", js_baiyou_plugin_BaiyouPlugin_openURL, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("unScheduleAllLocalNotification", js_baiyou_plugin_BaiyouPlugin_unScheduleAllLocalNotification, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("scheduleLocalNotification", js_baiyou_plugin_BaiyouPlugin_scheduleLocalNotification, 3, JSPROP_PERMANENT | JSPROP_ENUMERATE),

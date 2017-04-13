@@ -22,6 +22,7 @@ namespace baiyou {
             virtual std::string getProperty(const std::string& key) const;
             virtual void restart() const;
             void openURL(const std::string& url) const;
+            void MessageBox(const std::string& title,const std::string& msg) const;
             virtual std::string getUUID() const;
             virtual bool init();
             virtual std::string getBundleId() const;
