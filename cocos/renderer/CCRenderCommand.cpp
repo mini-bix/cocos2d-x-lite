@@ -34,7 +34,7 @@ RenderCommand::RenderCommand()
 , _isTransparent(true)
 , _skipBatching(false)
 , _depth(0)
-,textoreOrder(0)
+,sceneOrder(0)
 {
 }
 

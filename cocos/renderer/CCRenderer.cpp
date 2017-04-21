@@ -58,7 +58,7 @@ static bool compareRenderCommandByBatchDepth(RenderCommand* a, RenderCommand* b)
 {
     auto deptha = a->getBatchDepth();
     auto depthb = b->getBatchDepth();
-    return deptha<depthb || (deptha == depthb && a->textoreOrder < b->textoreOrder);
+    return deptha<depthb || (deptha == depthb && a->sceneOrder < b->sceneOrder);
 }
 
 // queue
@@ -110,7 +110,7 @@ void RenderQueue::batchCommands(std::vector<RenderCommand*> &cmds){
     int batchBeginCount = 0;
     for(auto it = cmds.begin();it != cmds.end();it++){
         auto cmd = *it;
-        cmd->textoreOrder = 0;
+        cmd->sceneOrder = 0;
         bool isBatchBegin = cmd->getType() == RenderCommand::Type::BATCH_BGEIN_COMMAND;
         if (isBatchBegin){
             if (++batchBeginCount == 1){
@@ -130,7 +130,7 @@ void RenderQueue::batchCommands(std::vector<RenderCommand*> &cmds){
 //            continue;
 //        }
 //        auto cmd = static_cast<TrianglesCommand*>(*it);
-//        CCLOG("depth %f texorder %d materialid %d ",cmd->getBatchDepth(),cmd->textoreOrder,cmd->getMaterialID());
+//        CCLOG("depth %f texorder %d materialid %d ",cmd->getBatchDepth(),cmd->sceneOrder,cmd->getMaterialID());
 //    }
 //    CCLOG("BatchEnd");
 }
@@ -142,24 +142,25 @@ void RenderQueue::batchCommandsInRange(std::vector<RenderCommand*>::iterator  be
     for (auto it = begin;it != end;it++){
         index ++;
         if ((*it)->getType() != RenderCommand::Type::TRIANGLES_COMMAND){
+            (*it)->sceneOrder = (++textureOrder)*count + index;
             continue;
         }
         auto cmd = static_cast<TrianglesCommand*>(*it);
-        if (cmd->textoreOrder != 0){
+        if (cmd->sceneOrder != 0){
             continue;
         }
         nowMatId = cmd->getMaterialID();
-        cmd->textoreOrder = (++textureOrder)*count + index;
+        cmd->sceneOrder = (++textureOrder)*count + index;
         for (auto fit = it+1;fit != end;fit++){
             if ((*fit)->getType() != RenderCommand::Type::TRIANGLES_COMMAND){
                 continue;
             }
             auto cmd2 = static_cast<TrianglesCommand*>(*fit);
-            if (cmd2->textoreOrder != 0){
+            if (cmd2->sceneOrder != 0){
                 continue;
             }
             if (cmd2->getMaterialID() == nowMatId){
-                cmd2->textoreOrder = (++textureOrder)*count + index;
+                cmd2->sceneOrder = (++textureOrder)*count + index;
             }
         }
     }

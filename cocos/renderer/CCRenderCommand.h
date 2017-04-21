@@ -106,7 +106,7 @@ public:
     
 public:
     
-    int textoreOrder;
+    int sceneOrder;
 
 protected:
     /**Constructor.*/
