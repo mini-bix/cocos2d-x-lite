@@ -658,7 +658,7 @@ void Sprite::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
             _polyInfo.triangles, 
             transform, 
             flags);
-
+        _trianglesCommand.setBatchDepth(getDepthInLocalBatchNode());
         renderer->addCommand(&_trianglesCommand);
 
 #if CC_SPRITE_DEBUG_DRAW

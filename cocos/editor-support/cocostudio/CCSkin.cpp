@@ -242,7 +242,7 @@ void Skin::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
         1,
         mv, 
         flags);
-
+    _quadCommand.setBatchDepth(getDepthInLocalBatchNode());
     renderer->addCommand(&_quadCommand);
 }
 

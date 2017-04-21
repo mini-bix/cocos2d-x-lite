@@ -56,6 +56,7 @@ namespace spine {
     {
         _firstCommand = new Command();
         _command = _firstCommand;
+        _batchDepth = 0;
 
         Director::getInstance()->getEventDispatcher()->addCustomEventListener(EVENT_AFTER_DRAW_RESET_POSITION, [this](EventCustom* eventCustom){
             this->update(0);
@@ -93,6 +94,7 @@ namespace spine {
         _command->triangles->indices = triangles.indices;
         
         _command->trianglesCommand->init(globalZOrder, textureID, glProgramState, blendFunc, *_command->triangles, transform, transformFlags);
+        _command->trianglesCommand->setBatchDepth(getBatchDepth());
         renderer->addCommand(_command->trianglesCommand);
         
         if (!_command->next) _command->next = new Command();

@@ -1132,6 +1132,10 @@
 		A679D0DA1C71D93200620A6C /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6A554221C2A7C3100FDD954 /* libcrypto.a */; };
 		A6A5541F1C2A7BF700FDD954 /* libchipmunk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6A5541E1C2A7BF700FDD954 /* libchipmunk.a */; };
 		A6A554211C2A7C1300FDD954 /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6A554201C2A7C1300FDD954 /* libcurl.a */; };
+		A6B9B7351EA8A5C200D81E6F /* CCBatchBeginCommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6B9B7331EA8A5C100D81E6F /* CCBatchBeginCommand.cpp */; };
+		A6B9B7361EA8A5C200D81E6F /* CCBatchBeginCommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6B9B7331EA8A5C100D81E6F /* CCBatchBeginCommand.cpp */; };
+		A6B9B7371EA8A5C200D81E6F /* CCBatchBeginCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = A6B9B7341EA8A5C200D81E6F /* CCBatchBeginCommand.h */; };
+		A6B9B7381EA8A5C200D81E6F /* CCBatchBeginCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = A6B9B7341EA8A5C200D81E6F /* CCBatchBeginCommand.h */; };
 		A6D40F8E1DE7E15B0049EA0B /* BaiyouPlugin_Apple.h in Headers */ = {isa = PBXBuildFile; fileRef = A6D40F861DE7E15B0049EA0B /* BaiyouPlugin_Apple.h */; };
 		A6D40F8F1DE7E15B0049EA0B /* BaiyouPlugin_Apple.h in Headers */ = {isa = PBXBuildFile; fileRef = A6D40F861DE7E15B0049EA0B /* BaiyouPlugin_Apple.h */; };
 		A6D40F901DE7E15B0049EA0B /* BaiyouPlugin_Apple.mm in Sources */ = {isa = PBXBuildFile; fileRef = A6D40F871DE7E15B0049EA0B /* BaiyouPlugin_Apple.mm */; };
@@ -2363,6 +2367,8 @@
 		A6A554201C2A7C1300FDD954 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = ../external/mac/libs/libcurl.a; sourceTree = "<group>"; };
 		A6A554221C2A7C3100FDD954 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../external/mac/libs/libcrypto.a; sourceTree = "<group>"; };
 		A6A554241C2A7C4400FDD954 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../external/mac/libs/libssl.a; sourceTree = "<group>"; };
+		A6B9B7331EA8A5C100D81E6F /* CCBatchBeginCommand.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCBatchBeginCommand.cpp; sourceTree = "<group>"; };
+		A6B9B7341EA8A5C200D81E6F /* CCBatchBeginCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBatchBeginCommand.h; sourceTree = "<group>"; };
 		A6D40F861DE7E15B0049EA0B /* BaiyouPlugin_Apple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiyouPlugin_Apple.h; sourceTree = "<group>"; };
 		A6D40F871DE7E15B0049EA0B /* BaiyouPlugin_Apple.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BaiyouPlugin_Apple.mm; sourceTree = "<group>"; };
 		A6D40F881DE7E15B0049EA0B /* BaiyouPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaiyouPlugin.cpp; sourceTree = "<group>"; };
@@ -3785,6 +3791,8 @@
 				50ABBD6F1925AB4100A911A9 /* CCGLProgramStateCache.h */,
 				50ABBD701925AB4100A911A9 /* ccGLStateCache.cpp */,
 				50ABBD711925AB4100A911A9 /* ccGLStateCache.h */,
+				A6B9B7341EA8A5C200D81E6F /* CCBatchBeginCommand.h */,
+				A6B9B7331EA8A5C100D81E6F /* CCBatchBeginCommand.cpp */,
 				50ABBD721925AB4100A911A9 /* CCGroupCommand.cpp */,
 				50ABBD731925AB4100A911A9 /* CCGroupCommand.h */,
 				BA68D79C1D62F59000B7A3F9 /* CCMeshCommand.cpp */,
@@ -4780,6 +4788,7 @@
 				FA6F1B7B1D80F858007DD223 /* DragonBones.h in Headers */,
 				15AE1B9C19AADFDF00C27E9E /* UIRelativeBox.h in Headers */,
 				A05DCF9E1B90584E00EE040B /* CCDownloader-curl.h in Headers */,
+				A6B9B7371EA8A5C200D81E6F /* CCBatchBeginCommand.h in Headers */,
 				15AE18A919AAD33D00C27E9E /* CCSpriteLoader.h in Headers */,
 				BAFF7DCE1D5C1CF80051B92F /* spine.h in Headers */,
 				50693C601B6BF2AE005C5820 /* CCDownloader.h in Headers */,
@@ -5214,6 +5223,7 @@
 				50ABBE6C1925AB6F00A911A9 /* CCEventListenerFocus.h in Headers */,
 				5034CA3E191D591100CE6051 /* ccShader_PositionColor.frag in Headers */,
 				50ABBE301925AB6F00A911A9 /* ccConfig.h in Headers */,
+				A6B9B7381EA8A5C200D81E6F /* CCBatchBeginCommand.h in Headers */,
 				50ABBDAC1925AB4100A911A9 /* CCRenderCommandPool.h in Headers */,
 				5034CA3C191D591100CE6051 /* ccShader_PositionColor.vert in Headers */,
 				50ABC0181926664800A911A9 /* CCImage.h in Headers */,
@@ -5443,6 +5453,7 @@
 				FA6F1B551D80F858007DD223 /* Armature.cpp in Sources */,
 				15AE1BD819AAE01E00C27E9E /* CCControlStepper.cpp in Sources */,
 				1A570061180BC5A10088DEC7 /* CCAction.cpp in Sources */,
+				A6B9B7351EA8A5C200D81E6F /* CCBatchBeginCommand.cpp in Sources */,
 				15AE1BDC19AAE01E00C27E9E /* CCControlUtils.cpp in Sources */,
 				294D7D9C1D0E93A2002CE7B7 /* CCDevice-apple.mm in Sources */,
 				BA68D7B61D62F66300B7A3F9 /* CCTechnique.cpp in Sources */,
@@ -5927,6 +5938,7 @@
 				BAFF7CE51D59E0DB0051B92F /* CCUtilMath.cpp in Sources */,
 				1A57008E180BC5A10088DEC7 /* CCActionTiledGrid.cpp in Sources */,
 				A6E0EA651DEC2F2800F26E43 /* MD5.cpp in Sources */,
+				A6B9B7361EA8A5C200D81E6F /* CCBatchBeginCommand.cpp in Sources */,
 				FA6F1B9A1D80F858007DD223 /* DragonBonesData.cpp in Sources */,
 				1A570092180BC5A10088DEC7 /* CCActionTween.cpp in Sources */,
 				1A570099180BC5C10088DEC7 /* CCAtlasNode.cpp in Sources */,

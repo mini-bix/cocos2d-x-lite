@@ -23,36 +23,45 @@
  ****************************************************************************/
 
 
+#ifndef _CC_BATCHBEGINCOMMAND_H_
+#define _CC_BATCHBEGINCOMMAND_H_
+
+#include <vector>
+#include <unordered_map>
+
+#include "base/CCRef.h"
 #include "renderer/CCRenderCommand.h"
-#include "2d/CCNode.h"
+
+/**
+ * @addtogroup renderer
+ * @{
+ */
 
 NS_CC_BEGIN
 
-RenderCommand::RenderCommand()
-: _type(RenderCommand::Type::UNKNOWN_COMMAND)
-, _globalOrder(0)
-, _isTransparent(true)
-, _skipBatching(false)
-, _depth(0)
-,textoreOrder(0)
+/**
+ GroupCommand is used to group several command together, and more, it can be nested.
+ So it is used to generate the hierarchy for the rendcommands. Every group command will be assigned by a group ID.
+ */
+class CC_DLL BatchBeginCommand : public RenderCommand
 {
-}
+public:
+    /**@{
+     Constructor and Destructor.
+     */
+    BatchBeginCommand();
+    ~BatchBeginCommand();
+    /**@}*/
 
-RenderCommand::~RenderCommand()
-{
-}
+    /**Init function for group command*/
+    void init(float batchDepth);
 
-void RenderCommand::init(float globalZOrder, const cocos2d::Mat4 &transform, uint32_t flags,float batchDepth)
-{
-    _globalOrder = globalZOrder;
-    set3D(false);
-    _depth = 0;
-    _batchDepth = batchDepth;
-}
-
-void RenderCommand::printID()
-{
-    printf("Command Depth: %f\n", _globalOrder);
-}
+};
 
 NS_CC_END
+
+/**
+ end of support group
+ @}
+ */
+#endif //_CC_GROUPCOMMAND_H_

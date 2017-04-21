@@ -186,6 +186,7 @@ void SkeletonRenderer::draw (Renderer* renderer, const Mat4& transform, uint32_t
     
     Color4F color;
 	AttachmentVertices* attachmentVertices = nullptr;
+    batch->setBatchDepth(getDepthInLocalBatchNode());
 	for (int i = 0, n = _skeleton->slotsCount; i < n; ++i) {
 		spSlot* slot = _skeleton->drawOrder[i];
 		if (!slot->attachment) continue;
@@ -251,7 +252,6 @@ void SkeletonRenderer::draw (Renderer* renderer, const Mat4& transform, uint32_t
 			blendFunc.src = _premultipliedAlpha ? GL_ONE : GL_SRC_ALPHA;
 			blendFunc.dst = GL_ONE_MINUS_SRC_ALPHA;
 		}
-
 		batch->addCommand(renderer, _globalZOrder, attachmentVertices->_texture->getName(), _glProgramState, blendFunc,
 			*attachmentVertices->_triangles, transform, transformFlags);
 	}

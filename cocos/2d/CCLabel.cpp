@@ -1635,11 +1635,13 @@ void Label::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
             auto texture = textureAtlas->getTexture();
             _quadCommand.init(_globalZOrder, texture, getGLProgramState(),
                 _blendFunc, textureAtlas->getQuads(), textureAtlas->getTotalQuads(), transform, flags);
+            _quadCommand.setBatchDepth(this->getDepthInLocalBatchNode());
             renderer->addCommand(&_quadCommand);
         }
         else
         {
             _customCommand.init(_globalZOrder, transform, flags);
+            _customCommand.setBatchDepth(this->getDepthInLocalBatchNode());
             _customCommand.func = CC_CALLBACK_0(Label::onDraw, this, transform, transformUpdated);
 
             renderer->addCommand(&_customCommand);
@@ -1719,8 +1721,10 @@ void Label::drawSelf(Renderer* renderer, uint32_t flags)
     {
         if (_shadowNode)
         {
+            _shadowNode->setLocalDepth(this->getDepthInLocalBatchNode());
             _shadowNode->visit(renderer, _modelViewTransform, flags);
         }
+        _textSprite->setLocalDepth(this->getDepthInLocalBatchNode());
         _textSprite->visit(renderer, _modelViewTransform, flags);
     }
     else if (!_utf8Text.empty())

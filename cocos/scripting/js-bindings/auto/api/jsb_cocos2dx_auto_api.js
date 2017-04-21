@@ -920,6 +920,16 @@ getColor : function (
 },
 
 /**
+ * @method getDepthInLocalBatchNode
+ * @return {float}
+ */
+getDepthInLocalBatchNode : function (
+)
+{
+    return 0;
+},
+
+/**
  * @method setonEnterTransitionDidFinishCallback
  * @param {function} arg0
  */
@@ -1134,6 +1144,16 @@ isCascadeOpacityEnabled : function (
 },
 
 /**
+ * @method getDepthInGlobalBatchNode
+ * @return {float}
+ */
+getDepthInGlobalBatchNode : function (
+)
+{
+    return 0;
+},
+
+/**
  * @method setParent
  * @param {cc.Node} arg0
  */
@@ -1195,6 +1215,16 @@ node,
 int 
 )
 {
+},
+
+/**
+ * @method isBatchNode
+ * @return {bool}
+ */
+isBatchNode : function (
+)
+{
+    return false;
 },
 
 /**
@@ -1448,6 +1478,16 @@ getSkewY : function (
 },
 
 /**
+ * @method setIsBatchNode
+ * @param {bool} arg0
+ */
+setIsBatchNode : function (
+bool 
+)
+{
+},
+
+/**
  * @method isScheduled
  * @param {String} arg0
  * @return {bool}
@@ -1470,15 +1510,13 @@ getDisplayedColor : function (
 },
 
 /**
- * @method getActionByTag
- * @param {int} arg0
- * @return {cc.Action}
+ * @method setLocalDepth
+ * @param {float} arg0
  */
-getActionByTag : function (
-int 
+setLocalDepth : function (
+float 
 )
 {
-    return cc.Action;
 },
 
 /**
@@ -1669,6 +1707,18 @@ getParentToNodeAffineTransform : function (
 },
 
 /**
+ * @method getActionByTag
+ * @param {int} arg0
+ * @return {cc.Action}
+ */
+getActionByTag : function (
+int 
+)
+{
+    return cc.Action;
+},
+
+/**
  * @method getPositionZ
  * @return {float}
  */
@@ -1710,6 +1760,16 @@ int
 )
 {
     return cc.Node;
+},
+
+/**
+ * @method getLocalDepth
+ * @return {float}
+ */
+getLocalDepth : function (
+)
+{
+    return 0;
 },
 
 /**

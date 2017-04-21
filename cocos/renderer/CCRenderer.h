@@ -122,6 +122,11 @@ protected:
     bool _isDepthEnabled;
     /**Depth buffer write state.*/
     GLboolean _isDepthWrite;
+    
+protected:
+    void batchCommands(std::vector<RenderCommand*> &_commands);
+    
+    void batchCommandsInRange(std::vector<RenderCommand*>::iterator  begin,std::vector<RenderCommand*>::iterator end,int count);
 };
 
 //the struct is not used outside.

@@ -23,36 +23,24 @@
  ****************************************************************************/
 
 
-#include "renderer/CCRenderCommand.h"
-#include "2d/CCNode.h"
+#include "renderer/CCBatchBeginCommand.h"
+#include "renderer/CCRenderer.h"
+#include "base/CCDirector.h"
 
 NS_CC_BEGIN
 
-RenderCommand::RenderCommand()
-: _type(RenderCommand::Type::UNKNOWN_COMMAND)
-, _globalOrder(0)
-, _isTransparent(true)
-, _skipBatching(false)
-, _depth(0)
-,textoreOrder(0)
+BatchBeginCommand::BatchBeginCommand()
 {
+    _type = RenderCommand::Type::BATCH_BGEIN_COMMAND;
 }
 
-RenderCommand::~RenderCommand()
+void BatchBeginCommand::init(float batchDepth)
 {
-}
-
-void RenderCommand::init(float globalZOrder, const cocos2d::Mat4 &transform, uint32_t flags,float batchDepth)
-{
-    _globalOrder = globalZOrder;
-    set3D(false);
-    _depth = 0;
     _batchDepth = batchDepth;
 }
 
-void RenderCommand::printID()
+BatchBeginCommand::~BatchBeginCommand()
 {
-    printf("Command Depth: %f\n", _globalOrder);
 }
 
 NS_CC_END

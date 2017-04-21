@@ -63,7 +63,9 @@ public:
         /**Primitive command, used to draw primitives such as lines, points and triangles.*/
         PRIMITIVE_COMMAND,
         /**Triangles command, used to draw triangles.*/
-        TRIANGLES_COMMAND
+        TRIANGLES_COMMAND,
+        
+        BATCH_BGEIN_COMMAND
     };
 
     /**
@@ -72,7 +74,7 @@ public:
      @param modelViewTransform Modelview matrix when submitting the render command.
      @param flags Flag used to indicate whether the command should be draw at 3D mode or not.
      */
-    void init(float globalZOrder, const Mat4& modelViewTransform, uint32_t flags);
+    void init(float globalZOrder, const Mat4& modelViewTransform, uint32_t flags, float batchDepth = 0);
     
     /** Get global Z order. */
     inline float getGlobalOrder() const { return _globalOrder; }
@@ -97,6 +99,14 @@ public:
     inline void set3D(bool value) { _is3D = value; }
     /**Get the depth by current model view matrix.*/
     inline float getDepth() const { return _depth; }
+    
+    inline float getBatchDepth() const { return _batchDepth; }
+    
+    inline void setBatchDepth(float batchDepth)  { _batchDepth = batchDepth; }
+    
+public:
+    
+    int textoreOrder;
 
 protected:
     /**Constructor.*/
@@ -126,6 +136,8 @@ protected:
 
     /** Depth from the model view matrix.*/
     float _depth;
+    
+    float _batchDepth;
 };
 
 NS_CC_END
