@@ -113,11 +113,10 @@ void RenderQueue::batchCommands(std::vector<RenderCommand*> &cmds){
         cmd->sceneOrder = 0;
         bool isBatchBegin = cmd->getType() == RenderCommand::Type::BATCH_BGEIN_COMMAND;
         if (isBatchBegin){
-            if (++batchBeginCount == 1){
+            if (++batchBeginCount %2 == 1){
                 lastBeginIt = it;
             }else{
                 batchCommandsInRange(lastBeginIt, it,(int)size);
-                lastBeginIt = it;
             }
         }else{
             continue;
@@ -151,7 +150,9 @@ void RenderQueue::batchCommandsInRange(std::vector<RenderCommand*>::iterator  be
         }
         nowMatId = cmd->getMaterialID();
         cmd->sceneOrder = (++textureOrder)*count + index;
+        int index2 = index;
         for (auto fit = it+1;fit != end;fit++){
+            index2 ++;
             if ((*fit)->getType() != RenderCommand::Type::TRIANGLES_COMMAND){
                 continue;
             }
@@ -160,7 +161,7 @@ void RenderQueue::batchCommandsInRange(std::vector<RenderCommand*>::iterator  be
                 continue;
             }
             if (cmd2->getMaterialID() == nowMatId){
-                cmd2->sceneOrder = (++textureOrder)*count + index;
+                cmd2->sceneOrder = (textureOrder)*count + index2;
             }
         }
     }
