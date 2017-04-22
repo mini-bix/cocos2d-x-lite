@@ -1266,7 +1266,7 @@ void Node::visit(Renderer* renderer, const Mat4 &parentTransform, uint32_t paren
     }
     
     if (this->isBatchNode()){
-        this->_endRenderCommand.init(this->getDepthInLocalBatchNode());
+        this->_endRenderCommand.init();
         renderer->addCommand(&this->_endRenderCommand);
     }
 

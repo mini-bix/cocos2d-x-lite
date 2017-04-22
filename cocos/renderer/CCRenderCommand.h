@@ -65,7 +65,9 @@ public:
         /**Triangles command, used to draw triangles.*/
         TRIANGLES_COMMAND,
         
-        BATCH_BGEIN_COMMAND
+        BATCH_BGEIN_COMMAND,
+        
+        BATCH_END_COMMAND
     };
 
     /**

@@ -39,7 +39,7 @@
 #include "2d/CCComponentContainer.h"
 #include "2d/CCComponent.h"
 #include "renderer/CCBatchBeginCommand.h"
-
+#include "renderer/CCBatchEndCommand.h"
 NS_CC_BEGIN
 
 class GridBase;
@@ -1903,7 +1903,7 @@ protected:
     
 private:
     BatchBeginCommand _renderCommand;
-    BatchBeginCommand _endRenderCommand;
+    BatchEndCommand _endRenderCommand;
 
 private:
     CC_DISALLOW_COPY_AND_ASSIGN(Node);

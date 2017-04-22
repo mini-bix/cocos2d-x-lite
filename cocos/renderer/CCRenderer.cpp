@@ -107,20 +107,24 @@ void RenderQueue::sort()
 void RenderQueue::batchCommands(std::vector<RenderCommand*> &cmds){
     auto size = cmds.size();
     std::vector<RenderCommand*>::iterator lastBeginIt;;
-    int batchBeginCount = 0;
+    int batchCount = 0;
     for(auto it = cmds.begin();it != cmds.end();it++){
         auto cmd = *it;
         cmd->sceneOrder = 0;
-        bool isBatchBegin = cmd->getType() == RenderCommand::Type::BATCH_BGEIN_COMMAND;
-        if (isBatchBegin){
-            if (++batchBeginCount %2 == 1){
-                lastBeginIt = it;
-            }else{
-                batchCommandsInRange(lastBeginIt, it,(int)size);
+        if (cmd->getType() == RenderCommand::Type::BATCH_BGEIN_COMMAND){
+            if (batchCount++ > 0){
+                this->batchCommandsInRange(lastBeginIt, it, (int)size);
             }
+            lastBeginIt = it;
+        }else if(cmd->getType() == RenderCommand::Type::BATCH_END_COMMAND){
+            if (batchCount-- > 0){
+                this->batchCommandsInRange(lastBeginIt, it, (int)size);
+            }
+            lastBeginIt = it;
         }else{
             continue;
         }
+        
     }
     
 //    CCLOG("BatchBegin");
@@ -515,7 +519,11 @@ void Renderer::processRenderCommand(RenderCommand* command)
         auto cmd = static_cast<PrimitiveCommand*>(command);
         CCGL_DEBUG_INSERT_EVENT_MARKER("RENDERER_PRIMITIVE_COMMAND");
         cmd->execute();
-    }else if(RenderCommand::Type::BATCH_BGEIN_COMMAND == commandType)
+    }
+    else if(RenderCommand::Type::BATCH_BGEIN_COMMAND == commandType)
+    {
+    }
+    else if(RenderCommand::Type::BATCH_END_COMMAND == commandType)
     {
     }
     else
