@@ -1,5 +1,5 @@
 /****************************************************************************
- Copyright (c) 2014-2017 Chukong Technologies Inc.
+ Copyright (c) 2014-2016 Chukong Technologies Inc.
 
  http://www.cocos2d-x.org
 
@@ -36,12 +36,6 @@
 #include "audio/apple/AudioEngine-inl.h"
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 #include "audio/win32/AudioEngine-win32.h"
-#elif CC_TARGET_PLATFORM == CC_PLATFORM_WINRT
-#include "audio/winrt/AudioEngine-winrt.h"
-#elif CC_TARGET_PLATFORM == CC_PLATFORM_LINUX
-#include "audio/linux/AudioEngine-linux.h"
-#elif CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN
-#include "audio/tizen/AudioEngine-tizen.h"
 #endif
 
 #define TIME_DELAY_PRECISION 0.0001
@@ -67,30 +61,20 @@ AudioEngineImpl* AudioEngine::_audioEngineImpl = nullptr;
 
 AudioEngine::AudioEngineThreadPool* AudioEngine::s_threadPool = nullptr;
 
-AudioEngine::AudioInfo::AudioInfo()
-: filePath(nullptr)
-, profileHelper(nullptr)
-, volume(1.0f)
-, loop(false)
-, duration(TIME_UNKNOWN)
-, state(AudioState::INITIALIZING)
-{
-
-}
-
-AudioEngine::AudioInfo::~AudioInfo()
-{
-}
-
 class AudioEngine::AudioEngineThreadPool
 {
 public:
-    AudioEngineThreadPool(int threads = 4)
-        : _stop(false)
+    AudioEngineThreadPool(bool detach, int threads = 4)
+        : _detach(detach)
+        , _stop(false)
     {
         for (int index = 0; index < threads; ++index)
         {
             _workers.emplace_back(std::thread(std::bind(&AudioEngineThreadPool::threadFunc, this)));
+            if (_detach)
+            {
+                _workers[index].detach();
+            }
         }
     }
 
@@ -108,8 +92,11 @@ public:
             _taskCondition.notify_all();
         }
 
-        for (auto&& worker : _workers) {
-            worker.join();
+        if (!_detach)
+        {
+            for (auto&& worker : _workers) {
+                worker.join();
+            }
         }
     }
 
@@ -145,6 +132,7 @@ private:
 
     std::mutex _queueMutex;
     std::condition_variable _taskCondition;
+    bool _detach;
     bool _stop;
 };
 
@@ -155,6 +143,8 @@ void AudioEngine::end()
         delete s_threadPool;
         s_threadPool = nullptr;
     }
+
+    stopAll();
 
     delete _audioEngineImpl;
     _audioEngineImpl = nullptr;
@@ -175,10 +165,15 @@ bool AudioEngine::lazyInit()
         }
     }
 
-#if (CC_TARGET_PLATFORM != CC_PLATFORM_ANDROID)
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
     if (_audioEngineImpl && s_threadPool == nullptr)
     {
-        s_threadPool = new (std::nothrow) AudioEngineThreadPool();
+        s_threadPool = new (std::nothrow) AudioEngineThreadPool(true);
+    }
+#elif CC_TARGET_PLATFORM != CC_PLATFORM_ANDROID
+    if (_audioEngineImpl && s_threadPool == nullptr)
+    {
+        s_threadPool = new (std::nothrow) AudioEngineThreadPool(false);
     }
 #endif
 
@@ -204,7 +199,7 @@ int AudioEngine::play2d(const std::string& filePath, bool loop, float volume, co
             profileHelper = &_audioPathProfileHelperMap[profile->name];
             profileHelper->profile = *profile;
         }
-        
+
         if (_audioIDInfoMap.size() >= _maxInstances) {
             log("Fail to play %s cause by limited max instance of AudioEngine",filePath.c_str());
             break;
@@ -223,20 +218,20 @@ int AudioEngine::play2d(const std::string& filePath, bool loop, float volume, co
                  }
              }
         }
-        
+
         if (volume < 0.0f) {
             volume = 0.0f;
         }
         else if (volume > 1.0f){
             volume = 1.0f;
         }
-        
+
         ret = _audioEngineImpl->play2d(filePath, loop, volume);
         if (ret != INVALID_AUDIO_ID)
         {
             _audioPathIDMap[filePath].push_back(ret);
             auto it = _audioPathIDMap.find(filePath);
-            
+
             auto& audioRef = _audioIDInfoMap[ret];
             audioRef.volume = volume;
             audioRef.loop = loop;
@@ -376,7 +371,7 @@ void AudioEngine::uncache(const std::string &filePath)
         for (int audioID : copiedIDs)
         {
             _audioEngineImpl->stop(audioID);
-            
+
             auto itInfo = _audioIDInfoMap.find(audioID);
             if (itInfo != _audioIDInfoMap.end())
             {
@@ -390,15 +385,15 @@ void AudioEngine::uncache(const std::string &filePath)
         _audioPathIDMap.erase(filePath);
     }
 
-    if (_audioEngineImpl)
-    {
+    if (_audioEngineImpl){
         _audioEngineImpl->uncache(filePath);
     }
 }
 
 void AudioEngine::uncacheAll()
 {
-    if(!_audioEngineImpl){
+    if (!_audioEngineImpl)
+    {
         return;
     }
     stopAll();
@@ -408,7 +403,7 @@ void AudioEngine::uncacheAll()
 float AudioEngine::getDuration(int audioID)
 {
     auto it = _audioIDInfoMap.find(audioID);
-    if (it != _audioIDInfoMap.end() && it->second.state != AudioState::INITIALIZING)
+    if (it != _audioIDInfoMap.end() && it->second.state != AudioState::INITIALZING)
     {
         if (it->second.duration == TIME_UNKNOWN)
         {
@@ -416,14 +411,14 @@ float AudioEngine::getDuration(int audioID)
         }
         return it->second.duration;
     }
-    
+
     return TIME_UNKNOWN;
 }
 
 bool AudioEngine::setCurrentTime(int audioID, float time)
 {
     auto it = _audioIDInfoMap.find(audioID);
-    if (it != _audioIDInfoMap.end() && it->second.state != AudioState::INITIALIZING) {
+    if (it != _audioIDInfoMap.end() && it->second.state != AudioState::INITIALZING){
         return _audioEngineImpl->setCurrentTime(audioID, time);
     }
 
@@ -433,7 +428,7 @@ bool AudioEngine::setCurrentTime(int audioID, float time)
 float AudioEngine::getCurrentTime(int audioID)
 {
     auto it = _audioIDInfoMap.find(audioID);
-    if (it != _audioIDInfoMap.end() && it->second.state != AudioState::INITIALIZING) {
+    if (it != _audioIDInfoMap.end() && it->second.state != AudioState::INITIALZING){
         return _audioEngineImpl->getCurrentTime(audioID);
     }
     return 0.0f;
@@ -464,7 +459,7 @@ bool AudioEngine::isLoop(int audioID)
     {
         return tmpIterator->second.loop;
     }
-    
+
     log("AudioEngine::isLoop-->The audio instance %d is non-existent", audioID);
     return false;
 }
@@ -488,7 +483,7 @@ AudioEngine::AudioState AudioEngine::getState(int audioID)
     {
         return tmpIterator->second.state;
     }
-    
+
     return AudioState::ERROR;
 }
 
@@ -499,7 +494,7 @@ AudioProfile* AudioEngine::getProfile(int audioID)
     {
         return &it->second.profileHelper->profile;
     }
-    
+
     return nullptr;
 }
 
@@ -509,7 +504,7 @@ AudioProfile* AudioEngine::getDefaultProfile()
     {
         _defaultProfileHelper = new (std::nothrow) ProfileHelper();
     }
-    
+
     return &_defaultProfileHelper->profile;
 }
 
