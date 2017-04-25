@@ -35,6 +35,7 @@ RenderCommand::RenderCommand()
 , _skipBatching(false)
 , _depth(0)
 ,sceneOrder(0)
+,_skipReOrder(false)
 {
 }
 

@@ -95,6 +95,7 @@ namespace spine {
         
         _command->trianglesCommand->init(globalZOrder, textureID, glProgramState, blendFunc, *_command->triangles, transform, transformFlags);
         _command->trianglesCommand->setBatchDepth(getBatchDepth());
+        _command->trianglesCommand->setSkipReOrder(true);
         renderer->addCommand(_command->trianglesCommand);
         
         if (!_command->next) _command->next = new Command();

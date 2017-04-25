@@ -106,6 +106,10 @@ public:
     
     inline void setBatchDepth(float batchDepth)  { _batchDepth = batchDepth; }
     
+    inline bool isSkipReOrder() const { return _skipReOrder; }
+    /**Set skip batching.*/
+    inline void setSkipReOrder(bool value) { _skipReOrder = value; }
+    
 public:
     
     int sceneOrder;
@@ -132,6 +136,8 @@ protected:
      a command is skip batching, it would be forced to draw in a separate function call, and break the batch.
      */
     bool _skipBatching;
+    
+    bool _skipReOrder;
 
     /** Is the command been rendered on 3D pass. */
     bool _is3D;

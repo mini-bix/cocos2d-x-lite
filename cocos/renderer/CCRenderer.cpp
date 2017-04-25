@@ -144,7 +144,7 @@ void RenderQueue::batchCommandsInRange(std::vector<RenderCommand*>::iterator  be
     int index = 0;
     for (auto it = begin;it != end;it++){
         index ++;
-        if ((*it)->getType() != RenderCommand::Type::TRIANGLES_COMMAND){
+        if ((*it)->getType() != RenderCommand::Type::TRIANGLES_COMMAND || (*it)->isSkipBatching() || (*it)->isSkipReOrder()){
             (*it)->sceneOrder = (++textureOrder)*count + index;
             continue;
         }
@@ -157,7 +157,7 @@ void RenderQueue::batchCommandsInRange(std::vector<RenderCommand*>::iterator  be
         int index2 = index;
         for (auto fit = it+1;fit != end;fit++){
             index2 ++;
-            if ((*fit)->getType() != RenderCommand::Type::TRIANGLES_COMMAND){
+            if ((*fit)->getType() != RenderCommand::Type::TRIANGLES_COMMAND || (*fit)->isSkipBatching() || (*fit)->isSkipReOrder()){
                 continue;
             }
             auto cmd2 = static_cast<TrianglesCommand*>(*fit);
