@@ -339,7 +339,7 @@ Texture2D * TextureCache::addImage(const std::string &path, const Texture2D::Pix
 
             texture = new (std::nothrow) Texture2D();
 
-            if( texture && texture->initWithImage(image) )
+            if( texture && texture->initWithImage(image,format) )
             {
 #if CC_ENABLE_CACHE_TEXTURE_DATA
                 // cache the texture file name
@@ -392,7 +392,7 @@ Texture2D* TextureCache::addImage(Image *image, const std::string &key, const Te
 
         // prevents overloading the autorelease pool
         texture = new (std::nothrow) Texture2D();
-        if(texture && texture->initWithImage(image))
+        if(texture && texture->initWithImage(image,format))
         {
             _textures.insert( std::make_pair(key, texture) );
             texture->retain();
