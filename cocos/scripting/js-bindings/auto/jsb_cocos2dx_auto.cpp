@@ -53840,6 +53840,44 @@ bool js_cocos2dx_TextureCache_addImageAsync(JSContext *cx, uint32_t argc, jsval 
         args.rval().setUndefined();
         return true;
     }
+    if (argc == 3) {
+        std::string arg0;
+        std::function<void (cocos2d::Texture2D *)> arg1;
+        cocos2d::Texture2D::PixelFormat arg2;
+        ok &= jsval_to_std_string(cx, args.get(0), &arg0);
+        do {
+		    if(JS_TypeOfValue(cx, args.get(1)) == JSTYPE_FUNCTION)
+		    {
+		        JS::RootedObject jstarget(cx, args.thisv().toObjectOrNull());
+		        std::shared_ptr<JSFunctionWrapper> func(new JSFunctionWrapper(cx, jstarget, args.get(1), args.thisv()));
+		        auto lambda = [=](cocos2d::Texture2D* larg0) -> void {
+		            JSB_AUTOCOMPARTMENT_WITH_GLOBAL_OBJCET
+		            jsval largv[1];
+		            if (larg0) {
+		            largv[0] = OBJECT_TO_JSVAL(js_get_or_create_jsobject<cocos2d::Texture2D>(cx, (cocos2d::Texture2D*)larg0));
+		        } else {
+		            largv[0] = JSVAL_NULL;
+		        };
+		            JS::RootedValue rval(cx);
+		            bool succeed = func->invoke(JS::HandleValueArray::fromMarkedLocation(1, largv), &rval);
+		            if (!succeed && JS_IsExceptionPending(cx)) {
+		                JS_ReportPendingException(cx);
+		            }
+		        };
+		        arg1 = lambda;
+		    }
+		    else
+		    {
+		        arg1 = nullptr;
+		    }
+		} while(0)
+		;
+        ok &= jsval_to_int32(cx, args.get(2), (int32_t *)&arg2);
+        JSB_PRECONDITION2(ok, cx, false, "js_cocos2dx_TextureCache_addImageAsync : Error processing arguments");
+        cobj->addImageAsync(arg0, arg1, arg2);
+        args.rval().setUndefined();
+        return true;
+    }
 
     JS_ReportError(cx, "js_cocos2dx_TextureCache_addImageAsync : wrong number of arguments: %d, was expecting %d", argc, 2);
     return false;
@@ -53939,11 +53977,64 @@ bool js_cocos2dx_TextureCache_addImage(JSContext *cx, uint32_t argc, jsval *vp)
 
     do {
         bool ok = true;
+        if (argc == 3) {
+            cocos2d::Image* arg0 = nullptr;
+            do {
+                if (args.get(0).isNull()) { arg0 = nullptr; break; }
+                if (!args.get(0).isObject()) { ok = false; break; }
+                js_proxy_t *jsProxy;
+                JS::RootedObject tmpObj(cx, args.get(0).toObjectOrNull());
+                jsProxy = jsb_get_js_proxy(tmpObj);
+                arg0 = (cocos2d::Image*)(jsProxy ? jsProxy->ptr : NULL);
+                JSB_PRECONDITION2( arg0, cx, false, "Invalid Native Object");
+            } while (0);
+            if (!ok) { ok = true; break; }
+            std::string arg1;
+            ok &= jsval_to_std_string(cx, args.get(1), &arg1);
+            if (!ok) { ok = true; break; }
+            cocos2d::Texture2D::PixelFormat arg2;
+            ok &= jsval_to_int32(cx, args.get(2), (int32_t *)&arg2);
+            if (!ok) { ok = true; break; }
+            cocos2d::Texture2D* ret = cobj->addImage(arg0, arg1, arg2);
+            jsval jsret = JSVAL_NULL;
+            if (ret) {
+            jsret = OBJECT_TO_JSVAL(js_get_or_create_jsobject<cocos2d::Texture2D>(cx, (cocos2d::Texture2D*)ret));
+        } else {
+            jsret = JSVAL_NULL;
+        };
+            args.rval().set(jsret);
+            return true;
+        }
+    } while(0);
+
+    do {
+        bool ok = true;
         if (argc == 1) {
             std::string arg0;
             ok &= jsval_to_std_string(cx, args.get(0), &arg0);
             if (!ok) { ok = true; break; }
             cocos2d::Texture2D* ret = cobj->addImage(arg0);
+            jsval jsret = JSVAL_NULL;
+            if (ret) {
+            jsret = OBJECT_TO_JSVAL(js_get_or_create_jsobject<cocos2d::Texture2D>(cx, (cocos2d::Texture2D*)ret));
+        } else {
+            jsret = JSVAL_NULL;
+        };
+            args.rval().set(jsret);
+            return true;
+        }
+    } while(0);
+
+    do {
+        bool ok = true;
+        if (argc == 2) {
+            std::string arg0;
+            ok &= jsval_to_std_string(cx, args.get(0), &arg0);
+            if (!ok) { ok = true; break; }
+            cocos2d::Texture2D::PixelFormat arg1;
+            ok &= jsval_to_int32(cx, args.get(1), (int32_t *)&arg1);
+            if (!ok) { ok = true; break; }
+            cocos2d::Texture2D* ret = cobj->addImage(arg0, arg1);
             jsval jsret = JSVAL_NULL;
             if (ret) {
             jsret = OBJECT_TO_JSVAL(js_get_or_create_jsobject<cocos2d::Texture2D>(cx, (cocos2d::Texture2D*)ret));

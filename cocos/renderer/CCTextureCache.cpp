@@ -119,7 +119,7 @@ public:
  Does process all response in addImageAsyncCallback consume more time?
  - Convert image to texture faster than load image from disk, so this isn't a problem.
  */
-void TextureCache::addImageAsync(const std::string &path, const std::function<void(Texture2D*)>& callback)
+void TextureCache::addImageAsync(const std::string &path, const std::function<void(Texture2D*)>& callback, const Texture2D::PixelFormat &format)
 {
     Texture2D *texture = nullptr;
 
@@ -158,7 +158,7 @@ void TextureCache::addImageAsync(const std::string &path, const std::function<vo
 
     // generate async struct
     AsyncStruct *data = new (std::nothrow) AsyncStruct(fullpath, callback);
-
+    data->pixelFormat = format;
     // add async struct into queue
     _asyncStructQueue.push_back(data);
     _requestMutex.lock();
@@ -309,7 +309,7 @@ void TextureCache::addImageAsyncCallBack(float dt)
     }
 }
 
-Texture2D * TextureCache::addImage(const std::string &path)
+Texture2D * TextureCache::addImage(const std::string &path, const Texture2D::PixelFormat &format)
 {
     Texture2D * texture = nullptr;
     Image* image = nullptr;
@@ -376,7 +376,7 @@ void TextureCache::parseNinePatchImage(cocos2d::Image *image, cocos2d::Texture2D
 
 }
 
-Texture2D* TextureCache::addImage(Image *image, const std::string &key)
+Texture2D* TextureCache::addImage(Image *image, const std::string &key, const Texture2D::PixelFormat &format)
 {
     CCASSERT(image != nullptr, "TextureCache: image MUST not be nil");
 

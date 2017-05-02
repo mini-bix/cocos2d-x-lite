@@ -102,7 +102,7 @@ public:
     * Supported image extensions: .png, .bmp, .tiff, .jpeg, .pvr.
      @param filepath A null terminated string.
     */
-    Texture2D* addImage(const std::string &filepath);
+    Texture2D* addImage(const std::string &filepath, const Texture2D::PixelFormat &format = Texture2D::PixelFormat::RGBA8888);
 
     /** Returns a Texture2D object given a file image.
     * If the file image was not previously loaded, it will create a new Texture2D object and it will return it.
@@ -113,7 +113,7 @@ public:
      @param callback A callback function would be invoked after the image is loaded.
      @since v0.8
     */
-    virtual void addImageAsync(const std::string &filepath, const std::function<void(Texture2D*)>& callback);
+    virtual void addImageAsync(const std::string &filepath, const std::function<void(Texture2D*)>& callback, const Texture2D::PixelFormat &format = Texture2D::PixelFormat::RGBA8888);
 
     /** Unbind a specified bound image asynchronous callback.
      * In the case an object who was bound to an image asynchronous callback was destroyed before the callback is invoked,
@@ -134,7 +134,7 @@ public:
     * @param key The "key" parameter will be used as the "key" for the cache.
     * If "key" is nil, then a new texture will be created each time.
     */
-    Texture2D* addImage(Image *image, const std::string &key);
+    Texture2D* addImage(Image *image, const std::string &key, const Texture2D::PixelFormat &format = Texture2D::PixelFormat::RGBA8888);
 
     /** Returns an already created texture. Returns nil if the texture doesn't exist.
     @param key It's the related/absolute path of the file image.

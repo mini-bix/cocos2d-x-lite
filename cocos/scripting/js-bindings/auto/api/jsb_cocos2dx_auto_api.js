@@ -19450,10 +19450,12 @@ removeAllTextures : function (
  * @method addImageAsync
  * @param {String} arg0
  * @param {function} arg1
+ * @param {cc.Texture2D::PixelFormat} arg2
  */
 addImageAsync : function (
 str, 
-func 
+func, 
+pixelformat 
 )
 {
 },
@@ -19491,12 +19493,14 @@ getCachedTextureInfo : function (
 /**
  * @method addImage
 * @param {cc.Image|String} image
-* @param {String} str
+* @param {String|cc.Texture2D::PixelFormat} str
+* @param {cc.Texture2D::PixelFormat} pixelformat
 * @return {cc.Texture2D|cc.Texture2D}
 */
 addImage : function(
 image,
-str 
+str,
+pixelformat 
 )
 {
     return cc.Texture2D;
