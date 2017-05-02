@@ -76,6 +76,8 @@ jsb.EventAssetsManager.ERROR_UPDATING = 7;
 jsb.EventAssetsManager.UPDATE_FINISHED = 8;
 jsb.EventAssetsManager.UPDATE_FAILED = 9;
 jsb.EventAssetsManager.ERROR_DECOMPRESS = 10;
+jsb.EventAssetsManager.NEW_ENGINE_FOUND = 11;
+jsb.EventAssetsManager.NEW_VERSION_DETAIL = 12;
 
 /**
  * @constant
