@@ -450,6 +450,7 @@ void AudioEngineImpl::stop(int audioID)
     //Note: Don't set the flag to false here, it should be set in 'update' function.
     // Otherwise, the state got from alSourceState may be wrong
 //    _alSourceUsed[player->_alSource] = false;
+    update(0.0f);
 }
 
 void AudioEngineImpl::stopAll()
@@ -458,6 +459,7 @@ void AudioEngineImpl::stopAll()
     {
         player.second->destroy();
     }
+    update(0.0f);
     //Note: Don't set the flag to false here, it should be set in 'update' function.
     // Otherwise, the state got from alSourceState may be wrong
 //    for(int index = 0; index < MAX_AUDIOINSTANCES; ++index)
