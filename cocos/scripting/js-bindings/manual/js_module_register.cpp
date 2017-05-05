@@ -22,6 +22,7 @@
 #include "scripting/js-bindings/manual/network/XMLHTTPRequest.h"
 #include "scripting/js-bindings/manual/network/jsb_websocket.h"
 #include "scripting/js-bindings/manual/network/jsb_socketio.h"
+#include "scripting/js-bindings/manual/baiyou_specifics.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "scripting/js-bindings/auto/jsb_cocos2dx_experimental_video_auto.hpp"
@@ -113,6 +114,7 @@ int js_module_register()
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
     sc->addRegisterCallback(JavaScriptObjCBridge::_js_register);
 #endif
+    sc->addRegisterCallback(register_all_baiyou_manual);
     return 1;
 }
 

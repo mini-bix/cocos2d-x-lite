@@ -10,11 +10,10 @@
 #define baiyou_specifics_h
 
 #include <stdio.h>
+#include "jsapi.h"
+#include "jsfriendapi.h"
 
+void register_all_baiyou_manual(JSContext* cx, JS::HandleObject obj);
 
-namespace JSBinding
-{
-    
-}
 
 #endif /* baiyou_specifics_hpp */

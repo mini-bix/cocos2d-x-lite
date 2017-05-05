@@ -12,21 +12,20 @@
 
 namespace baiyou {
     
-    SDK_GameCenter::~SDK_GameCenter(){
-        
-    }
-    
     bool SDK_GameCenter::init(){
         return true;
     }
     
-    void SDK_GameCenter::Login(LoginCallback callback){
+    void SDK_GameCenter::Login(std::function<void (const LoginResult&)> callback){
+        
+#if TARGET_OS_IOS
         GKLocalPlayer *localPlayer = [GKLocalPlayer localPlayer];
         if ([localPlayer isAuthenticated]){
             LoginResult result;
             result.errorCode = 0;
-            result.uid = [localPlayer playerID];
-            result.name = [localPlayer displayName];
+            result.uid = std::string([[localPlayer playerID] UTF8String]);
+            result.name = std::string([[localPlayer displayName] UTF8String]);
+            result.alias = std::string([[localPlayer alias] UTF8String]);
             result.channel = "GameCenter";
             callback(result);
         }else{
@@ -36,13 +35,15 @@ namespace baiyou {
                     result.errorCode = 1;
                 }else{
                     result.errorCode = 0;
-                    result.uid = [localPlayer playerID];
-                    result.name = [localPlayer displayName];
+                    result.uid = std::string([[localPlayer playerID] UTF8String]);
+                    result.name = std::string([[localPlayer displayName] UTF8String]);
+                    result.alias = std::string([[localPlayer alias] UTF8String]);
                     result.channel = "GameCenter";
                 }
                 callback(result);
             };
         }
+#endif
     }
     
     void SDK_GameCenter::Logout(){

@@ -8,6 +8,8 @@
 
 #ifndef SDK_Common_h
 #define SDK_Common_h
+#include <string>
+#include <functional>
 
 namespace baiyou {
     
@@ -16,18 +18,17 @@ namespace baiyou {
         std::string uid;
         std::string channel;
         std::string name;
+        std::string alias;
     } LoginResult;
     
-    typedef void LoginCallback(const LoginResult &);
     
     class SDK_Common {
         
     public:
-        virtual ~SDK_Common() = 0;
         
         virtual bool init() = 0;
         
-        virtual void Login(LoginCallback callback) = 0;
+        virtual void Login(std::function<void (const LoginResult&)>) = 0;
         
         virtual void Logout() = 0;
         

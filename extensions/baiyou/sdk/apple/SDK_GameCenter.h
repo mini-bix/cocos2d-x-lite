@@ -16,11 +16,9 @@ namespace baiyou {
         
     public:
         
-        ~SDK_GameCenter();
-        
         bool init();
         
-        void Login(LoginCallback callback);
+        void Login(std::function<void (const LoginResult&)>);
         
         void Logout();
         
