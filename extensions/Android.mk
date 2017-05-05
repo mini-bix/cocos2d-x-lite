@@ -32,8 +32,7 @@ physics-nodes/CCPhysicsDebugNode.cpp \
 physics-nodes/CCPhysicsSprite.cpp \
 baiyou/BaiyouPlugin.cpp \
 baiyou/android/BaiyouPlugin_Android.cpp \
-md5/MD5.cpp \
-baiyou/SDKCenter.cpp
+md5/MD5.cpp
 
 LOCAL_STATIC_LIBRARIES := cocos2dx_internal_static
 LOCAL_STATIC_LIBRARIES += cocos_chipmunk_static

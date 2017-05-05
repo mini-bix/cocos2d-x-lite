@@ -150,7 +150,8 @@ def main():
         tojs_root = '%s/tools/tojs' % project_root
         output_dir = '%s/cocos/scripting/js-bindings/auto' % project_root
 
-        cmd_args = {'cocos2dx.ini' : ('cocos2d-x', 'jsb_cocos2dx_auto'), \
+        cmd_args = {
+                    'cocos2dx.ini' : ('cocos2d-x', 'jsb_cocos2dx_auto'), \
                     'cocos2dx_audioengine.ini' : ('cocos2dx_audioengine', 'jsb_cocos2dx_audioengine_auto'), \
                     'cocos2dx_network.ini' : ('cocos2dx_network', 'jsb_cocos2dx_network_auto'), \
                     'cocos2dx_extension.ini' : ('cocos2dx_extension', 'jsb_cocos2dx_extension_auto'), \
@@ -162,7 +163,8 @@ def main():
                     'cocos2dx_experimental_webView.ini' : ('cocos2dx_experimental_webView', 'jsb_cocos2dx_experimental_webView_auto'), \
                     'cocos2dx_experimental_video.ini' : ('cocos2dx_experimental_video', 'jsb_cocos2dx_experimental_video_auto'), \
                     'creator.ini': ('creator', 'jsb_creator_auto'), \
-                    'baiyou_plugin.ini': ('baiyou_plugin', 'jsb_baiyou_plugin_auto'),
+                    'baiyou_plugin.ini': ('baiyou_plugin', 'jsb_baiyou_plugin_auto'), \
+                    'baiyou_sdk.ini': ('baiyou_sdk', 'jsb_baiyou_sdk_auto'),
                     }
         target = 'spidermonkey'
         generator_py = '%s/generator.py' % cxx_generator_root

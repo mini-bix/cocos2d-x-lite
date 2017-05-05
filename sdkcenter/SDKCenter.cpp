@@ -11,6 +11,11 @@
 
 #if TARGET_OS_IOS
 #include "SDK_GameCenter.h"
+
+#ifdef SDKAIYOUYUNIOS
+#include "SDK_AIYOUYUN.h"
+#endif
+
 #endif
 
 namespace baiyou {
@@ -43,6 +48,12 @@ namespace baiyou {
                     sdk->init();
                 #endif
                     break;
+                case SDKPluginCode::AIYOUYUN_IOS:
+                #ifdef SDKAIYOUYUNIOS
+                    sdk = new SDK_AIYOUYUN();
+                    sdk->init();
+                #endif
+                break;
                 default:
                     break;
             }
@@ -73,6 +84,7 @@ namespace baiyou {
                     userInfo->setUserId(result.uid);
                     userInfo->setUserName(result.name);
                     userInfo->setAlias(result.alias);
+                    userInfo->setIsGuest(result.isGuest);
                     this->userInfos[pluginId] = userInfo;
                     this->userResultListener->onUserResult(pluginId, 0, "LoginSucc");
                 }
@@ -99,6 +111,22 @@ namespace baiyou {
         }else{
             return pIt->second;
         }
+    }
+    
+    bool SDKCenter::handleURL(const char *url){
+        bool handled = false;
+        for (auto pIt = this->plugins.begin();pIt != this->plugins.end();pIt++){
+            handled = handled || pIt->second->handleURL(url);
+        }
+        return handled;
+    }
+    
+    bool SDKCenter::openURL(const char *url){
+        bool handled = false;
+        for (auto pIt = this->plugins.begin();pIt != this->plugins.end();pIt++){
+            handled = handled || pIt->second->openURL(url);
+        }
+        return handled;
     }
     
 }

@@ -19,6 +19,7 @@ namespace baiyou {
         std::string channel;
         std::string name;
         std::string alias;
+        bool isGuest;
     } LoginResult;
     
     
@@ -33,6 +34,10 @@ namespace baiyou {
         virtual void Logout() = 0;
         
         virtual void Pay() = 0;
+        
+        virtual bool handleURL(const char *) = 0;
+        
+        virtual bool openURL(const char *) = 0;
         
     };
     

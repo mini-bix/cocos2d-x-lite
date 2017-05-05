@@ -6,12 +6,12 @@
 //
 //
 
-#include "baiyou_specifics.h"
+#include "baiyou_sdk_manual.h"
 #include "scripting/js-bindings/manual/cocos2d_specifics.hpp"
 #include "scripting/js-bindings/manual/js_manual_conversions.h"
 #include "mozilla/Maybe.h"
-#include "extensions/baiyou/SDKCenter.h"
-#include "scripting/js-bindings/auto/jsb_baiyou_plugin_auto.hpp"
+#include "SDKCenter.h"
+#include "jsb_baiyou_sdk_auto.hpp"
 
 using namespace baiyou;
 
@@ -86,7 +86,7 @@ bool jsb_baiyou_SDKCenter_setUserResultListener(JSContext *cx, uint32_t argc, js
     return true;
 }
 
-void register_all_baiyou_manual(JSContext* cx, JS::HandleObject obj) {
+void register_all_baiyou_sdk_manual(JSContext* cx, JS::HandleObject obj) {
     JS::RootedObject ns(cx);
     JS::RootedObject proto(cx);
     get_or_create_js_obj(cx, obj, "baiyou", &ns);

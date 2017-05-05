@@ -6,14 +6,14 @@
 //
 //
 
-#ifndef baiyou_specifics_h
-#define baiyou_specifics_h
+#ifndef baiyou_sdk_manual_h
+#define baiyou_sdk_manual_h
 
 #include <stdio.h>
 #include "jsapi.h"
 #include "jsfriendapi.h"
 
-void register_all_baiyou_manual(JSContext* cx, JS::HandleObject obj);
+void register_all_baiyou_sdk_manual(JSContext* cx, JS::HandleObject obj);
 
 
 #endif /* baiyou_specifics_hpp */

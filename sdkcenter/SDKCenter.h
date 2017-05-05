@@ -19,6 +19,7 @@ namespace baiyou {
     
     typedef enum {
         GameCenter = 0,
+        AIYOUYUN_IOS,
     } SDKPluginCode;
     
     typedef enum {
@@ -55,10 +56,18 @@ namespace baiyou {
         inline void setAlias(const std::string &value){
             _alias = value;
         }
+        
+        inline bool getIsGuest(){
+            return _isGudest;
+        }
+        inline void setIsGuest(bool value){
+            _isGudest = value;
+        }
     private:
         std::string _userId;
         std::string _userName;
         std::string _alias;
+        bool _isGudest;
     };
     
     class SDKCenter {
@@ -80,6 +89,10 @@ namespace baiyou {
         void Logout(const int &);
         
         void Pay(const int &);
+        
+        bool handleURL(const char *);
+        
+        bool openURL(const char *);
         
         SDKUserInfo* getUserInfo(const int &);
         

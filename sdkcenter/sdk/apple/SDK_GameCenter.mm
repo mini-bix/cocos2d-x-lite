@@ -27,6 +27,7 @@ namespace baiyou {
             result.name = std::string([[localPlayer displayName] UTF8String]);
             result.alias = std::string([[localPlayer alias] UTF8String]);
             result.channel = "GameCenter";
+            result.isGuest = false;
             callback(result);
         }else{
             localPlayer.authenticateHandler = ^(UIViewController *viewController, NSError *error) {
@@ -39,6 +40,7 @@ namespace baiyou {
                     result.name = std::string([[localPlayer displayName] UTF8String]);
                     result.alias = std::string([[localPlayer alias] UTF8String]);
                     result.channel = "GameCenter";
+                    result.isGuest = false;
                 }
                 callback(result);
             };
@@ -52,6 +54,14 @@ namespace baiyou {
     
     void SDK_GameCenter::Pay(){
         
+    }
+    
+    bool SDK_GameCenter::handleURL(const char *){
+        return false;
+    }
+    
+    bool SDK_GameCenter::openURL(const char *){
+        return false;
     }
 }
 

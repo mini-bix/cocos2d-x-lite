@@ -24,6 +24,10 @@ namespace baiyou {
         
         void Pay();
         
+        bool handleURL(const char *);
+        
+        bool openURL(const char *);
+        
     };
     
 }
