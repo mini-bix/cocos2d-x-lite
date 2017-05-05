@@ -50,7 +50,8 @@ LOCAL_SRC_FILES := ../auto/jsb_cocos2dx_extension_auto.cpp \
                    ../manual/spine/jsb_cocos2dx_spine_manual.cpp \
                    ../manual/dragonbones/jsb_cocos2dx_dragonbones_manual.cpp \
                    ../manual/ui/jsb_cocos2dx_ui_manual.cpp \
-                   ../manual/platform/android/CCJavascriptJavaBridge.cpp
+                   ../manual/platform/android/CCJavascriptJavaBridge.cpp \
+                   ../manual/baiyou_specifics.cpp
 
 LOCAL_CFLAGS := -DCOCOS2D_JAVASCRIPT
 

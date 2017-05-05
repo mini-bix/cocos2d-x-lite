@@ -8,7 +8,10 @@
 
 #include "SDKCenter.h"
 #include "cocos2d.h"
+
+#if TARGET_OS_IOS
 #include "SDK_GameCenter.h"
+#endif
 
 namespace baiyou {
     
@@ -35,8 +38,10 @@ namespace baiyou {
             SDK_Common *sdk = nullptr;
             switch (pluginId) {
                 case SDKPluginCode::GameCenter:
+                #if TARGET_OS_IOS
                     sdk = new SDK_GameCenter();
                     sdk->init();
+                #endif
                     break;
                 default:
                     break;
