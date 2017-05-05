@@ -52,18 +52,21 @@ namespace baiyou {
         
         // 使用weakSelf做点什么
         NSLog(@"functionType is %@ -- %@",functionType,dict);
-        LoginResult result;
         
         if ([functionType isEqualToString:@"LoginSuccess"]){
+            LoginResult result;
             result.errorCode = 0;
             result.uid = std::string([[dict objectForKey:@"_id"] UTF8String]);
             result.name = std::string([[dict objectForKey:@"name"] UTF8String]);
             result.alias = std::string([[dict objectForKey:@"nickName"] UTF8String]);
             result.isGuest = [[dict objectForKey:@"anonymousFlag"] intValue] == 1;
+            [((AYImpl_ios*)caller) getObj]->_loginCallback(result);
+        }else if([functionType isEqualToString:@"ExitLogin"]){
+            [((AYImpl_ios*)caller) getObj]->logoutCallback();
         }else{
-            result.errorCode = 1;
+            NSLog(@"unknow function type %@",functionType);
         }
-        [((AYImpl_ios*)caller) getObj]->_loginCallback(result);
+        
         return 0;
     }
     
@@ -93,5 +96,9 @@ namespace baiyou {
     
     bool SDK_AIYOUYUN::openURL(const char *){
         return false;
+    }
+    
+    void SDK_AIYOUYUN::OpenUserCenter(){
+        OpenUserPage();
     }
 }

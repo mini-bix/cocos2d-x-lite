@@ -63,5 +63,9 @@ namespace baiyou {
     bool SDK_GameCenter::openURL(const char *){
         return false;
     }
+    
+    void SDK_GameCenter::OpenUserCenter(){
+        
+    }
 }
 

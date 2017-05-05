@@ -58,6 +58,9 @@ namespace baiyou {
                     break;
             }
             if (sdk){
+                sdk->logoutCallback = [=]()->void{
+                    this->onUserLogout(pluginId);
+                };
                 this->plugins[pluginId] = sdk;
             }else{
                 CCLOG("SDK not Implemented %d",pluginId);
@@ -86,11 +89,11 @@ namespace baiyou {
                     userInfo->setAlias(result.alias);
                     userInfo->setIsGuest(result.isGuest);
                     this->userInfos[pluginId] = userInfo;
-                    this->userResultListener->onUserResult(pluginId, 0, "LoginSucc");
+                    this->userResultListener->onUserResult(pluginId, UserResultCode::LoginSucc, "LoginSucc");
                 }
                 break;
                 default:
-                    this->userResultListener->onUserResult(pluginId, result.errorCode, "LoginFailed");
+                    this->userResultListener->onUserResult(pluginId, UserResultCode::LoginFail, "LoginFailed");
                 break;
             }
         });
@@ -127,6 +130,20 @@ namespace baiyou {
             handled = handled || pIt->second->openURL(url);
         }
         return handled;
+    }
+    
+    void SDKCenter::OpenUserCenter(const int &pluginId){
+        auto pIt = this->plugins.find(pluginId);
+        if (pIt == this->plugins.end()){
+            CCLOG("OpenUserCenter pluing not exist %d",pluginId);
+        }else{
+            pIt->second->OpenUserCenter();
+        }
+    }
+    
+    void SDKCenter::onUserLogout(const int &pluginId){
+        CCLOG("SDK on userlogout %d",pluginId);
+        this->userResultListener->onUserResult(pluginId,UserResultCode::Logout, "Logout");
     }
     
 }

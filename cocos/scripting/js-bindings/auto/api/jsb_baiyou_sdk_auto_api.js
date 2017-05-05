@@ -19,6 +19,16 @@ str
 },
 
 /**
+ * @method getIsGuest
+ * @return {bool}
+ */
+getIsGuest : function (
+)
+{
+    return false;
+},
+
+/**
  * @method getUserId
  * @return {String}
  */
@@ -36,6 +46,16 @@ getAlias : function (
 )
 {
     return ;
+},
+
+/**
+ * @method setIsGuest
+ * @param {bool} arg0
+ */
+setIsGuest : function (
+bool 
+)
+{
 },
 
 /**
@@ -88,6 +108,16 @@ int
 },
 
 /**
+ * @method OpenUserCenter
+ * @param {int} arg0
+ */
+OpenUserCenter : function (
+int 
+)
+{
+},
+
+/**
  * @method Pay
  * @param {int} arg0
  */
@@ -120,6 +150,18 @@ int
 },
 
 /**
+ * @method handleURL
+ * @param {char} arg0
+ * @return {bool}
+ */
+handleURL : function (
+char 
+)
+{
+    return false;
+},
+
+/**
  * @method Login
  * @param {int} arg0
  */
@@ -127,6 +169,18 @@ Login : function (
 int 
 )
 {
+},
+
+/**
+ * @method openURL
+ * @param {char} arg0
+ * @return {bool}
+ */
+openURL : function (
+char 
+)
+{
+    return false;
 },
 
 /**

@@ -43,6 +43,24 @@ bool js_baiyou_sdk_SDKUserInfo_setUserName(JSContext *cx, uint32_t argc, jsval *
     JS_ReportError(cx, "js_baiyou_sdk_SDKUserInfo_setUserName : wrong number of arguments: %d, was expecting %d", argc, 1);
     return false;
 }
+bool js_baiyou_sdk_SDKUserInfo_getIsGuest(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
+    js_proxy_t *proxy = jsb_get_js_proxy(obj);
+    baiyou::SDKUserInfo* cobj = (baiyou::SDKUserInfo *)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2( cobj, cx, false, "js_baiyou_sdk_SDKUserInfo_getIsGuest : Invalid Native Object");
+    if (argc == 0) {
+        bool ret = cobj->getIsGuest();
+        JS::RootedValue jsret(cx);
+        jsret = BOOLEAN_TO_JSVAL(ret);
+        args.rval().set(jsret);
+        return true;
+    }
+
+    JS_ReportError(cx, "js_baiyou_sdk_SDKUserInfo_getIsGuest : wrong number of arguments: %d, was expecting %d", argc, 0);
+    return false;
+}
 bool js_baiyou_sdk_SDKUserInfo_getUserId(JSContext *cx, uint32_t argc, jsval *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
@@ -77,6 +95,26 @@ bool js_baiyou_sdk_SDKUserInfo_getAlias(JSContext *cx, uint32_t argc, jsval *vp)
     }
 
     JS_ReportError(cx, "js_baiyou_sdk_SDKUserInfo_getAlias : wrong number of arguments: %d, was expecting %d", argc, 0);
+    return false;
+}
+bool js_baiyou_sdk_SDKUserInfo_setIsGuest(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
+    js_proxy_t *proxy = jsb_get_js_proxy(obj);
+    baiyou::SDKUserInfo* cobj = (baiyou::SDKUserInfo *)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2( cobj, cx, false, "js_baiyou_sdk_SDKUserInfo_setIsGuest : Invalid Native Object");
+    if (argc == 1) {
+        bool arg0;
+        arg0 = JS::ToBoolean(args.get(0));
+        JSB_PRECONDITION2(ok, cx, false, "js_baiyou_sdk_SDKUserInfo_setIsGuest : Error processing arguments");
+        cobj->setIsGuest(arg0);
+        args.rval().setUndefined();
+        return true;
+    }
+
+    JS_ReportError(cx, "js_baiyou_sdk_SDKUserInfo_setIsGuest : wrong number of arguments: %d, was expecting %d", argc, 1);
     return false;
 }
 bool js_baiyou_sdk_SDKUserInfo_setUserId(JSContext *cx, uint32_t argc, jsval *vp)
@@ -156,8 +194,10 @@ void js_register_baiyou_sdk_SDKUserInfo(JSContext *cx, JS::HandleObject global) 
 
     static JSFunctionSpec funcs[] = {
         JS_FN("setUserName", js_baiyou_sdk_SDKUserInfo_setUserName, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("getIsGuest", js_baiyou_sdk_SDKUserInfo_getIsGuest, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("getUserId", js_baiyou_sdk_SDKUserInfo_getUserId, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("getAlias", js_baiyou_sdk_SDKUserInfo_getAlias, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("setIsGuest", js_baiyou_sdk_SDKUserInfo_setIsGuest, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("setUserId", js_baiyou_sdk_SDKUserInfo_setUserId, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("setAlias", js_baiyou_sdk_SDKUserInfo_setAlias, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("getUserName", js_baiyou_sdk_SDKUserInfo_getUserName, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
@@ -212,6 +252,26 @@ bool js_baiyou_sdk_SDKCenter_getUserInfo(JSContext *cx, uint32_t argc, jsval *vp
     }
 
     JS_ReportError(cx, "js_baiyou_sdk_SDKCenter_getUserInfo : wrong number of arguments: %d, was expecting %d", argc, 1);
+    return false;
+}
+bool js_baiyou_sdk_SDKCenter_OpenUserCenter(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
+    js_proxy_t *proxy = jsb_get_js_proxy(obj);
+    baiyou::SDKCenter* cobj = (baiyou::SDKCenter *)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2( cobj, cx, false, "js_baiyou_sdk_SDKCenter_OpenUserCenter : Invalid Native Object");
+    if (argc == 1) {
+        int arg0 = 0;
+        ok &= jsval_to_int32(cx, args.get(0), (int32_t *)&arg0);
+        JSB_PRECONDITION2(ok, cx, false, "js_baiyou_sdk_SDKCenter_OpenUserCenter : Error processing arguments");
+        cobj->OpenUserCenter(arg0);
+        args.rval().setUndefined();
+        return true;
+    }
+
+    JS_ReportError(cx, "js_baiyou_sdk_SDKCenter_OpenUserCenter : wrong number of arguments: %d, was expecting %d", argc, 1);
     return false;
 }
 bool js_baiyou_sdk_SDKCenter_Pay(JSContext *cx, uint32_t argc, jsval *vp)
@@ -276,6 +336,28 @@ bool js_baiyou_sdk_SDKCenter_Logout(JSContext *cx, uint32_t argc, jsval *vp)
     JS_ReportError(cx, "js_baiyou_sdk_SDKCenter_Logout : wrong number of arguments: %d, was expecting %d", argc, 1);
     return false;
 }
+bool js_baiyou_sdk_SDKCenter_handleURL(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
+    js_proxy_t *proxy = jsb_get_js_proxy(obj);
+    baiyou::SDKCenter* cobj = (baiyou::SDKCenter *)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2( cobj, cx, false, "js_baiyou_sdk_SDKCenter_handleURL : Invalid Native Object");
+    if (argc == 1) {
+        const char* arg0 = nullptr;
+        std::string arg0_tmp; ok &= jsval_to_std_string(cx, args.get(0), &arg0_tmp); arg0 = arg0_tmp.c_str();
+        JSB_PRECONDITION2(ok, cx, false, "js_baiyou_sdk_SDKCenter_handleURL : Error processing arguments");
+        bool ret = cobj->handleURL(arg0);
+        JS::RootedValue jsret(cx);
+        jsret = BOOLEAN_TO_JSVAL(ret);
+        args.rval().set(jsret);
+        return true;
+    }
+
+    JS_ReportError(cx, "js_baiyou_sdk_SDKCenter_handleURL : wrong number of arguments: %d, was expecting %d", argc, 1);
+    return false;
+}
 bool js_baiyou_sdk_SDKCenter_Login(JSContext *cx, uint32_t argc, jsval *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
@@ -294,6 +376,28 @@ bool js_baiyou_sdk_SDKCenter_Login(JSContext *cx, uint32_t argc, jsval *vp)
     }
 
     JS_ReportError(cx, "js_baiyou_sdk_SDKCenter_Login : wrong number of arguments: %d, was expecting %d", argc, 1);
+    return false;
+}
+bool js_baiyou_sdk_SDKCenter_openURL(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
+    js_proxy_t *proxy = jsb_get_js_proxy(obj);
+    baiyou::SDKCenter* cobj = (baiyou::SDKCenter *)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2( cobj, cx, false, "js_baiyou_sdk_SDKCenter_openURL : Invalid Native Object");
+    if (argc == 1) {
+        const char* arg0 = nullptr;
+        std::string arg0_tmp; ok &= jsval_to_std_string(cx, args.get(0), &arg0_tmp); arg0 = arg0_tmp.c_str();
+        JSB_PRECONDITION2(ok, cx, false, "js_baiyou_sdk_SDKCenter_openURL : Error processing arguments");
+        bool ret = cobj->openURL(arg0);
+        JS::RootedValue jsret(cx);
+        jsret = BOOLEAN_TO_JSVAL(ret);
+        args.rval().set(jsret);
+        return true;
+    }
+
+    JS_ReportError(cx, "js_baiyou_sdk_SDKCenter_openURL : wrong number of arguments: %d, was expecting %d", argc, 1);
     return false;
 }
 bool js_baiyou_sdk_SDKCenter_getInstance(JSContext *cx, uint32_t argc, jsval *vp)
@@ -374,10 +478,13 @@ void js_register_baiyou_sdk_SDKCenter(JSContext *cx, JS::HandleObject global) {
 
     static JSFunctionSpec funcs[] = {
         JS_FN("getUserInfo", js_baiyou_sdk_SDKCenter_getUserInfo, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("OpenUserCenter", js_baiyou_sdk_SDKCenter_OpenUserCenter, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("Pay", js_baiyou_sdk_SDKCenter_Pay, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("init", js_baiyou_sdk_SDKCenter_init, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("Logout", js_baiyou_sdk_SDKCenter_Logout, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("handleURL", js_baiyou_sdk_SDKCenter_handleURL, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("Login", js_baiyou_sdk_SDKCenter_Login, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("openURL", js_baiyou_sdk_SDKCenter_openURL, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FS_END
     };
 

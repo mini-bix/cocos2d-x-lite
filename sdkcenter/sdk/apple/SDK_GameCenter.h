@@ -28,6 +28,7 @@ namespace baiyou {
         
         bool openURL(const char *);
         
+        void OpenUserCenter();
     };
     
 }

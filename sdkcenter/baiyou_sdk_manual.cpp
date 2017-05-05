@@ -31,7 +31,6 @@ public:
     
     void onUserResult(int pluginId,int code, const char* msg)
     {
-        CCLOG("on user action result: %d, msg: %s.", code, msg);
         JS::RootedObject thisObj(_ctx, _jsThisObj.ref().get().toObjectOrNull());
         JSAutoCompartment ac(_ctx, _ctxObj.ref());
         JS::RootedValue retval(_ctx);

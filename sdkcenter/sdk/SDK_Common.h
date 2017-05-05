@@ -27,6 +27,8 @@ namespace baiyou {
         
     public:
         
+        std::function<void (void)> logoutCallback;
+        
         virtual bool init() = 0;
         
         virtual void Login(std::function<void (const LoginResult&)>) = 0;
@@ -38,6 +40,8 @@ namespace baiyou {
         virtual bool handleURL(const char *) = 0;
         
         virtual bool openURL(const char *) = 0;
+        
+        virtual void OpenUserCenter() = 0;
         
     };
     

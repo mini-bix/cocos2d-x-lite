@@ -31,9 +31,12 @@ namespace baiyou {
         
         bool openURL(const char *);
         
+        void OpenUserCenter();
+        
     public:
         
         std::function<void (const LoginResult&)> _loginCallback;
+        
         
     };
     

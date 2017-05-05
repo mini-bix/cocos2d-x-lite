@@ -90,6 +90,8 @@ namespace baiyou {
         
         void Pay(const int &);
         
+        void OpenUserCenter(const int &);
+        
         bool handleURL(const char *);
         
         bool openURL(const char *);
@@ -105,6 +107,10 @@ namespace baiyou {
         std::map<int,SDKUserInfo*> userInfos;
         
         UserResultListener * userResultListener;
+        
+    private:
+        
+        void onUserLogout(const int &);
         
     };
 }
