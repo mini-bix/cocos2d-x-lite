@@ -414,3 +414,37 @@ float
 },
 
 };
+
+/**
+ * @class SkeletonCache
+ */
+sp.SkeletonCache = {
+
+/**
+ * @method removeUnusedAssets
+ */
+removeUnusedAssets : function (
+)
+{
+},
+
+/**
+ * @method getInstance
+ * @return {sp.SkeletonCache}
+ */
+getInstance : function (
+)
+{
+    return sp.SkeletonCache;
+},
+
+/**
+ * @method SkeletonCache
+ * @constructor
+ */
+SkeletonCache : function (
+)
+{
+},
+
+};

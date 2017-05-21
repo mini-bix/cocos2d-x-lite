@@ -33,6 +33,7 @@
 #include <spine/SkeletonBatch.h>
 #include <spine/AttachmentVertices.h>
 #include <spine/Cocos2dAttachmentLoader.h>
+#include <spine/SkeletonCache.h>
 #include <algorithm>
 
 USING_NS_CC;
@@ -74,7 +75,7 @@ void SkeletonRenderer::setSkeletonData (spSkeletonData *skeletonData, bool ownsS
 }
 
 SkeletonRenderer::SkeletonRenderer ()
-	: _atlas(nullptr), _attachmentLoader(nullptr), _debugSlots(false), _debugBones(false), _timeScale(1) {
+	: _atlas(nullptr), _attachmentLoader(nullptr), _debugSlots(false), _debugBones(false), _timeScale(1),_useCachedData(false) {
 }
 
 SkeletonRenderer::SkeletonRenderer (spSkeletonData *skeletonData, bool ownsSkeletonData)
@@ -93,9 +94,18 @@ SkeletonRenderer::SkeletonRenderer (const std::string& skeletonDataFile, const s
 }
 
 SkeletonRenderer::~SkeletonRenderer () {
-	if (_ownsSkeletonData) spSkeletonData_dispose(_skeleton->data);
+    if (_useCachedData){
+        _skeleton->data->retainCount--;
+    }else{
+        if (_ownsSkeletonData) spSkeletonData_dispose(_skeleton->data);
+    }
 	spSkeleton_dispose(_skeleton);
-	if (_atlas) spAtlas_dispose(_atlas);
+    if (_useCachedData){
+        _atlas->retainCount--;
+    }else{
+        if (_atlas) spAtlas_dispose(_atlas);
+    }
+    
 	if (_attachmentLoader) spAttachmentLoader_dispose(_attachmentLoader);
 	delete [] _worldVertices;
 }
@@ -122,18 +132,12 @@ void SkeletonRenderer::initWithJsonFile (const std::string& skeletonDataFile, sp
 }
 
 void SkeletonRenderer::initWithJsonFile (const std::string& skeletonDataFile, const std::string& atlasFile, float scale) {
-	_atlas = spAtlas_createFromFile(atlasFile.c_str(), 0);
-	CCASSERT(_atlas, "Error reading atlas file.");
-
-	_attachmentLoader = SUPER(Cocos2dAttachmentLoader_create(_atlas));
-
-	spSkeletonJson* json = spSkeletonJson_createWithLoader(_attachmentLoader);
-	json->scale = scale;
-	spSkeletonData* skeletonData = spSkeletonJson_readSkeletonDataFile(json, skeletonDataFile.c_str());
-	CCASSERT(skeletonData, json->error ? json->error : "Error reading skeleton data file.");
-	spSkeletonJson_dispose(json);
-
-	setSkeletonData(skeletonData, true);
+    _useCachedData = true;
+    _atlas = SkeletonCache::getInstance()->getAtlas(atlasFile);
+    _atlas->retainCount++;
+    spSkeletonData* skeletonData = SkeletonCache::getInstance()->getSkeletonData(skeletonDataFile, atlasFile, scale);
+    skeletonData->retainCount++;
+	setSkeletonData(skeletonData, false);
 
 	initialize();
 }

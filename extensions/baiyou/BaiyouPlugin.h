@@ -11,9 +11,10 @@
 
 #include <stdio.h>
 #include <string>
+#include "base/CCRef.h"
 
 namespace baiyou {
-    class BaiyouPlugin {
+    class BaiyouPlugin : public cocos2d::Ref{
     public:
             virtual ~BaiyouPlugin();
             static BaiyouPlugin* getInstance();

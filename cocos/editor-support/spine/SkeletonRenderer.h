@@ -130,6 +130,7 @@ protected:
 	float _timeScale;
 	bool _debugSlots;
 	bool _debugBones;
+    bool _useCachedData;
 };
 
 }

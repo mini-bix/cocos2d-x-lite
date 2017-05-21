@@ -1153,6 +1153,10 @@
 		A6E0EA651DEC2F2800F26E43 /* MD5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6E0EA621DEC2F2800F26E43 /* MD5.cpp */; };
 		A6E0EA661DEC2F2800F26E43 /* MD5.h in Headers */ = {isa = PBXBuildFile; fileRef = A6E0EA631DEC2F2800F26E43 /* MD5.h */; };
 		A6E0EA671DEC2F2800F26E43 /* MD5.h in Headers */ = {isa = PBXBuildFile; fileRef = A6E0EA631DEC2F2800F26E43 /* MD5.h */; };
+		A6E79AE81ED07BBB0003FC60 /* SkeletonCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6E79AE61ED07BBB0003FC60 /* SkeletonCache.cpp */; };
+		A6E79AE91ED07BBB0003FC60 /* SkeletonCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6E79AE61ED07BBB0003FC60 /* SkeletonCache.cpp */; };
+		A6E79AEA1ED07BBB0003FC60 /* SkeletonCache.h in Headers */ = {isa = PBXBuildFile; fileRef = A6E79AE71ED07BBB0003FC60 /* SkeletonCache.h */; };
+		A6E79AEB1ED07BBB0003FC60 /* SkeletonCache.h in Headers */ = {isa = PBXBuildFile; fileRef = A6E79AE71ED07BBB0003FC60 /* SkeletonCache.h */; };
 		A6F0D7A11C2796020029CC44 /* CCStencilStateManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6F0D79F1C2796020029CC44 /* CCStencilStateManager.cpp */; };
 		A6F0D7A21C2796020029CC44 /* CCStencilStateManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = A6F0D7A01C2796020029CC44 /* CCStencilStateManager.hpp */; };
 		A6F0D7A31C2796060029CC44 /* CCStencilStateManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6F0D79F1C2796020029CC44 /* CCStencilStateManager.cpp */; };
@@ -2382,6 +2386,8 @@
 		A6D40F891DE7E15B0049EA0B /* BaiyouPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiyouPlugin.h; sourceTree = "<group>"; };
 		A6E0EA621DEC2F2800F26E43 /* MD5.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MD5.cpp; sourceTree = "<group>"; };
 		A6E0EA631DEC2F2800F26E43 /* MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MD5.h; sourceTree = "<group>"; };
+		A6E79AE61ED07BBB0003FC60 /* SkeletonCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SkeletonCache.cpp; sourceTree = "<group>"; };
+		A6E79AE71ED07BBB0003FC60 /* SkeletonCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkeletonCache.h; sourceTree = "<group>"; };
 		A6F0D79F1C2796020029CC44 /* CCStencilStateManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCStencilStateManager.cpp; path = ../base/CCStencilStateManager.cpp; sourceTree = "<group>"; };
 		A6F0D7A01C2796020029CC44 /* CCStencilStateManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CCStencilStateManager.hpp; path = ../base/CCStencilStateManager.hpp; sourceTree = "<group>"; };
 		A6F0D7A41C27964D0029CC44 /* UIPageViewIndicator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UIPageViewIndicator.cpp; sourceTree = "<group>"; };
@@ -3416,6 +3422,8 @@
 				BAFF7D431D5C1CF80051B92F /* TransformConstraintData.h */,
 				BAFF7D441D5C1CF80051B92F /* VertexAttachment.c */,
 				BAFF7D451D5C1CF80051B92F /* VertexAttachment.h */,
+				A6E79AE61ED07BBB0003FC60 /* SkeletonCache.cpp */,
+				A6E79AE71ED07BBB0003FC60 /* SkeletonCache.h */,
 			);
 			path = spine;
 			sourceTree = "<group>";
@@ -4539,6 +4547,7 @@
 				BAEA45551E279D5C00FA219F /* tinydir.h in Headers */,
 				15AE1B5819AADA9900C27E9E /* UISlider.h in Headers */,
 				1A57011D180BC90D0088DEC7 /* CCGrabber.h in Headers */,
+				A6E79AEA1ED07BBB0003FC60 /* SkeletonCache.h in Headers */,
 				15AE1B6819AADA9900C27E9E /* UIScale9Sprite.h in Headers */,
 				A63CF00C1CD9CF3500A6971D /* CCUITextFieldFormatter.h in Headers */,
 				1A570121180BC90D0088DEC7 /* CCGrid.h in Headers */,
@@ -5130,6 +5139,7 @@
 				2980F0261BA9A5550059E678 /* CCUISingleLineTextField.h in Headers */,
 				15AE18B419AAD33D00C27E9E /* CCBSelectorResolver.h in Headers */,
 				B24AA988195A675C007B4522 /* CCFastTMXLayer.h in Headers */,
+				A6E79AEB1ED07BBB0003FC60 /* SkeletonCache.h in Headers */,
 				15AE1B7319AADA9A00C27E9E /* UIListView.h in Headers */,
 				5034CA2C191D591100CE6051 /* ccShader_PositionTextureA8Color.vert in Headers */,
 				50ABBE981925AB6F00A911A9 /* CCProtocols.h in Headers */,
@@ -5510,6 +5520,7 @@
 				BA68D7911D62F4A500B7A3F9 /* sweep_context.cc in Sources */,
 				FA6F1B831D80F858007DD223 /* BaseFactory.cpp in Sources */,
 				FAC8F25E1D339EB70061CEDD /* CCTMXTiledMap.cpp in Sources */,
+				A6E79AE81ED07BBB0003FC60 /* SkeletonCache.cpp in Sources */,
 				1A570098180BC5C10088DEC7 /* CCAtlasNode.cpp in Sources */,
 				1A57009E180BC5D20088DEC7 /* CCNode.cpp in Sources */,
 				B257B460198A353E00D9A687 /* CCPrimitiveCommand.cpp in Sources */,
@@ -5981,6 +5992,7 @@
 				1A5701B6180BCB590088DEC7 /* CCFontFreeType.cpp in Sources */,
 				BAFF7DD51D5C1CF80051B92F /* TransformConstraintData.c in Sources */,
 				BA68D78E1D62F4A500B7A3F9 /* sweep.cc in Sources */,
+				A6E79AE91ED07BBB0003FC60 /* SkeletonCache.cpp in Sources */,
 				50ABBEAC1925AB6F00A911A9 /* ccTypes.cpp in Sources */,
 				BAFF7D5F1D5C1CF80051B92F /* AttachmentLoader.c in Sources */,
 				BA679B351CEC373000F875FA /* CCEventAssetsManagerEx.cpp in Sources */,

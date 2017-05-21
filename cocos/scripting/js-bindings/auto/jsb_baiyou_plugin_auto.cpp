@@ -288,14 +288,10 @@ bool js_baiyou_plugin_BaiyouPlugin_getInstance(JSContext *cx, uint32_t argc, jsv
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     if (argc == 0) {
 
-        baiyou::BaiyouPlugin* ret = baiyou::BaiyouPlugin::getInstance();
-        jsval jsret = JSVAL_NULL;
-        if (ret) {
-        jsret = OBJECT_TO_JSVAL(js_get_or_create_jsobject<baiyou::BaiyouPlugin>(cx, (baiyou::BaiyouPlugin*)ret));
-    } else {
-        jsret = JSVAL_NULL;
-    };
-        args.rval().set(jsret);
+        auto ret = baiyou::BaiyouPlugin::getInstance();
+        js_type_class_t *typeClass = js_get_type_from_native<baiyou::BaiyouPlugin>(ret);
+        JS::RootedObject jsret(cx, jsb_ref_get_or_create_jsobject(cx, ret, typeClass, "baiyou::BaiyouPlugin"));
+        args.rval().set(OBJECT_TO_JSVAL(jsret));
         return true;
     }
     JS_ReportError(cx, "js_baiyou_plugin_BaiyouPlugin_getInstance : wrong number of arguments");
@@ -356,7 +352,7 @@ void js_register_baiyou_plugin_BaiyouPlugin(JSContext *cx, JS::HandleObject glob
     JS::RootedValue className(cx, std_string_to_jsval(cx, "BaiyouPlugin"));
     JS_SetProperty(cx, proto, "_className", className);
     JS_SetProperty(cx, proto, "__nativeObj", JS::TrueHandleValue);
-    JS_SetProperty(cx, proto, "__is_ref", JS::FalseHandleValue);
+    JS_SetProperty(cx, proto, "__is_ref", JS::TrueHandleValue);
     // add the proto and JSClass to the type->js info hash table
     jsb_register_class<baiyou::BaiyouPlugin>(cx, jsb_baiyou_BaiyouPlugin_class, proto, JS::NullPtr());
 }

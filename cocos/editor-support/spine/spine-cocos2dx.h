@@ -37,5 +37,6 @@
 #include <spine/SkeletonRenderer.h>
 #include <spine/SkeletonAnimation.h>
 #include <spine/SkeletonBatch.h>
+#include <spine/SkeletonCache.h>
 
 #endif /* SPINE_COCOS2DX_H_ */

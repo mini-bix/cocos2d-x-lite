@@ -163,8 +163,8 @@ def main():
                     'cocos2dx_experimental_webView.ini' : ('cocos2dx_experimental_webView', 'jsb_cocos2dx_experimental_webView_auto'), \
                     'cocos2dx_experimental_video.ini' : ('cocos2dx_experimental_video', 'jsb_cocos2dx_experimental_video_auto'), \
                     'creator.ini': ('creator', 'jsb_creator_auto'), \
-                    'baiyou_plugin.ini': ('baiyou_plugin', 'jsb_baiyou_plugin_auto'), \
-                    'baiyou_sdk.ini': ('baiyou_sdk', 'jsb_baiyou_sdk_auto'),
+                    'baiyou_plugin.ini': ('baiyou_plugin', 'jsb_baiyou_plugin_auto'),
+#                    'baiyou_sdk.ini': ('baiyou_sdk', 'jsb_baiyou_sdk_auto'),
                     }
         target = 'spidermonkey'
         generator_py = '%s/generator.py' % cxx_generator_root
