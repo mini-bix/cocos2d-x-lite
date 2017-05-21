@@ -31,6 +31,8 @@ public:
     spSkeletonData* getSkeletonData(const std::string& skeletonDataFile, const std::string& atlasFile, float scale);
     
     void removeUnusedAssets();
+        
+    void removeAll();
     
 private:
     std::map<std::string,spAtlas*> cachedAtlas;

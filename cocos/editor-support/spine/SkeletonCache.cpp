@@ -97,5 +97,16 @@ void SkeletonCache::removeUnusedAssets(){
         }
     }
 }
+    
+void SkeletonCache::removeAll(){
+    for (auto it =  this->cachedAtlas.begin();it!= this->cachedAtlas.end();it++){
+        spAtlas_dispose(it->second);
+    }
+    for (auto it =  this->cachedSkeletonData.begin();it!= this->cachedSkeletonData.end();it++){
+        spSkeletonData_dispose(it->second);
+    }
+    this->cachedAtlas.clear();
+    this->cachedSkeletonData.clear();
+}
 
 }

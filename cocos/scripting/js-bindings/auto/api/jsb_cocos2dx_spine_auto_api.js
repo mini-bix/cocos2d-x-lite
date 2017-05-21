@@ -421,6 +421,14 @@ float
 sp.SkeletonCache = {
 
 /**
+ * @method removeAll
+ */
+removeAll : function (
+)
+{
+},
+
+/**
  * @method removeUnusedAssets
  */
 removeUnusedAssets : function (

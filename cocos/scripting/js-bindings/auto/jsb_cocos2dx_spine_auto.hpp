@@ -64,6 +64,7 @@ bool js_cocos2dx_spine_SkeletonCache_constructor(JSContext *cx, uint32_t argc, j
 void js_cocos2dx_spine_SkeletonCache_finalize(JSContext *cx, JSObject *obj);
 void js_register_cocos2dx_spine_SkeletonCache(JSContext *cx, JS::HandleObject global);
 void register_all_cocos2dx_spine(JSContext* cx, JS::HandleObject obj);
+bool js_cocos2dx_spine_SkeletonCache_removeAll(JSContext *cx, uint32_t argc, jsval *vp);
 bool js_cocos2dx_spine_SkeletonCache_removeUnusedAssets(JSContext *cx, uint32_t argc, jsval *vp);
 bool js_cocos2dx_spine_SkeletonCache_getInstance(JSContext *cx, uint32_t argc, jsval *vp);
 bool js_cocos2dx_spine_SkeletonCache_SkeletonCache(JSContext *cx, uint32_t argc, jsval *vp);

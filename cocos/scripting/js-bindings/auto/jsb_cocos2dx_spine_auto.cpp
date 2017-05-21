@@ -1836,6 +1836,22 @@ void js_register_cocos2dx_spine_SkeletonAnimation(JSContext *cx, JS::HandleObjec
 JSClass  *jsb_spine_SkeletonCache_class;
 JSObject *jsb_spine_SkeletonCache_prototype;
 
+bool js_cocos2dx_spine_SkeletonCache_removeAll(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
+    js_proxy_t *proxy = jsb_get_js_proxy(obj);
+    spine::SkeletonCache* cobj = (spine::SkeletonCache *)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2( cobj, cx, false, "js_cocos2dx_spine_SkeletonCache_removeAll : Invalid Native Object");
+    if (argc == 0) {
+        cobj->removeAll();
+        args.rval().setUndefined();
+        return true;
+    }
+
+    JS_ReportError(cx, "js_cocos2dx_spine_SkeletonCache_removeAll : wrong number of arguments: %d, was expecting %d", argc, 0);
+    return false;
+}
 bool js_cocos2dx_spine_SkeletonCache_removeUnusedAssets(JSContext *cx, uint32_t argc, jsval *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
@@ -1901,6 +1917,7 @@ void js_register_cocos2dx_spine_SkeletonCache(JSContext *cx, JS::HandleObject gl
     };
 
     static JSFunctionSpec funcs[] = {
+        JS_FN("removeAll", js_cocos2dx_spine_SkeletonCache_removeAll, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("removeUnusedAssets", js_cocos2dx_spine_SkeletonCache_removeUnusedAssets, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FS_END
     };
