@@ -45,6 +45,7 @@ LOCAL_SRC_FILES := ../auto/jsb_cocos2dx_extension_auto.cpp \
                    ../manual/localstorage/js_bindings_system_registration.cpp \
                    ../manual/network/jsb_socketio.cpp \
                    ../manual/network/jsb_websocket.cpp \
+                   ../manual/network/jsb_udpclient.cpp \
                    ../manual/network/XMLHTTPRequest.cpp \
                    ../manual/network/js_network_manual.cpp \
                    ../manual/spine/jsb_cocos2dx_spine_manual.cpp \
