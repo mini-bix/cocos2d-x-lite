@@ -33,7 +33,8 @@ namespace network {
         
         struct Data
         {
-            Data(char* _bytes,ssize_t _len):bytes(_bytes), len(_len){}
+            Data(char* _bytes,ssize_t _len,bool _isBinary):bytes(_bytes), len(_len),isBinary(_isBinary){}
+            bool isBinary;
             char* bytes;
             ssize_t len;
         };
@@ -45,7 +46,7 @@ namespace network {
 
             virtual void onOpen(UdpClient* uc) = 0;
 
-            virtual void onBinary(UdpClient* uc, const Data& data) = 0;
+            virtual void onMessage(UdpClient* uc, const Data& data) = 0;
 
             virtual void onClose(UdpClient* uc) = 0;
 

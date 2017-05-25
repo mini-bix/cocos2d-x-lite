@@ -97,7 +97,7 @@ namespace network {
     
     void UdpClient::onReceivedData(const Data& data){
         if (delegate){
-            delegate->onBinary(this, data);
+            delegate->onMessage(this, data);
         }
     }
     
@@ -110,7 +110,7 @@ namespace network {
             char *copy = (char*)malloc(readed);
             memcpy(copy, readbuf, readed);
             dataListMutex.lock();
-            dataList.push_back(Data(copy,readed));
+            dataList.push_back(Data(copy,readed,false));
             dataListMutex.unlock();
         }
         
@@ -136,7 +136,7 @@ namespace network {
     
     void UdpClient::update(float dt){
         if (dataListMutex.try_lock()){
-            if (dataList.size() > 0){
+            if (!dataList.empty()){
                 for (int i=0;i<dataList.size();i++){
                     Data& data = dataList[i];
                     onReceivedData(data);

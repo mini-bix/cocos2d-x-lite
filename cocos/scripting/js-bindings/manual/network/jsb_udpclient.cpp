@@ -56,7 +56,7 @@ public:
         ScriptingCore::getInstance()->executeFunctionWithOwner(OBJECT_TO_JSVAL(_JSDelegate.ref()), "onopen", 1, &args);
     }
     
-    virtual void onBinary(UdpClient* ws, const UdpClient::Data& data)
+    virtual void onMessage(UdpClient* ws, const UdpClient::Data& data)
     {
         js_proxy_t * p = jsb_get_native_proxy(ws);
         if (p == nullptr) return;
@@ -69,10 +69,11 @@ public:
         JSContext* cx = ScriptingCore::getInstance()->getGlobalContext();
         JS::RootedObject jsobj(cx, JS_NewObject(cx, NULL, JS::NullPtr(), JS::NullPtr()));
         JS::RootedValue vp(cx);
-        vp = c_string_to_jsval(cx, "binary");
+        vp = c_string_to_jsval(cx, "message");
         JS_SetProperty(cx, jsobj, "type", vp);
         
         JS::RootedValue args(cx, OBJECT_TO_JSVAL(jsobj));
+        if (data.isBinary)
         {// data is binary
             JS::RootedObject buffer(cx, JS_NewArrayBuffer(cx, static_cast<uint32_t>(data.len)));
             if (data.len > 0)
@@ -83,9 +84,24 @@ public:
             JS::RootedValue dataVal(cx);
             dataVal = OBJECT_TO_JSVAL(buffer);
             JS_SetProperty(cx, jsobj, "data", dataVal);
+        }else{
+            JS::RootedValue dataVal(cx);
+            if (strlen(data.bytes) == 0 && data.len > 0)
+            {// String with 0x00 prefix
+                dataVal = STRING_TO_JSVAL(JS_NewStringCopyN(cx, data.bytes, data.len));
+            }
+            else
+            {// Normal string
+                dataVal = c_string_to_jsval(cx, data.bytes,data.len);
+            }
+            if (dataVal.isNullOrUndefined())
+            {
+                return;
+            }
+            JS_SetProperty(cx, jsobj, "data", dataVal);
         }
         
-        ScriptingCore::getInstance()->executeFunctionWithOwner(OBJECT_TO_JSVAL(_JSDelegate.ref()), "onbinary", 1, args.address());
+//        ScriptingCore::getInstance()->executeFunctionWithOwner(OBJECT_TO_JSVAL(_JSDelegate.ref()), "onmessage", 1, args.address());
     }
     
     virtual void onClose(UdpClient* ws)
