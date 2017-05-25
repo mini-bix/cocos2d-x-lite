@@ -101,7 +101,7 @@ public:
             JS_SetProperty(cx, jsobj, "data", dataVal);
         }
         
-//        ScriptingCore::getInstance()->executeFunctionWithOwner(OBJECT_TO_JSVAL(_JSDelegate.ref()), "onmessage", 1, args.address());
+        ScriptingCore::getInstance()->executeFunctionWithOwner(OBJECT_TO_JSVAL(_JSDelegate.ref()), "onmessage", 1, args.address());
     }
     
     virtual void onClose(UdpClient* ws)
