@@ -208,6 +208,8 @@ public:
      *  @return State the state value could be State::CONNECTING, State::OPEN, State::CLOSING or State::CLOSED
      */
     State getReadyState();
+    
+    void setZipEnabled(bool);
 
 private:
     void onSubThreadStarted();
@@ -243,6 +245,7 @@ private:
     int _SSLConnection;
     struct lws_protocols* _wsProtocols;
     EventListenerCustom* _resetDirectorListener;
+    bool zipEnabled;
 };
 
 }

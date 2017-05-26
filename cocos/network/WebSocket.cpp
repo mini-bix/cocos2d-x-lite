@@ -32,6 +32,7 @@
 #include "base/CCScheduler.h"
 #include "base/CCEventDispatcher.h"
 #include "base/CCEventListenerCustom.h"
+#include "base/ZipUtils.h"
 
 #include <thread>
 #include <mutex>
@@ -316,6 +317,7 @@ WebSocket::WebSocket()
 , _delegate(nullptr)
 , _SSLConnection(0)
 , _wsProtocols(nullptr)
+, zipEnabled(false)
 {
     // reserve data buffer to avoid allocate memory frequently
     _receivedData.reserve(WS_RESERVE_RECEIVE_BUFFER_SIZE);
@@ -834,9 +836,16 @@ void WebSocket::onClientReceivedData(void* in, ssize_t len)
 
             Data data;
             data.isBinary = isBinary;
-            data.bytes = (char*)frameData->data();
-            data.len = frameSize;
-
+            unsigned char *zipout = nullptr;
+            if (isBinary && zipEnabled){
+                data.len = ZipUtils::inflateMemory((unsigned char *)frameData->data(), frameSize, &zipout);
+                data.bytes = (char *)zipout;
+                data.isBinary = false;
+            }else{
+                data.bytes = (char*)frameData->data();
+                data.len = frameSize;
+            }
+            
             if (*isDestroyed)
             {
                 LOGD("WebSocket instance was destroyed!\n");
@@ -845,7 +854,9 @@ void WebSocket::onClientReceivedData(void* in, ssize_t len)
             {
                 _delegate->onMessage(this, data);
             }
-
+            if (zipout){
+                free(zipout);
+            }
             delete frameData;
         });
     }
@@ -962,6 +973,10 @@ int WebSocket::onSocketCallback(struct lws *wsi,
     }
 
     return 0;
+}
+    
+void WebSocket::setZipEnabled(bool _zip){
+    zipEnabled = _zip;
 }
 
 }

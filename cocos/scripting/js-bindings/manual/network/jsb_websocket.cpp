@@ -133,7 +133,7 @@ public:
             }
             else
             {// Normal string
-                dataVal = c_string_to_jsval(cx, data.bytes);
+                dataVal = c_string_to_jsval(cx, data.bytes,data.len);
             }
             if (dataVal.isNullOrUndefined())
             {
@@ -405,6 +405,27 @@ static bool js_cocos2dx_extension_WebSocket_get_readyState(JSContext *cx, uint32
     }
 }
 
+bool js_cocos2dx_network_WebSocket_setZipEnabled(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
+    js_proxy_t *proxy = jsb_get_js_proxy(obj);
+    cocos2d::network::WebSocket* cobj = (cocos2d::network::WebSocket *)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2( cobj, cx, false, "js_cocos2dx_network_WebSocket_setZipEnabled : Invalid Native Object");
+    if (argc == 1) {
+        bool arg0;
+        arg0 = JS::ToBoolean(args.get(0));
+        JSB_PRECONDITION2(ok, cx, false, "js_cocos2dx_network_WebSocket_setZipEnabled : Error processing arguments");
+        cobj->setZipEnabled(arg0);
+        args.rval().setUndefined();
+        return true;
+    }
+    
+    JS_ReportError(cx, "js_cocos2dx_network_WebSocket_setZipEnabled : wrong number of arguments: %d, was expecting %d", argc, 1);
+    return false;
+}
+
 void register_jsb_websocket(JSContext *cx, JS::HandleObject global)
 {
     js_cocos2dx_websocket_class = (JSClass *)calloc(1, sizeof(JSClass));
@@ -427,6 +448,7 @@ void register_jsb_websocket(JSContext *cx, JS::HandleObject global)
     static JSFunctionSpec funcs[] = {
         JS_FN("send",js_cocos2dx_extension_WebSocket_send, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("close",js_cocos2dx_extension_WebSocket_close, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("setZipEnabled",js_cocos2dx_network_WebSocket_setZipEnabled, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FS_END
     };
 

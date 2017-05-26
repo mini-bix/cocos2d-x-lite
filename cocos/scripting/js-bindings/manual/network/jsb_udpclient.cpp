@@ -309,6 +309,28 @@ void js_cocos2d_network_UdpClient_finalize(JSFreeOp *fop, JSObject *obj) {
             jsb_remove_proxy(nullptr, jsproxy);
     }
 }
+
+bool js_cocos2dx_network_UdpClient_setZipEnabled(JSContext *cx, uint32_t argc, jsval *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true;
+    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
+    js_proxy_t *proxy = jsb_get_js_proxy(obj);
+    cocos2d::network::UdpClient* cobj = (cocos2d::network::UdpClient *)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2( cobj, cx, false, "js_cocos2dx_network_UdpClient_setZipEnabled : Invalid Native Object");
+    if (argc == 1) {
+        bool arg0;
+        arg0 = JS::ToBoolean(args.get(0));
+        JSB_PRECONDITION2(ok, cx, false, "js_cocos2dx_network_UdpClient_setZipEnabled : Error processing arguments");
+        cobj->setZipEnabled(arg0);
+        args.rval().setUndefined();
+        return true;
+    }
+    
+    JS_ReportError(cx, "js_cocos2dx_network_UdpClient_setZipEnabled : wrong number of arguments: %d, was expecting %d", argc, 1);
+    return false;
+}
+
 void register_jsb_udpclient(JSContext *cx, JS::HandleObject global) {
     jsb_cocos2d_network_UdpClient_class = (JSClass *)calloc(1, sizeof(JSClass));
     jsb_cocos2d_network_UdpClient_class->name = "UdpClient";
@@ -329,7 +351,8 @@ void register_jsb_udpclient(JSContext *cx, JS::HandleObject global) {
     static JSFunctionSpec funcs[] = {
         JS_FN("Connect", js_cocos2dx_network_UdpClient_Connect, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("Close", js_cocos2dx_network_UdpClient_Close, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
-        JS_FN("Write", js_cocos2dx_extension_UdpClient_Write, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("Write", js_cocos2dx_extension_UdpClient_Write, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("setZipEnabled", js_cocos2dx_network_UdpClient_setZipEnabled, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FS_END
     };
     

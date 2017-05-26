@@ -70,6 +70,8 @@ namespace network {
         
         void setDelegate(Delegate *_delegate);
         
+        void setZipEnabled(bool);
+        
     private:
         
         void receiveThreadMain();
@@ -83,6 +85,7 @@ namespace network {
         char *readbuf;
         std::vector<Data> dataList;
         std::mutex dataListMutex;
+        bool zipEnabled;
     };
 }
 

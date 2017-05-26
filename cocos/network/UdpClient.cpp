@@ -23,7 +23,7 @@ NS_CC_BEGIN
 
 namespace network {
     
-    UdpClient::UdpClient() :recvThread(nullptr),sockfd(0),delegate(nullptr){
+    UdpClient::UdpClient() :recvThread(nullptr),sockfd(0),delegate(nullptr),zipEnabled(false){
         readbuf = (char *)malloc(BUFFERLENGTH);
     }
     
@@ -33,6 +33,10 @@ namespace network {
         if (recvThread){
             CC_SAFE_DELETE(recvThread);
         }
+    }
+    
+    void UdpClient::setZipEnabled(bool _zip){
+        zipEnabled = _zip;
     }
     
     int UdpClient::Connect(std::string addr){
