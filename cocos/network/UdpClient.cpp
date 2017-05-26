@@ -51,7 +51,7 @@ namespace network {
         std::string host_str = addr.substr(0,sepIndex);
         std::string port_str = addr.substr(sepIndex+1);
         
-        int port = std::stoi(port_str.c_str());
+        int port = atoi(port_str.c_str());
         
         struct hostent *hostEnt = gethostbyname(host_str.c_str());
         if (hostEnt == NULL){
