@@ -522,6 +522,7 @@ WebSocket::WebSocket()
 , _isDestroyed(std::make_shared<std::atomic<bool>>(false))
 , _delegate(nullptr)
 , _closeState(CloseState::NONE)
+,zipEnabled(false)
 {
     // reserve data buffer to avoid allocate memory frequently
     _receivedData.reserve(WS_RESERVE_RECEIVE_BUFFER_SIZE);

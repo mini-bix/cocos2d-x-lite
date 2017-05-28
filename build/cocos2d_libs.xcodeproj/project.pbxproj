@@ -1353,6 +1353,46 @@
 		A6A5541F1C2A7BF700FDD954 /* libchipmunk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6A5541E1C2A7BF700FDD954 /* libchipmunk.a */; };
 		A6A554211C2A7C1300FDD954 /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6A554201C2A7C1300FDD954 /* libcurl.a */; };
 		A6E018661CB7A7E000EC1419 /* CCDownloader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50693C5C1B6BF2AE005C5820 /* CCDownloader.cpp */; };
+		A6E79B2C1EDA63940003FC60 /* UdpClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6E79B2A1EDA63940003FC60 /* UdpClient.cpp */; };
+		A6E79B2D1EDA63940003FC60 /* UdpClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6E79B2A1EDA63940003FC60 /* UdpClient.cpp */; };
+		A6E79B2E1EDA63940003FC60 /* UdpClient.h in Headers */ = {isa = PBXBuildFile; fileRef = A6E79B2B1EDA63940003FC60 /* UdpClient.h */; };
+		A6E79B2F1EDA63940003FC60 /* UdpClient.h in Headers */ = {isa = PBXBuildFile; fileRef = A6E79B2B1EDA63940003FC60 /* UdpClient.h */; };
+		A6E79B3F1EDA67860003FC60 /* MD5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6E79B3D1EDA67860003FC60 /* MD5.cpp */; };
+		A6E79B401EDA67860003FC60 /* MD5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6E79B3D1EDA67860003FC60 /* MD5.cpp */; };
+		A6E79B411EDA67860003FC60 /* MD5.h in Headers */ = {isa = PBXBuildFile; fileRef = A6E79B3E1EDA67860003FC60 /* MD5.h */; };
+		A6E79B421EDA67860003FC60 /* MD5.h in Headers */ = {isa = PBXBuildFile; fileRef = A6E79B3E1EDA67860003FC60 /* MD5.h */; };
+		A6E79B471EDA67990003FC60 /* CCBatchBeginCommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6E79B431EDA67990003FC60 /* CCBatchBeginCommand.cpp */; };
+		A6E79B481EDA67990003FC60 /* CCBatchBeginCommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6E79B431EDA67990003FC60 /* CCBatchBeginCommand.cpp */; };
+		A6E79B491EDA67990003FC60 /* CCBatchBeginCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = A6E79B441EDA67990003FC60 /* CCBatchBeginCommand.h */; };
+		A6E79B4A1EDA67990003FC60 /* CCBatchBeginCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = A6E79B441EDA67990003FC60 /* CCBatchBeginCommand.h */; };
+		A6E79B4B1EDA67990003FC60 /* CCBatchEndCommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6E79B451EDA67990003FC60 /* CCBatchEndCommand.cpp */; };
+		A6E79B4C1EDA67990003FC60 /* CCBatchEndCommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6E79B451EDA67990003FC60 /* CCBatchEndCommand.cpp */; };
+		A6E79B4D1EDA67990003FC60 /* CCBatchEndCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = A6E79B461EDA67990003FC60 /* CCBatchEndCommand.h */; };
+		A6E79B4E1EDA67990003FC60 /* CCBatchEndCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = A6E79B461EDA67990003FC60 /* CCBatchEndCommand.h */; };
+		A6E79B511EDA67CD0003FC60 /* SkeletonCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6E79B4F1EDA67CD0003FC60 /* SkeletonCache.cpp */; };
+		A6E79B521EDA67CD0003FC60 /* SkeletonCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6E79B4F1EDA67CD0003FC60 /* SkeletonCache.cpp */; };
+		A6E79B531EDA67CD0003FC60 /* SkeletonCache.h in Headers */ = {isa = PBXBuildFile; fileRef = A6E79B501EDA67CD0003FC60 /* SkeletonCache.h */; };
+		A6E79B541EDA67CD0003FC60 /* SkeletonCache.h in Headers */ = {isa = PBXBuildFile; fileRef = A6E79B501EDA67CD0003FC60 /* SkeletonCache.h */; };
+		A6E79B691EDA680B0003FC60 /* BaiyouPlugin_Apple.h in Headers */ = {isa = PBXBuildFile; fileRef = A6E79B5A1EDA680B0003FC60 /* BaiyouPlugin_Apple.h */; };
+		A6E79B6A1EDA680B0003FC60 /* BaiyouPlugin_Apple.h in Headers */ = {isa = PBXBuildFile; fileRef = A6E79B5A1EDA680B0003FC60 /* BaiyouPlugin_Apple.h */; };
+		A6E79B6B1EDA680B0003FC60 /* BaiyouPlugin_Apple.mm in Sources */ = {isa = PBXBuildFile; fileRef = A6E79B5B1EDA680B0003FC60 /* BaiyouPlugin_Apple.mm */; };
+		A6E79B6C1EDA680B0003FC60 /* BaiyouPlugin_Apple.mm in Sources */ = {isa = PBXBuildFile; fileRef = A6E79B5B1EDA680B0003FC60 /* BaiyouPlugin_Apple.mm */; };
+		A6E79B6D1EDA680B0003FC60 /* KeychainHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = A6E79B5D1EDA680B0003FC60 /* KeychainHelper.h */; };
+		A6E79B6E1EDA680B0003FC60 /* KeychainHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = A6E79B5D1EDA680B0003FC60 /* KeychainHelper.h */; };
+		A6E79B6F1EDA680B0003FC60 /* KeychainHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = A6E79B5E1EDA680B0003FC60 /* KeychainHelper.m */; };
+		A6E79B701EDA680B0003FC60 /* KeychainHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = A6E79B5E1EDA680B0003FC60 /* KeychainHelper.m */; };
+		A6E79B711EDA680B0003FC60 /* KeychainIDFA.h in Headers */ = {isa = PBXBuildFile; fileRef = A6E79B5F1EDA680B0003FC60 /* KeychainIDFA.h */; };
+		A6E79B721EDA680B0003FC60 /* KeychainIDFA.h in Headers */ = {isa = PBXBuildFile; fileRef = A6E79B5F1EDA680B0003FC60 /* KeychainIDFA.h */; };
+		A6E79B731EDA680B0003FC60 /* KeychainIDFA.m in Sources */ = {isa = PBXBuildFile; fileRef = A6E79B601EDA680B0003FC60 /* KeychainIDFA.m */; };
+		A6E79B741EDA680B0003FC60 /* KeychainIDFA.m in Sources */ = {isa = PBXBuildFile; fileRef = A6E79B601EDA680B0003FC60 /* KeychainIDFA.m */; };
+		A6E79B751EDA680B0003FC60 /* KeyChainStore.h in Headers */ = {isa = PBXBuildFile; fileRef = A6E79B611EDA680B0003FC60 /* KeyChainStore.h */; };
+		A6E79B761EDA680B0003FC60 /* KeyChainStore.h in Headers */ = {isa = PBXBuildFile; fileRef = A6E79B611EDA680B0003FC60 /* KeyChainStore.h */; };
+		A6E79B771EDA680B0003FC60 /* KeyChainStore.m in Sources */ = {isa = PBXBuildFile; fileRef = A6E79B621EDA680B0003FC60 /* KeyChainStore.m */; };
+		A6E79B781EDA680B0003FC60 /* KeyChainStore.m in Sources */ = {isa = PBXBuildFile; fileRef = A6E79B621EDA680B0003FC60 /* KeyChainStore.m */; };
+		A6E79B791EDA680B0003FC60 /* BaiyouPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6E79B631EDA680B0003FC60 /* BaiyouPlugin.cpp */; };
+		A6E79B7A1EDA680B0003FC60 /* BaiyouPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6E79B631EDA680B0003FC60 /* BaiyouPlugin.cpp */; };
+		A6E79B7B1EDA680B0003FC60 /* BaiyouPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = A6E79B641EDA680B0003FC60 /* BaiyouPlugin.h */; };
+		A6E79B7C1EDA680B0003FC60 /* BaiyouPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = A6E79B641EDA680B0003FC60 /* BaiyouPlugin.h */; };
 		A6F0D7A11C2796020029CC44 /* CCStencilStateManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6F0D79F1C2796020029CC44 /* CCStencilStateManager.cpp */; };
 		A6F0D7A21C2796020029CC44 /* CCStencilStateManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = A6F0D7A01C2796020029CC44 /* CCStencilStateManager.hpp */; };
 		A6F0D7A31C2796060029CC44 /* CCStencilStateManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6F0D79F1C2796020029CC44 /* CCStencilStateManager.cpp */; };
@@ -2682,6 +2722,26 @@
 		A6A554201C2A7C1300FDD954 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = ../external/mac/libs/libcurl.a; sourceTree = "<group>"; };
 		A6A554221C2A7C3100FDD954 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../external/mac/libs/libcrypto.a; sourceTree = "<group>"; };
 		A6A554241C2A7C4400FDD954 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../external/mac/libs/libssl.a; sourceTree = "<group>"; };
+		A6E79B2A1EDA63940003FC60 /* UdpClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UdpClient.cpp; sourceTree = "<group>"; };
+		A6E79B2B1EDA63940003FC60 /* UdpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UdpClient.h; sourceTree = "<group>"; };
+		A6E79B3D1EDA67860003FC60 /* MD5.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MD5.cpp; sourceTree = "<group>"; };
+		A6E79B3E1EDA67860003FC60 /* MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MD5.h; sourceTree = "<group>"; };
+		A6E79B431EDA67990003FC60 /* CCBatchBeginCommand.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCBatchBeginCommand.cpp; sourceTree = "<group>"; };
+		A6E79B441EDA67990003FC60 /* CCBatchBeginCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBatchBeginCommand.h; sourceTree = "<group>"; };
+		A6E79B451EDA67990003FC60 /* CCBatchEndCommand.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCBatchEndCommand.cpp; sourceTree = "<group>"; };
+		A6E79B461EDA67990003FC60 /* CCBatchEndCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBatchEndCommand.h; sourceTree = "<group>"; };
+		A6E79B4F1EDA67CD0003FC60 /* SkeletonCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SkeletonCache.cpp; sourceTree = "<group>"; };
+		A6E79B501EDA67CD0003FC60 /* SkeletonCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkeletonCache.h; sourceTree = "<group>"; };
+		A6E79B5A1EDA680B0003FC60 /* BaiyouPlugin_Apple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiyouPlugin_Apple.h; sourceTree = "<group>"; };
+		A6E79B5B1EDA680B0003FC60 /* BaiyouPlugin_Apple.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BaiyouPlugin_Apple.mm; sourceTree = "<group>"; };
+		A6E79B5D1EDA680B0003FC60 /* KeychainHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainHelper.h; sourceTree = "<group>"; };
+		A6E79B5E1EDA680B0003FC60 /* KeychainHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainHelper.m; sourceTree = "<group>"; };
+		A6E79B5F1EDA680B0003FC60 /* KeychainIDFA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainIDFA.h; sourceTree = "<group>"; };
+		A6E79B601EDA680B0003FC60 /* KeychainIDFA.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainIDFA.m; sourceTree = "<group>"; };
+		A6E79B611EDA680B0003FC60 /* KeyChainStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyChainStore.h; sourceTree = "<group>"; };
+		A6E79B621EDA680B0003FC60 /* KeyChainStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyChainStore.m; sourceTree = "<group>"; };
+		A6E79B631EDA680B0003FC60 /* BaiyouPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaiyouPlugin.cpp; sourceTree = "<group>"; };
+		A6E79B641EDA680B0003FC60 /* BaiyouPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiyouPlugin.h; sourceTree = "<group>"; };
 		A6F0D79F1C2796020029CC44 /* CCStencilStateManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCStencilStateManager.cpp; path = ../base/CCStencilStateManager.cpp; sourceTree = "<group>"; };
 		A6F0D7A01C2796020029CC44 /* CCStencilStateManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CCStencilStateManager.hpp; path = ../base/CCStencilStateManager.hpp; sourceTree = "<group>"; };
 		A6F0D7A41C27964D0029CC44 /* UIPageViewIndicator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UIPageViewIndicator.cpp; sourceTree = "<group>"; };
@@ -3541,6 +3601,7 @@
 		1AAF5360180E3374000584C8 /* network */ = {
 			isa = PBXGroup;
 			children = (
+				A6E79B291EDA63840003FC60 /* UdpClient */,
 				1AD473AA1EAD9A5200202582 /* Uri.cpp */,
 				1AD473AB1EAD9A5200202582 /* Uri.h */,
 				507003251B69820100E83DDD /* HttpClient */,
@@ -3643,6 +3704,8 @@
 			isa = PBXGroup;
 			children = (
 				FAC8F6651E1DF15D002B17E8 /* kvec.h */,
+				A6E79B4F1EDA67CD0003FC60 /* SkeletonCache.cpp */,
+				A6E79B501EDA67CD0003FC60 /* SkeletonCache.h */,
 				FAC8F6661E1DF15D002B17E8 /* SkeletonBinary.c */,
 				FAC8F6671E1DF15D002B17E8 /* SkeletonBinary.h */,
 				BAFF7CFB1D5C1CF80051B92F /* Animation.c */,
@@ -3932,6 +3995,8 @@
 		46A167981807AF4D005B8026 /* extensions */ = {
 			isa = PBXGroup;
 			children = (
+				A6E79B551EDA680B0003FC60 /* baiyou */,
+				A6E79B3C1EDA67860003FC60 /* md5 */,
 				BA679B271CEC371100F875FA /* assets-manager */,
 				A60A9D5A1C200DD00070800A /* PhysicsSprite */,
 				46A167D21807AF4D005B8026 /* cocos-ext.h */,
@@ -4260,6 +4325,10 @@
 		500DC89819105D41007B91BF /* renderer */ = {
 			isa = PBXGroup;
 			children = (
+				A6E79B431EDA67990003FC60 /* CCBatchBeginCommand.cpp */,
+				A6E79B441EDA67990003FC60 /* CCBatchBeginCommand.h */,
+				A6E79B451EDA67990003FC60 /* CCBatchEndCommand.cpp */,
+				A6E79B461EDA67990003FC60 /* CCBatchEndCommand.h */,
 				BA68D7A81D62F66300B7A3F9 /* CCMaterial.cpp */,
 				BA68D7A91D62F66300B7A3F9 /* CCMaterial.h */,
 				BA68D7AA1D62F66300B7A3F9 /* CCPass.cpp */,
@@ -4539,6 +4608,57 @@
 				A63CF0031CD9CF3500A6971D /* CCUITextInput.h */,
 			);
 			name = Mac;
+			sourceTree = "<group>";
+		};
+		A6E79B291EDA63840003FC60 /* UdpClient */ = {
+			isa = PBXGroup;
+			children = (
+				A6E79B2A1EDA63940003FC60 /* UdpClient.cpp */,
+				A6E79B2B1EDA63940003FC60 /* UdpClient.h */,
+			);
+			name = UdpClient;
+			sourceTree = "<group>";
+		};
+		A6E79B3C1EDA67860003FC60 /* md5 */ = {
+			isa = PBXGroup;
+			children = (
+				A6E79B3D1EDA67860003FC60 /* MD5.cpp */,
+				A6E79B3E1EDA67860003FC60 /* MD5.h */,
+			);
+			path = md5;
+			sourceTree = "<group>";
+		};
+		A6E79B551EDA680B0003FC60 /* baiyou */ = {
+			isa = PBXGroup;
+			children = (
+				A6E79B591EDA680B0003FC60 /* apple */,
+				A6E79B631EDA680B0003FC60 /* BaiyouPlugin.cpp */,
+				A6E79B641EDA680B0003FC60 /* BaiyouPlugin.h */,
+			);
+			path = baiyou;
+			sourceTree = "<group>";
+		};
+		A6E79B591EDA680B0003FC60 /* apple */ = {
+			isa = PBXGroup;
+			children = (
+				A6E79B5A1EDA680B0003FC60 /* BaiyouPlugin_Apple.h */,
+				A6E79B5B1EDA680B0003FC60 /* BaiyouPlugin_Apple.mm */,
+				A6E79B5C1EDA680B0003FC60 /* KeychainIDFA */,
+				A6E79B611EDA680B0003FC60 /* KeyChainStore.h */,
+				A6E79B621EDA680B0003FC60 /* KeyChainStore.m */,
+			);
+			path = apple;
+			sourceTree = "<group>";
+		};
+		A6E79B5C1EDA680B0003FC60 /* KeychainIDFA */ = {
+			isa = PBXGroup;
+			children = (
+				A6E79B5D1EDA680B0003FC60 /* KeychainHelper.h */,
+				A6E79B5E1EDA680B0003FC60 /* KeychainHelper.m */,
+				A6E79B5F1EDA680B0003FC60 /* KeychainIDFA.h */,
+				A6E79B601EDA680B0003FC60 /* KeychainIDFA.m */,
+			);
+			path = KeychainIDFA;
 			sourceTree = "<group>";
 		};
 		B291B5151D4A0FE300BBB345 /* mac */ = {
@@ -4864,6 +4984,7 @@
 				50ABBE851925AB6F00A911A9 /* ccFPSImages.h in Headers */,
 				38B8E2E319E671D2002D7CE7 /* UILayoutComponent.h in Headers */,
 				FA6F1B811D80F858007DD223 /* EventObject.h in Headers */,
+				A6E79B411EDA67860003FC60 /* MD5.h in Headers */,
 				5034CA39191D591100CE6051 /* ccShader_PositionColorLengthTexture.frag in Headers */,
 				292DB14B19B4574100A80320 /* UIEditBoxImpl-mac.h in Headers */,
 				BAFF7CE21D59E0DB0051B92F /* CCTween.h in Headers */,
@@ -5044,6 +5165,7 @@
 				294D7D9A1D0E93A2002CE7B7 /* CCDevice-apple.h in Headers */,
 				FA6F1B971D80F858007DD223 /* ArmatureData.h in Headers */,
 				BAFF7CAA1D59E0DA0051B92F /* CCComBase.h in Headers */,
+				A6E79B2E1EDA63940003FC60 /* UdpClient.h in Headers */,
 				A6F0D7A21C2796020029CC44 /* CCStencilStateManager.hpp in Headers */,
 				50ABBEAD1925AB6F00A911A9 /* ccTypes.h in Headers */,
 				15AE189919AAD33D00C27E9E /* CCMenuItemLoader.h in Headers */,
@@ -5093,6 +5215,7 @@
 				FA6F1B851D80F858007DD223 /* BaseFactory.h in Headers */,
 				1A57022B180BCC1A0088DEC7 /* CCParticleSystem.h in Headers */,
 				5034CA2F191D591100CE6051 /* ccShader_PositionTexture.vert in Headers */,
+				A6E79B751EDA680B0003FC60 /* KeyChainStore.h in Headers */,
 				50ABBE951925AB6F00A911A9 /* CCProfiling.h in Headers */,
 				5034CA4B191D591100CE6051 /* ccShader_Label_df_glow.frag in Headers */,
 				50ABBE4F1925AB6F00A911A9 /* CCEventCustom.h in Headers */,
@@ -5188,6 +5311,7 @@
 				29394CF019B01DBA00D2DE1A /* UIWebView.h in Headers */,
 				1A5FB7CC1DF10E3500C918C1 /* AudioMacros.h in Headers */,
 				BAFF7DBC1D5C1CF80051B92F /* SkeletonRenderer.h in Headers */,
+				A6E79B491EDA67990003FC60 /* CCBatchBeginCommand.h in Headers */,
 				15AE186519AAD31D00C27E9E /* CDOpenALSupport.h in Headers */,
 				15AE1B5C19AADA9900C27E9E /* UITextAtlas.h in Headers */,
 				1A5702FC180BCE750088DEC7 /* CCTMXXMLParser.h in Headers */,
@@ -5260,6 +5384,7 @@
 				50ABBE291925AB6F00A911A9 /* CCAutoreleasePool.h in Headers */,
 				299CF1FD19A434BC00C378C1 /* ccRandom.h in Headers */,
 				505385021B01887A00793096 /* CCProperties.h in Headers */,
+				A6E79B711EDA680B0003FC60 /* KeychainIDFA.h in Headers */,
 				50ABBE471925AB6F00A911A9 /* CCEvent.h in Headers */,
 				15AE1B9E19AADFDF00C27E9E /* UIVBox.h in Headers */,
 				B257B4501989D5E800D9A687 /* CCPrimitive.h in Headers */,
@@ -5274,6 +5399,7 @@
 				BAFF7CF01D59E0DB0051B92F /* DictionaryHelper.h in Headers */,
 				50643BD919BFAF4400EF68ED /* CCApplication.h in Headers */,
 				BA68D78B1D62F4A500B7A3F9 /* cdt.h in Headers */,
+				A6E79B7B1EDA680B0003FC60 /* BaiyouPlugin.h in Headers */,
 				15AE1BE719AAE01E00C27E9E /* CCTableViewCell.h in Headers */,
 				BAFF7D641D5C1CF80051B92F /* AttachmentVertices.h in Headers */,
 				50ABBD3A1925AB0000A911A9 /* CCAffineTransform.h in Headers */,
@@ -5287,10 +5413,12 @@
 				15AE18A919AAD33D00C27E9E /* CCSpriteLoader.h in Headers */,
 				BAFF7DCE1D5C1CF80051B92F /* spine.h in Headers */,
 				50693C601B6BF2AE005C5820 /* CCDownloader.h in Headers */,
+				A6E79B4D1EDA67990003FC60 /* CCBatchEndCommand.h in Headers */,
 				50ABBEC91925AB6F00A911A9 /* firePngData.h in Headers */,
 				FAC8F25D1D339EB70061CEDD /* CCTMXLayer.h in Headers */,
 				BAFF7CF61D59E3840051B92F /* CocosStudioExtension.h in Headers */,
 				4DC06BD11E8A68D400CA08B1 /* CCPhysicsAABBQueryCallback.h in Headers */,
+				A6E79B691EDA680B0003FC60 /* BaiyouPlugin_Apple.h in Headers */,
 				503DD8F51926B0DB00CD74DD /* CCIMEDelegate.h in Headers */,
 				50ABBD5A1925AB0000A911A9 /* Vec2.h in Headers */,
 				BAFF7CCE1D59E0DB0051B92F /* CCInputDelegate.h in Headers */,
@@ -5332,6 +5460,7 @@
 				1AAF5851180E40B9000584C8 /* LocalStorage.h in Headers */,
 				A0E749F91BA8FD7F001A8332 /* UIEditBoxImpl-common.h in Headers */,
 				FA6F1B9F1D80F858007DD223 /* FrameData.h in Headers */,
+				A6E79B531EDA67CD0003FC60 /* SkeletonCache.h in Headers */,
 				1A9DCA29180E6955007A3AD4 /* CCGLBufferedNode.h in Headers */,
 				50ABC0031926664800A911A9 /* CCLock-apple.h in Headers */,
 				50ABBE2D1925AB6F00A911A9 /* ccCArray.h in Headers */,
@@ -5354,6 +5483,7 @@
 				5034CA45191D591100CE6051 /* ccShader_Label_outline.frag in Headers */,
 				50ABBEB11925AB6F00A911A9 /* CCUserDefault.h in Headers */,
 				50ABBEC71925AB6F00A911A9 /* etc1.h in Headers */,
+				A6E79B6D1EDA680B0003FC60 /* KeychainHelper.h in Headers */,
 				50ABBEA91925AB6F00A911A9 /* CCTouch.h in Headers */,
 				50ABBE971925AB6F00A911A9 /* CCProtocols.h in Headers */,
 				50ABC0691926664800A911A9 /* CCStdC-mac.h in Headers */,
@@ -5399,6 +5529,7 @@
 				15AE1B8119AADA9A00C27E9E /* UITextAtlas.h in Headers */,
 				50ABBE7C1925AB6F00A911A9 /* CCEventMouse.h in Headers */,
 				4DC06BD21E8A68D400CA08B1 /* CCPhysicsAABBQueryCallback.h in Headers */,
+				A6E79B2F1EDA63940003FC60 /* UdpClient.h in Headers */,
 				50ABBE9C1925AB6F00A911A9 /* CCRef.h in Headers */,
 				50ABBD961925AB4100A911A9 /* CCGLProgramState.h in Headers */,
 				4649FF031BBA9FBE0001CC6F /* CCVertexAttribBinding.h in Headers */,
@@ -5442,6 +5573,7 @@
 				BAFF7D7D1D5C1CF80051B92F /* EventData.h in Headers */,
 				FA6F1B9C1D80F858007DD223 /* DragonBonesData.h in Headers */,
 				15AE18D819AAD33D00C27E9E /* CCScrollViewLoader.h in Headers */,
+				A6E79B4A1EDA67990003FC60 /* CCBatchBeginCommand.h in Headers */,
 				BAFF7CF71D59E3840051B92F /* CocosStudioExtension.h in Headers */,
 				15AE18DB19AAD33D00C27E9E /* CocosBuilder.h in Headers */,
 				FA6F1B861D80F858007DD223 /* BaseFactory.h in Headers */,
@@ -5533,22 +5665,26 @@
 				FA6F1B761D80F858007DD223 /* CCTextureData.h in Headers */,
 				1A570122180BC90D0088DEC7 /* CCGrid.h in Headers */,
 				5034CA2E191D591100CE6051 /* ccShader_PositionTextureA8Color.frag in Headers */,
+				A6E79B6A1EDA680B0003FC60 /* BaiyouPlugin_Apple.h in Headers */,
 				FA6F1B5C1D80F858007DD223 /* Bone.h in Headers */,
 				BAFF7C791D59E0DA0051B92F /* CCActionFrameEasing.h in Headers */,
 				29394CF519B01DBA00D2DE1A /* UIWebViewImpl-ios.h in Headers */,
 				50ABBD5B1925AB0000A911A9 /* Vec2.h in Headers */,
+				A6E79B421EDA67860003FC60 /* MD5.h in Headers */,
 				50ABBD411925AB0000A911A9 /* CCMath.h in Headers */,
 				4DED47ED1DFFA4AF0070C5C4 /* b2TimeOfImpact.h in Headers */,
 				1A5701A0180BCB590088DEC7 /* CCFont.h in Headers */,
 				292DB14819B4574100A80320 /* UIEditBoxImpl-ios.h in Headers */,
 				BAFF7DA11D5C1CF80051B92F /* RegionAttachment.h in Headers */,
 				3E2BDADE19C030ED0055CDCD /* AudioEngine.h in Headers */,
+				A6E79B761EDA680B0003FC60 /* KeyChainStore.h in Headers */,
 				50ABBD9A1925AB4100A911A9 /* CCGLProgramStateCache.h in Headers */,
 				15AE192519AAD35100C27E9E /* CocoLoader.h in Headers */,
 				15AE1BBB19AADFF000C27E9E /* HttpRequest.h in Headers */,
 				B230ED7419B417AE00364AA8 /* CCTrianglesCommand.h in Headers */,
 				4DED48471DFFA4AF0070C5C4 /* b2ContactSolver.h in Headers */,
 				50ABBD3F1925AB0000A911A9 /* CCGeometry.h in Headers */,
+				A6E79B4E1EDA67990003FC60 /* CCBatchEndCommand.h in Headers */,
 				BAFF7CAB1D59E0DA0051B92F /* CCComBase.h in Headers */,
 				1AD473AF1EAD9A5900202582 /* Uri.h in Headers */,
 				BAFF7CBB1D59E0DB0051B92F /* CCDataReaderHelper.h in Headers */,
@@ -5568,6 +5704,7 @@
 				50ABBE681925AB6F00A911A9 /* CCEventListenerCustom.h in Headers */,
 				4DED48251DFFA4AF0070C5C4 /* b2Fixture.h in Headers */,
 				15AE1BBA19AADFF000C27E9E /* HttpClient.h in Headers */,
+				A6E79B541EDA67CD0003FC60 /* SkeletonCache.h in Headers */,
 				15AE1B9419AADA9A00C27E9E /* GUIDefine.h in Headers */,
 				50693C611B6BF2AE005C5820 /* CCDownloader.h in Headers */,
 				5034CA42191D591100CE6051 /* ccShader_Position_uColor.frag in Headers */,
@@ -5710,6 +5847,7 @@
 				15AE18D119AAD33D00C27E9E /* CCNodeLoaderLibrary.h in Headers */,
 				4DED47F51DFFA4AF0070C5C4 /* b2CircleShape.h in Headers */,
 				2980F02B1BA9A5550059E678 /* UITextView+CCUITextInput.h in Headers */,
+				A6E79B7C1EDA680B0003FC60 /* BaiyouPlugin.h in Headers */,
 				50ABBE741925AB6F00A911A9 /* CCEventListenerMouse.h in Headers */,
 				FA6F1B541D80F858007DD223 /* WorldClock.h in Headers */,
 				1A5702CB180BCE370088DEC7 /* CCTextFieldTTF.h in Headers */,
@@ -5762,6 +5900,7 @@
 				FA6F1BA81D80F858007DD223 /* DataParser.h in Headers */,
 				50ABBD531925AB0000A911A9 /* Quaternion.h in Headers */,
 				503DD8E81926736A00CD74DD /* CCES2Renderer-ios.h in Headers */,
+				A6E79B6E1EDA680B0003FC60 /* KeychainHelper.h in Headers */,
 				BAFF7CF11D59E0DB0051B92F /* DictionaryHelper.h in Headers */,
 				50ABBE6C1925AB6F00A911A9 /* CCEventListenerFocus.h in Headers */,
 				5034CA3E191D591100CE6051 /* ccShader_PositionColor.frag in Headers */,
@@ -5802,6 +5941,7 @@
 				1ABA68B11888D700007D1BB4 /* CCFontCharMap.h in Headers */,
 				4DED48111DFFA4AF0070C5C4 /* b2Settings.h in Headers */,
 				15AE198019AAD35700C27E9E /* CCTimeLine.h in Headers */,
+				A6E79B721EDA680B0003FC60 /* KeychainIDFA.h in Headers */,
 				FA6F1B441D80F858007DD223 /* Animation.h in Headers */,
 				38B8E2E419E671D2002D7CE7 /* UILayoutComponent.h in Headers */,
 				50ABBD4F1925AB0000A911A9 /* MathUtil.h in Headers */,
@@ -6021,6 +6161,7 @@
 				294D7D9C1D0E93A2002CE7B7 /* CCDevice-apple.mm in Sources */,
 				BA68D7B61D62F66300B7A3F9 /* CCTechnique.cpp in Sources */,
 				BAFF7D7A1D5C1CF80051B92F /* EventData.c in Sources */,
+				A6E79B4B1EDA67990003FC60 /* CCBatchEndCommand.cpp in Sources */,
 				4DED48301DFFA4AF0070C5C4 /* b2WorldCallbacks.cpp in Sources */,
 				50ABBEC51925AB6F00A911A9 /* etc1.cpp in Sources */,
 				15AE1B5B19AADA9900C27E9E /* UITextAtlas.cpp in Sources */,
@@ -6051,6 +6192,7 @@
 				505385041B01887A00793096 /* CCProperties.cpp in Sources */,
 				1A570085180BC5A10088DEC7 /* CCActionPageTurn3D.cpp in Sources */,
 				FAC8F66A1E1DF15D002B17E8 /* SkeletonBinary.c in Sources */,
+				A6E79B2C1EDA63940003FC60 /* UdpClient.cpp in Sources */,
 				1A570089180BC5A10088DEC7 /* CCActionProgressTimer.cpp in Sources */,
 				1A57008D180BC5A10088DEC7 /* CCActionTiledGrid.cpp in Sources */,
 				1A570091180BC5A10088DEC7 /* CCActionTween.cpp in Sources */,
@@ -6076,6 +6218,7 @@
 				BAFF7C861D59E0DA0051B92F /* CCArmature.cpp in Sources */,
 				4DED47EE1DFFA4AF0070C5C4 /* b2ChainShape.cpp in Sources */,
 				50ABBE651925AB6F00A911A9 /* CCEventListenerCustom.cpp in Sources */,
+				A6E79B3F1EDA67860003FC60 /* MD5.cpp in Sources */,
 				15AE189B19AAD33D00C27E9E /* CCNode+CCBRelativePositioning.cpp in Sources */,
 				50ABBE391925AB6F00A911A9 /* CCData.cpp in Sources */,
 				4DC06BE71E8A68D400CA08B1 /* CCPhysicsWorldManifoldWrapper.cpp in Sources */,
@@ -6186,6 +6329,7 @@
 				1A570229180BCC1A0088DEC7 /* CCParticleSystem.cpp in Sources */,
 				4DED48801DFFA4AF0070C5C4 /* b2WeldJoint.cpp in Sources */,
 				1A57022D180BCC1A0088DEC7 /* CCParticleSystemQuad.cpp in Sources */,
+				A6E79B511EDA67CD0003FC60 /* SkeletonCache.cpp in Sources */,
 				1A57027E180BCC900088DEC7 /* CCSprite.cpp in Sources */,
 				1A570282180BCC900088DEC7 /* CCSpriteBatchNode.cpp in Sources */,
 				BAFF7D7E1D5C1CF80051B92F /* extension.c in Sources */,
@@ -6283,6 +6427,7 @@
 				15AE186819AAD31D00C27E9E /* CDXMacOSXSupport.mm in Sources */,
 				4DED48441DFFA4AF0070C5C4 /* b2ContactSolver.cpp in Sources */,
 				15AE189019AAD33D00C27E9E /* CCLayerColorLoader.cpp in Sources */,
+				A6E79B791EDA680B0003FC60 /* BaiyouPlugin.cpp in Sources */,
 				BAFF7C8E1D59E0DA0051B92F /* CCArmatureDataManager.cpp in Sources */,
 				BA68D7891D62F4A500B7A3F9 /* cdt.cc in Sources */,
 				BAFF7C761D59E0DA0051B92F /* CCActionFrameEasing.cpp in Sources */,
@@ -6332,6 +6477,7 @@
 				15AE197019AAD35700C27E9E /* CCFrame.cpp in Sources */,
 				BAFF7CB01D59E0DA0051B92F /* CCComExtensionData.cpp in Sources */,
 				15AE1B9F19AADFDF00C27E9E /* UILayout.cpp in Sources */,
+				A6E79B6F1EDA680B0003FC60 /* KeychainHelper.m in Sources */,
 				50ABBECF1925AB6F00A911A9 /* TGAlib.cpp in Sources */,
 				BAFF7C721D59E0DA0051B92F /* CCActionFrame.cpp in Sources */,
 				FA6F1B6F1D80F858007DD223 /* CCSlot.cpp in Sources */,
@@ -6351,6 +6497,7 @@
 				299754F4193EC95400A54AC3 /* ObjectFactory.cpp in Sources */,
 				4DED48121DFFA4AF0070C5C4 /* b2StackAllocator.cpp in Sources */,
 				15AE1BA119AADFDF00C27E9E /* UILayoutParameter.cpp in Sources */,
+				A6E79B6B1EDA680B0003FC60 /* BaiyouPlugin_Apple.mm in Sources */,
 				BAFF7D961D5C1CF80051B92F /* PathConstraint.c in Sources */,
 				50ABC0211926664800A911A9 /* CCGLViewImpl-desktop.cpp in Sources */,
 				4DED47FA1DFFA4AF0070C5C4 /* b2PolygonShape.cpp in Sources */,
@@ -6363,6 +6510,7 @@
 				BAFF7D5A1D5C1CF80051B92F /* Attachment.c in Sources */,
 				A63CF0071CD9CF3500A6971D /* CCUIMultilineTextField.m in Sources */,
 				B5668D7D1B3838E4003CBD5E /* UIScrollViewBar.cpp in Sources */,
+				A6E79B771EDA680B0003FC60 /* KeyChainStore.m in Sources */,
 				BAFF7CA21D59E0DA0051B92F /* CCComAttribute.cpp in Sources */,
 				50ABBE9F1925AB6F00A911A9 /* CCScheduler.cpp in Sources */,
 				4DED48601DFFA4AF0070C5C4 /* b2GearJoint.cpp in Sources */,
@@ -6394,8 +6542,10 @@
 				BAFF7CBC1D59E0DB0051B92F /* CCDatas.cpp in Sources */,
 				4DED47DA1DFFA4AF0070C5C4 /* b2CollideEdge.cpp in Sources */,
 				15AE1B6B19AADA9900C27E9E /* UIWidget.cpp in Sources */,
+				A6E79B731EDA680B0003FC60 /* KeychainIDFA.m in Sources */,
 				50ABBE931925AB6F00A911A9 /* CCProfiling.cpp in Sources */,
 				15AE188819AAD33D00C27E9E /* CCControlButtonLoader.cpp in Sources */,
+				A6E79B471EDA67990003FC60 /* CCBatchBeginCommand.cpp in Sources */,
 				15AE18A419AAD33D00C27E9E /* CCScale9SpriteLoader.cpp in Sources */,
 				A60A9D5F1C200DE10070800A /* CCPhysicsDebugNode.cpp in Sources */,
 				15AE1B5719AADA9900C27E9E /* UISlider.cpp in Sources */,
@@ -6408,6 +6558,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6E79B2D1EDA63940003FC60 /* UdpClient.cpp in Sources */,
 				ED30578D1BEC77550083C3ED /* unzip.cpp in Sources */,
 				BAFF7D7F1D5C1CF80051B92F /* extension.c in Sources */,
 				15AE1B9819AADAA100C27E9E /* UIVideoPlayer-ios.mm in Sources */,
@@ -6424,6 +6575,7 @@
 				15AE1B9019AADA9A00C27E9E /* UIWidget.cpp in Sources */,
 				ED9C6A9518599AD8000A5232 /* CCNodeGrid.cpp in Sources */,
 				B276EF621988D1D500CD400F /* CCVertexIndexData.cpp in Sources */,
+				A6E79B701EDA680B0003FC60 /* KeychainHelper.m in Sources */,
 				4DED47DB1DFFA4AF0070C5C4 /* b2CollideEdge.cpp in Sources */,
 				50ABBE561925AB6F00A911A9 /* CCEventFocus.cpp in Sources */,
 				503DD8E11926736A00CD74DD /* CCApplication-ios.mm in Sources */,
@@ -6447,6 +6599,7 @@
 				503DD8EE1926736A00CD74DD /* CCImage-ios.mm in Sources */,
 				15AE1BEA19AAE01E00C27E9E /* CCControlButton.cpp in Sources */,
 				50ABBD941925AB4100A911A9 /* CCGLProgramState.cpp in Sources */,
+				A6E79B521EDA67CD0003FC60 /* SkeletonCache.cpp in Sources */,
 				ED30578B1BEC774D0083C3ED /* ioapi_mem.cpp in Sources */,
 				BAFF7CE11D59E0DB0051B92F /* CCTween.cpp in Sources */,
 				FA6F1B421D80F858007DD223 /* Animation.cpp in Sources */,
@@ -6493,6 +6646,7 @@
 				4DED47D91DFFA4AF0070C5C4 /* b2CollideCircle.cpp in Sources */,
 				50ABBE621925AB6F00A911A9 /* CCEventListenerAcceleration.cpp in Sources */,
 				292DB13E19B4574100A80320 /* UIEditBox.cpp in Sources */,
+				A6E79B4C1EDA67990003FC60 /* CCBatchEndCommand.cpp in Sources */,
 				15AE18B219AAD33D00C27E9E /* CCBReader.cpp in Sources */,
 				50ABBE7E1925AB6F00A911A9 /* CCEventTouch.cpp in Sources */,
 				FA6F1B601D80F858007DD223 /* Slot.cpp in Sources */,
@@ -6522,6 +6676,7 @@
 				FA6F1BA61D80F858007DD223 /* DataParser.cpp in Sources */,
 				15AE1B7E19AADA9A00C27E9E /* UIText.cpp in Sources */,
 				15AE18C119AAD33D00C27E9E /* CCLayerColorLoader.cpp in Sources */,
+				A6E79B481EDA67990003FC60 /* CCBatchBeginCommand.cpp in Sources */,
 				50ABBD551925AB0000A911A9 /* TransformUtils.cpp in Sources */,
 				4DED480B1DFFA4AF0070C5C4 /* b2Math.cpp in Sources */,
 				1A57007A180BC5A10088DEC7 /* CCActionInstant.cpp in Sources */,
@@ -6541,6 +6696,7 @@
 				15AE1C0319AAE01E00C27E9E /* CCTableView.cpp in Sources */,
 				BA679B311CEC373000F875FA /* AssetsManagerEx.cpp in Sources */,
 				1A57007E180BC5A10088DEC7 /* CCActionInterval.cpp in Sources */,
+				A6E79B741EDA680B0003FC60 /* KeychainIDFA.m in Sources */,
 				15AE1BF319AAE01E00C27E9E /* CCControlSaturationBrightnessPicker.cpp in Sources */,
 				4DC06BD01E8A68D400CA08B1 /* CCPhysicsAABBQueryCallback.cpp in Sources */,
 				1A570082180BC5A10088DEC7 /* CCActionManager.cpp in Sources */,
@@ -6677,12 +6833,14 @@
 				38ACD1FD1A27111900C3093D /* WidgetCallBackHandlerProtocol.cpp in Sources */,
 				29394CF719B01DBA00D2DE1A /* UIWebViewImpl-ios.mm in Sources */,
 				B24AA986195A675C007B4522 /* CCFastTMXLayer.cpp in Sources */,
+				A6E79B401EDA67860003FC60 /* MD5.cpp in Sources */,
 				1A57022E180BCC1A0088DEC7 /* CCParticleSystemQuad.cpp in Sources */,
 				50ABBD901925AB4100A911A9 /* CCGLProgramCache.cpp in Sources */,
 				BAFF7C9F1D59E0DA0051B92F /* CCColliderDetector.cpp in Sources */,
 				4DC06BE41E8A68D400CA08B1 /* CCPhysicsUtils.cpp in Sources */,
 				4DED481B1DFFA4AF0070C5C4 /* b2Body.cpp in Sources */,
 				BAFF7D631D5C1CF80051B92F /* AttachmentVertices.cpp in Sources */,
+				A6E79B7A1EDA680B0003FC60 /* BaiyouPlugin.cpp in Sources */,
 				ED3057931BEC77790083C3ED /* edtaa3func.cpp in Sources */,
 				4DC06BDC1E8A68D400CA08B1 /* CCPhysicsDebugDraw.cpp in Sources */,
 				15AE197F19AAD35700C27E9E /* CCTimeLine.cpp in Sources */,
@@ -6803,6 +6961,7 @@
 				4DED47DF1DFFA4AF0070C5C4 /* b2Collision.cpp in Sources */,
 				BA68D7B31D62F66300B7A3F9 /* CCPass.cpp in Sources */,
 				50ABBE9A1925AB6F00A911A9 /* CCRef.cpp in Sources */,
+				A6E79B6C1EDA680B0003FC60 /* BaiyouPlugin_Apple.mm in Sources */,
 				4DED48011DFFA4AF0070C5C4 /* b2BlockAllocator.cpp in Sources */,
 				2980F0251BA9A5550059E678 /* CCUIMultilineTextField.mm in Sources */,
 				15AE18BF19AAD33D00C27E9E /* CCLabelTTFLoader.cpp in Sources */,
@@ -6818,6 +6977,7 @@
 				BA68D77E1D62F4A500B7A3F9 /* shapes.cc in Sources */,
 				BAFF7DD91D5C1CF80051B92F /* VertexAttachment.c in Sources */,
 				BAFF7C731D59E0DA0051B92F /* CCActionFrame.cpp in Sources */,
+				A6E79B781EDA680B0003FC60 /* KeyChainStore.m in Sources */,
 				BAFF7C7F1D59E0DA0051B92F /* CCActionNode.cpp in Sources */,
 				50CB247819D9C5A100687767 /* AudioCache.mm in Sources */,
 				50ABBD5D1925AB0000A911A9 /* Vec3.cpp in Sources */,

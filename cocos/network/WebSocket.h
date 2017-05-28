@@ -270,6 +270,7 @@ private:
 
     friend class WsThreadHelper;
     friend class WebSocketCallbackWrapper;
+    bool zipEnabled;
     
 public:
     void setZipEnabled(bool _zip);

@@ -70,23 +70,13 @@ public:
     
     inline cocos2d::extension::AssetsManagerEx *getAssetsManagerEx() const { return _manager; };
     
-    bool isResuming() const;
+    inline float getPercent() const { return _percent; };
     
-    float getPercent() const;
-    
-    float getPercentByFile() const;
-    
-    double getDownloadedBytes() const;
-    
-    double getTotalBytes() const;
-    
-    int getDownloadedFiles() const;
-    
-    int getTotalFiles() const;
+    inline float getPercentByFile() const { return _percentByFile; };
     
 CC_CONSTRUCTOR_ACCESS:
     /** Constructor */
-    EventAssetsManagerEx(const std::string& eventName, cocos2d::extension::AssetsManagerEx *manager, const EventCode &code, const std::string& assetId = "", const std::string& message = "", int curle_code = 0, int curlm_code = 0);
+    EventAssetsManagerEx(const std::string& eventName, cocos2d::extension::AssetsManagerEx *manager, const EventCode &code, float percent = 0, float percentByFile = 0, const std::string& assetId = "", const std::string& message = "", int curle_code = 0, int curlm_code = 0);
     
 private:
     EventCode _code;
@@ -100,6 +90,10 @@ private:
     int _curle_code;
     
     int _curlm_code;
+    
+    float _percent;
+    
+    float _percentByFile;
 };
 
 NS_CC_EXT_END
