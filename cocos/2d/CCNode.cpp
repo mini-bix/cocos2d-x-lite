@@ -210,6 +210,8 @@ void Node::cleanup()
     this->stopAllActions();
     // timers
     this->unscheduleAllCallbacks();
+
+    _eventDispatcher->removeEventListenersForTarget(this);
     
     for( const auto &child: _children)
         child->cleanup();
@@ -977,12 +979,12 @@ void Node::postInsertChild(Node* child)
 
     if (_cascadeColorEnabled)
     {
-        updateCascadeColor();
+        child->updateCascadeColor();
     }
 
     if (_cascadeOpacityEnabled)
     {
-        updateCascadeOpacity();
+        child->updateCascadeOpacity();
     }
 }
 
@@ -1231,6 +1233,10 @@ void Node::visit(Renderer* renderer, const Mat4 &parentTransform, uint32_t paren
         return;
     }
 
+    if (_beforeVisitCallback) {
+        _beforeVisitCallback(renderer);
+    }
+    
     uint32_t flags = processParentFlags(parentTransform, parentFlags);
 
     // IMPORTANT:
@@ -1271,6 +1277,10 @@ void Node::visit(Renderer* renderer, const Mat4 &parentTransform, uint32_t paren
     }
 
     _director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
+    
+    if (_afterVisitCallback) {
+        _afterVisitCallback(renderer);
+    }
 }
 
 Mat4 Node::transform(const Mat4& parentTransform)

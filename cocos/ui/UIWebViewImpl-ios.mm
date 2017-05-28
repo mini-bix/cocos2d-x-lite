@@ -139,6 +139,7 @@ static std::string getFixedBaseUrl(const std::string& baseUrl)
         self.uiWebView.opaque = NO;
         self.uiWebView.backgroundColor = [UIColor clearColor];
     }
+    self.uiWebView.allowsInlineMediaPlayback = YES;
     if (!self.uiWebView.superview) {
         auto view = cocos2d::Director::getInstance()->getOpenGLView();
         auto eaglview = (CCEAGLView *) view->getEAGLView();

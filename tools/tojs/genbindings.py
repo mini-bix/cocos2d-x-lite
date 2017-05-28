@@ -165,6 +165,7 @@ def main():
                     'creator.ini': ('creator', 'jsb_creator_auto'), \
                     'baiyou_plugin.ini': ('baiyou_plugin', 'jsb_baiyou_plugin_auto'),
 #                    'baiyou_sdk.ini': ('baiyou_sdk', 'jsb_baiyou_sdk_auto'),
+                    'box2d.ini' : ('box2d', 'jsb_box2d_auto'),
                     }
         target = 'spidermonkey'
         generator_py = '%s/generator.py' % cxx_generator_root
