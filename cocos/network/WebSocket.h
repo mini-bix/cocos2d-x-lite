@@ -270,6 +270,9 @@ private:
 
     friend class WsThreadHelper;
     friend class WebSocketCallbackWrapper;
+    
+public:
+    void setZipEnabled(bool _zip);
 };
 
 } // namespace network {

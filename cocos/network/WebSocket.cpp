@@ -1326,4 +1326,8 @@ int WebSocket::onSocketCallback(struct lws *wsi,
     return ret;
 }
 
+void WebSocket::setZipEnabled(bool _zip){
+    zipEnabled = _zip;
+}
+
 NS_NETWORK_END
