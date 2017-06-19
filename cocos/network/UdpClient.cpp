@@ -113,6 +113,12 @@ namespace network {
             }
             char *copy = (char*)malloc(readed);
             memcpy(copy, readbuf, readed);
+            if (this->zipEnabled){
+                char *dst = nullptr;
+                readed = ZipUtils::inflateMemory((unsigned char *)copy, readed, (unsigned char**)&dst);
+                free(copy);
+                copy = dst;
+            }
             dataListMutex.lock();
             dataList.push_back(Data(copy,readed,false));
             dataListMutex.unlock();
