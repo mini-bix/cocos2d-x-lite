@@ -1289,7 +1289,8 @@ void Node::visit(Renderer* renderer, const Mat4 &parentTransform, uint32_t paren
     if (this->isBatchNode()){
         this->_endRenderCommand.init();
         renderer->addCommand(&this->_endRenderCommand);
-        
+    }
+    
     if (camera && camera->visitingIndex > 0) {
         camera->visitingIndex --;
     }
