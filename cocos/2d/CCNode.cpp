@@ -2160,7 +2160,10 @@ float Node::getDepthInGlobalBatchNode() const{
     return depth;
 }
 
-
+void Node::markTransformUpdated()
+{
+    _transformUpdated = true;
+}
 
 NS_CC_END
 
