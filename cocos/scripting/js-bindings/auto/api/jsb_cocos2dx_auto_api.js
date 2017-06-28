@@ -14235,6 +14235,20 @@ bool
 },
 
 /**
+ * @method getPixelData
+ * @param {int} arg0
+ * @param {int} arg1
+ * @return {color4b_object}
+ */
+getPixelData : function (
+int, 
+int 
+)
+{
+    return cc.Color4B;
+},
+
+/**
  * @method setClearFlags
  * @param {unsigned int} arg0
  */
