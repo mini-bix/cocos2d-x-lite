@@ -188,7 +188,7 @@ bool js_cocos2dx_extension_UdpClient_Write(JSContext *cx, uint32_t argc, jsval *
                 // since javascript language could support '0x00' inserted at the beginning or the middle of text message
             }
             
-            cobj->Write(data.c_str(),len);
+            cobj->Write(data.c_str(),data.size());
         }
         else if (argv[0].isObject())
         {
