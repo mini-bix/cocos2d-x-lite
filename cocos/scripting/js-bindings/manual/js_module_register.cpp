@@ -6,7 +6,9 @@
 #include "scripting/js-bindings/auto/jsb_cocos2dx_builder_auto.hpp"
 #include "scripting/js-bindings/auto/jsb_cocos2dx_spine_auto.hpp"
 #include "scripting/js-bindings/auto/jsb_cocos2dx_dragonbones_auto.hpp"
+#if (CC_TARGET_PLATFORM != CC_PLATFORM_WIN32)
 #include "scripting/js-bindings/auto/jsb_baiyou_plugin_auto.hpp"
+#endif
 #include "scripting/js-bindings/auto/jsb_cocos2dx_network_auto.hpp"
 #include "jsb_creator_auto.hpp"
 #include "scripting/js-bindings/auto/jsb_cocos2dx_extension_auto.hpp"
@@ -85,7 +87,9 @@ int js_module_register()
     sc->addRegisterCallback(register_all_creator);
     sc->addRegisterCallback(register_all_creatorclasses_manual);
     
+#if (CC_TARGET_PLATFORM != CC_PLATFORM_WIN32)
     sc->addRegisterCallback(register_all_baiyou_plugin);
+#endif
     
     // XmlHttpRequest can be commented out to reduce the package
     sc->addRegisterCallback(MinXmlHttpRequest::_js_register);

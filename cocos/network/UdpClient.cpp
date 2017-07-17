@@ -8,14 +8,23 @@
 
 #include "UdpClient.h"
 #include <stdlib.h>
+#include <sys/types.h>
+#include "cocos2d.h"
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+#include <windows.h>
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#include <iphlpapi.h>
+#include <iostream>
+#else
+#include <arpa/inet.h>
 #include <netdb.h>
 #include <unistd.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
-#include <sys/types.h>
-#include <arpa/inet.h>
-#include "cocos2d.h"
+#endif
 
 #define BUFFERLENGTH 1024*1024
 
@@ -96,7 +105,11 @@ namespace network {
     }
     
     ssize_t UdpClient::Write(const void *buf, size_t nbyte){
-        return write(sockfd, buf, nbyte);
+		#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+			return send(sockfd, (const char*)buf, nbyte,0);
+		#else
+				return write(sockfd, buf, nbyte);
+		#endif
     }
     
     void UdpClient::onReceivedData(const Data& data){
@@ -107,7 +120,11 @@ namespace network {
     
     void UdpClient::receiveThreadMain(){
         while (sockfd >0) {
-            ssize_t readed = read(sockfd, readbuf, BUFFERLENGTH);
+			#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+						ssize_t readed = recv(sockfd, readbuf, BUFFERLENGTH,0);
+			#else
+						ssize_t readed = read(sockfd, readbuf, BUFFERLENGTH);
+			#endif
             if (readed <0){
                 continue;
             }
@@ -132,7 +149,12 @@ namespace network {
     
     void UdpClient::Close(){
         if (sockfd > 0){
-            close(sockfd);
+		#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+					closesocket(sockfd);
+		#else
+					close(sockfd);
+		#endif
+            
             sockfd = 0;
         }
         if (recvThread && recvThread->joinable()){
