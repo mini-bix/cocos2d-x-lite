@@ -175,6 +175,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\win32\libs\*.*" "$(OutDir)"
     <ClCompile Include="..\..\extensions\GUI\CCScrollView\CCScrollView.cpp" />
     <ClCompile Include="..\..\extensions\GUI\CCScrollView\CCTableView.cpp" />
     <ClCompile Include="..\..\extensions\GUI\CCScrollView\CCTableViewCell.cpp" />
+    <ClCompile Include="..\..\extensions\md5\MD5.cpp" />
     <ClCompile Include="..\..\extensions\physics-nodes\CCPhysicsDebugNode.cpp" />
     <ClCompile Include="..\..\extensions\physics-nodes\CCPhysicsSprite.cpp" />
     <ClCompile Include="..\..\external\sources\clipper\clipper.cpp" />
@@ -335,6 +336,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\win32\libs\*.*" "$(OutDir)"
     <ClCompile Include="..\network\CCDownloader.cpp" />
     <ClCompile Include="..\network\HttpClient.cpp" />
     <ClCompile Include="..\network\SocketIO.cpp" />
+    <ClCompile Include="..\network\UdpClient.cpp" />
     <ClCompile Include="..\network\Uri.cpp" />
     <ClCompile Include="..\network\WebSocket.cpp" />
     <ClCompile Include="..\platform\CCFileUtils.cpp" />
@@ -349,7 +351,9 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\win32\libs\*.*" "$(OutDir)"
     <ClCompile Include="..\platform\win32\CCFileUtils-win32.cpp" />
     <ClCompile Include="..\platform\win32\CCStdC-win32.cpp" />
     <ClCompile Include="..\platform\win32\CCUtils-win32.cpp" />
+    <ClCompile Include="..\renderer\CCBatchBeginCommand.cpp" />
     <ClCompile Include="..\renderer\CCBatchCommand.cpp" />
+    <ClCompile Include="..\renderer\CCBatchEndCommand.cpp" />
     <ClCompile Include="..\renderer\CCCustomCommand.cpp" />
     <ClCompile Include="..\renderer\CCFrameBuffer.cpp" />
     <ClCompile Include="..\renderer\CCGLProgram.cpp" />

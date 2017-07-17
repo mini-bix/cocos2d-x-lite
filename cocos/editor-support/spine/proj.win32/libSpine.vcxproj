@@ -39,6 +39,7 @@
     <ClCompile Include="..\SkeletonBatch.cpp" />
     <ClCompile Include="..\SkeletonBinary.c" />
     <ClCompile Include="..\SkeletonBounds.c" />
+    <ClCompile Include="..\SkeletonCache.cpp" />
     <ClCompile Include="..\SkeletonData.c" />
     <ClCompile Include="..\SkeletonJson.c" />
     <ClCompile Include="..\SkeletonRenderer.cpp" />
