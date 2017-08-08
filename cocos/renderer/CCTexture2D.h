@@ -114,6 +114,10 @@ public:
         ATC_EXPLICIT_ALPHA,
         //! ATITC-compressed texture: ATC_INTERPOLATED_ALPHA
         ATC_INTERPOLATED_ALPHA,
+        //! ETC2-compressed texture: GL_COMPRESSED_RGB8_ETC2
+        ETC2_RGB,
+        //! ETC2-compressed texture: GL_COMPRESSED_RGBA8_ETC2_EAC
+        ETC2_RGBA,
         //! Default texture format: AUTO
         DEFAULT = AUTO,
 

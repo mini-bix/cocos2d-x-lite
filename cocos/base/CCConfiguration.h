@@ -106,6 +106,8 @@ public:
      * @return Is true if supports ETC Texture Compressed.
      */
     bool supportsETC() const;
+    
+    bool supportsETC2() const;
 
     /** Whether or not S3TC Texture Compressed is supported.
      *
@@ -228,6 +230,8 @@ public:
      * @param filename Config file name.
      */
     void loadConfigFile(const std::string& filename);
+    
+    bool checkForEtc2() const;
 
     static const char* CONFIG_FILE_LOADED;
 
@@ -250,6 +254,7 @@ protected:
     bool            _supportsOESMapBuffer;
     bool            _supportsOESDepth24;
     bool            _supportsOESPackedDepthStencil;
+    bool            _supportsETC2;
     GLint           _maxSamplesAllowed;
     GLint           _maxTextureUnits;
     char *          _glExtensions;

@@ -160,6 +160,9 @@ void Configuration::gatherGPUInfo()
 
     _supportsOESPackedDepthStencil = checkForGLExtension("GL_OES_packed_depth_stencil");
     _valueDict["gl.supports_OES_packed_depth_stencil"] = Value(_supportsOESPackedDepthStencil);
+    
+    _supportsETC2 = checkForEtc2();
+    _valueDict["gl.supports_ETC2"] = Value(_supportsETC2);
 
     CHECK_GL_ERROR_DEBUG();
 }
@@ -222,6 +225,11 @@ bool Configuration::supportsETC() const
 #else
     return false;
 #endif
+}
+
+bool Configuration::supportsETC2() const
+{
+    return _supportsETC2;
 }
 
 //bool Configuration::supportsS3TC() const
@@ -382,6 +390,28 @@ void Configuration::loadConfigFile(const std::string& filename)
         _valueDict[name] = Value(_maxSpotLightInShader);
 
     Director::getInstance()->getEventDispatcher()->dispatchEvent(_loadedEvent);
+}
+
+bool Configuration::checkForEtc2() const
+{
+    // Only the following two formats are supported
+#define GL_COMPRESSED_RGB8_ETC2           0x9274
+#define GL_COMPRESSED_RGBA8_ETC2_EAC      0x9278
+    
+    GLint numFormats = 0;
+    glGetIntegerv(GL_NUM_COMPRESSED_TEXTURE_FORMATS, &numFormats);
+    GLint* formats = new GLint[numFormats];
+    glGetIntegerv(GL_COMPRESSED_TEXTURE_FORMATS, formats);
+    
+    int supportNum = 0;
+    for (GLint i = 0; i < numFormats; ++i)
+    {
+        if (formats[i] == GL_COMPRESSED_RGB8_ETC2 || formats[i] == GL_COMPRESSED_RGBA8_ETC2_EAC)
+            supportNum++;
+    }
+    delete [] formats;
+    
+    return supportNum >= 2;
 }
 
 NS_CC_END

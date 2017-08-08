@@ -57,6 +57,8 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 namespace {
+#define GL_COMPRESSED_RGB8_ETC2           0x9274
+#define GL_COMPRESSED_RGBA8_ETC2_EAC      0x9278
     typedef Texture2D::PixelFormatInfoMap::value_type PixelFormatInfoMapValue;
     static const PixelFormatInfoMapValue TexturePixelFormatInfoTablesValue[] =
     {
@@ -69,7 +71,9 @@ namespace {
         PixelFormatInfoMapValue(Texture2D::PixelFormat::A8, Texture2D::PixelFormatInfo(GL_ALPHA, GL_ALPHA, GL_UNSIGNED_BYTE, 8, false, false)),
         PixelFormatInfoMapValue(Texture2D::PixelFormat::I8, Texture2D::PixelFormatInfo(GL_LUMINANCE, GL_LUMINANCE, GL_UNSIGNED_BYTE, 8, false, false)),
         PixelFormatInfoMapValue(Texture2D::PixelFormat::AI88, Texture2D::PixelFormatInfo(GL_LUMINANCE_ALPHA, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, 16, false, true)),
-
+        PixelFormatInfoMapValue(Texture2D::PixelFormat::ETC2_RGB, Texture2D::PixelFormatInfo(GL_COMPRESSED_RGB8_ETC2, 0xFFFFFFFF, 0xFFFFFFFF, 4, true, false)),
+        PixelFormatInfoMapValue(Texture2D::PixelFormat::ETC2_RGBA, Texture2D::PixelFormatInfo(GL_COMPRESSED_RGBA8_ETC2_EAC, 0xFFFFFFFF, 0xFFFFFFFF, 8, true, true)),
+        
 #ifdef GL_COMPRESSED_RGB_PVRTC_2BPPV1_IMG
         PixelFormatInfoMapValue(Texture2D::PixelFormat::PVRTC2, Texture2D::PixelFormatInfo(GL_COMPRESSED_RGB_PVRTC_2BPPV1_IMG, 0xFFFFFFFF, 0xFFFFFFFF, 2, true, false)),
         PixelFormatInfoMapValue(Texture2D::PixelFormat::PVRTC2A, Texture2D::PixelFormatInfo(GL_COMPRESSED_RGBA_PVRTC_2BPPV1_IMG, 0xFFFFFFFF, 0xFFFFFFFF, 2, true, true)),
@@ -599,7 +603,8 @@ bool Texture2D::initWithMipmaps(MipmapInfo* mipmaps, int mipmapsNum, PixelFormat
     const PixelFormatInfo& info = _pixelFormatInfoTables.at(pixelFormat);
 
     if (info.compressed && !Configuration::getInstance()->supportsPVRTC()
-                        && !Configuration::getInstance()->supportsETC())
+                        && !Configuration::getInstance()->supportsETC()
+                        && !Configuration::getInstance()->supportsETC2())
 //                        && !Configuration::getInstance()->supportsS3TC()
 //                        && !Configuration::getInstance()->supportsATITC())
     {
@@ -1365,7 +1370,10 @@ const char* Texture2D::getStringForFormat() const
 
         case Texture2D::PixelFormat::PVRTC2:
             return  "PVRTC2";
-
+        case Texture2D::PixelFormat::ETC2_RGB:
+            return "ETC2_RGB";
+        case Texture2D::PixelFormat::ETC2_RGBA:
+            return "ETC2_RGBA";
         default:
             CCASSERT(false , "unrecognized pixel format");
             CCLOG("stringForFormat: %ld, cannot give useful result", (long)_pixelFormat);

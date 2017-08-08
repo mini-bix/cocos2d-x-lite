@@ -92,6 +92,8 @@ public:
         TGA,
         //! Raw Data
         RAW_DATA,
+        
+        ETC2,
         //! Unknown format
         UNKNOWN
     };
@@ -163,6 +165,7 @@ protected:
     bool initWithPVRv2Data(const unsigned char * data, ssize_t dataLen);
     bool initWithPVRv3Data(const unsigned char * data, ssize_t dataLen);
     bool initWithETCData(const unsigned char * data, ssize_t dataLen);
+    bool initWithETC2Data(const unsigned char * data, ssize_t dataLen);
 
     typedef struct sImageTGA tImageTGA;
     bool initWithTGAData(tImageTGA* tgaData);
@@ -216,6 +219,7 @@ protected:
     bool isWebp(const unsigned char * data, ssize_t dataLen);
     bool isPvr(const unsigned char * data, ssize_t dataLen);
     bool isEtc(const unsigned char * data, ssize_t dataLen);
+    bool isEtc2(const unsigned char *data, ssize_t dataLen);
 };
 
 // end of platform group
