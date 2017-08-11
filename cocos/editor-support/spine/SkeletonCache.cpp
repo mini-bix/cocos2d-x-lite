@@ -43,6 +43,12 @@ spAtlas* SkeletonCache::getAtlas(const std::string& atlasFile){
     }
     return atlas;
 }
+    
+bool has_suffix(const std::string &str, const std::string &suffix)
+{
+    std::size_t index = str.find(suffix, str.size() - suffix.size());
+    return (index != std::string::npos);
+}
 
 spSkeletonData* SkeletonCache::getSkeletonData(const std::string& skeletonDataFile, const std::string& atlasFile, float scale){
     
@@ -63,14 +69,20 @@ spSkeletonData* SkeletonCache::getSkeletonData(const std::string& skeletonDataFi
     if (!skeletonData){
         auto _atlas = SkeletonCache::getInstance()->getAtlas(atlasFile);
         CCASSERT(_atlas, "Error reading atlas file.");
-        
         auto _attachmentLoader = SUPER(Cocos2dAttachmentLoader_create(_atlas));
-        
-        spSkeletonJson* json = spSkeletonJson_createWithLoader(_attachmentLoader);
-        json->scale = scale;
-        skeletonData = spSkeletonJson_readSkeletonDataFile(json, skeletonDataFile.c_str());
-        CCASSERT(skeletonData, json->error ? json->error : "Error reading skeleton data file.");
-        spSkeletonJson_dispose(json);
+        if (has_suffix(skeletonDataFile, ".skel")){
+            spSkeletonBinary* binary = spSkeletonBinary_createWithLoader(_attachmentLoader);
+            binary->scale = scale;
+            skeletonData = spSkeletonBinary_readSkeletonDataFile(binary, skeletonDataFile.c_str());
+            CCASSERT(skeletonData, binary->error ? binary->error : "Error reading skeleton data file.");
+            spSkeletonBinary_dispose(binary);
+        }else{
+            spSkeletonJson* json = spSkeletonJson_createWithLoader(_attachmentLoader);
+            json->scale = scale;
+            skeletonData = spSkeletonJson_readSkeletonDataFile(json, skeletonDataFile.c_str());
+            CCASSERT(skeletonData, json->error ? json->error : "Error reading skeleton data file.");
+            spSkeletonJson_dispose(json);
+        }
         skeletonData->retainCount++;
         this->cachedSkeletonData[key] = skeletonData;
     }

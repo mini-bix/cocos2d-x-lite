@@ -35,6 +35,7 @@
 #include <spine/Cocos2dAttachmentLoader.h>
 #include <spine/SkeletonCache.h>
 #include <algorithm>
+#include <regex>
 
 USING_NS_CC;
 using std::min;
@@ -90,7 +91,13 @@ SkeletonRenderer::SkeletonRenderer (const std::string& skeletonDataFile, spAtlas
 
 SkeletonRenderer::SkeletonRenderer (const std::string& skeletonDataFile, const std::string& atlasFile, float scale)
 	: _atlas(nullptr), _attachmentLoader(nullptr), _debugSlots(false), _debugBones(false), _timeScale(1) {
-	initWithJsonFile(skeletonDataFile, atlasFile, scale);
+        std::string binaryFile = std::regex_replace(skeletonDataFile, std::regex("\\.json$"), ".skel");
+        if (FileUtils::getInstance()->isFileExist(binaryFile)){
+            initWithBinaryFile(binaryFile, atlasFile, scale);
+        }else{
+            initWithJsonFile(skeletonDataFile, atlasFile, scale);
+        }
+	
 }
 
 SkeletonRenderer::~SkeletonRenderer () {
@@ -158,16 +165,21 @@ void SkeletonRenderer::initWithBinaryFile (const std::string& skeletonDataFile, 
 }
 
 void SkeletonRenderer::initWithBinaryFile (const std::string& skeletonDataFile, const std::string& atlasFile, float scale) {
-    _atlas = spAtlas_createFromFile(atlasFile.c_str(), 0);
-    CCASSERT(_atlas, "Error reading atlas file.");
-    
-    _attachmentLoader = SUPER(Cocos2dAttachmentLoader_create(_atlas));
-    
-    spSkeletonBinary* binary = spSkeletonBinary_createWithLoader(_attachmentLoader);
-    binary->scale = scale;
-    spSkeletonData* skeletonData = spSkeletonBinary_readSkeletonDataFile(binary, skeletonDataFile.c_str());
-    CCASSERT(skeletonData, binary->error ? binary->error : "Error reading skeleton data file.");
-    spSkeletonBinary_dispose(binary);
+//    _atlas = spAtlas_createFromFile(atlasFile.c_str(), 0);
+//    CCASSERT(_atlas, "Error reading atlas file.");
+//    
+//    _attachmentLoader = SUPER(Cocos2dAttachmentLoader_create(_atlas));
+//    
+//    spSkeletonBinary* binary = spSkeletonBinary_createWithLoader(_attachmentLoader);
+//    binary->scale = scale;
+//    spSkeletonData* skeletonData = spSkeletonBinary_readSkeletonDataFile(binary, skeletonDataFile.c_str());
+//    CCASSERT(skeletonData, binary->error ? binary->error : "Error reading skeleton data file.");
+//    spSkeletonBinary_dispose(binary);
+    _useCachedData = true;
+    _atlas = SkeletonCache::getInstance()->getAtlas(atlasFile);
+    _atlas->retainCount++;
+    spSkeletonData* skeletonData = SkeletonCache::getInstance()->getSkeletonData(skeletonDataFile, atlasFile, scale);
+    skeletonData->retainCount++;
     
     setSkeletonData(skeletonData, true);
     
