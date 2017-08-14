@@ -274,6 +274,7 @@ private:
     
 public:
     void setZipEnabled(bool _zip);
+    bool isZipEnabled(){return zipEnabled;};
 };
 
 } // namespace network {

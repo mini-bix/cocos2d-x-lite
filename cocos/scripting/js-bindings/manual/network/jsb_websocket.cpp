@@ -25,6 +25,7 @@
 
 #include "base/ccUTF8.h"
 #include "base/CCDirector.h"
+#include "base/ZipUtils.h"
 #include "network/WebSocket.h"
 #include "platform/CCPlatformMacros.h"
 #include "scripting/js-bindings/manual/ScriptingCore.h"
@@ -120,15 +121,37 @@ public:
         JS::RootedValue args(cx, OBJECT_TO_JSVAL(jsobj));
         if (data.isBinary)
         {// data is binary
-            JS::RootedObject buffer(cx, JS_NewArrayBuffer(cx, static_cast<uint32_t>(data.len)));
-            if (data.len > 0)
-            {
-                uint8_t* bufdata = JS_GetArrayBufferData(buffer);
-                memcpy((void*)bufdata, (void*)data.bytes, data.len);
+            
+            if(ws->isZipEnabled()){
+                char *dst = nullptr;
+                ssize_t len = cocos2d::ZipUtils::inflateMemory((unsigned char *)data.bytes, data.len, (unsigned char**)&dst);
+                
+                JS::RootedValue dataVal(cx);
+                if (strlen(dst) == 0 && len > 0)
+                {// String with 0x00 prefix
+                    dataVal = JS::StringValue(JS_NewStringCopyN(cx, dst, len));
+                }
+                else
+                {// Normal string
+                    dataVal = c_string_to_jsval(cx, dst,len);
+                }
+                
+                free(dst);
+                
+                JS_SetProperty(cx, jsobj, "data", dataVal);
+                
+            }else{
+                
+                JS::RootedObject buffer(cx, JS_NewArrayBuffer(cx, static_cast<uint32_t>(data.len)));
+                if (data.len > 0)
+                {
+                    uint8_t* bufdata = JS_GetArrayBufferData(buffer);
+                    memcpy((void*)bufdata, (void*)data.bytes, data.len);
+                }
+                JS::RootedValue dataVal(cx);
+                dataVal = OBJECT_TO_JSVAL(buffer);
+                JS_SetProperty(cx, jsobj, "data", dataVal);
             }
-            JS::RootedValue dataVal(cx);
-            dataVal = OBJECT_TO_JSVAL(buffer);
-            JS_SetProperty(cx, jsobj, "data", dataVal);
         }
         else
         {// data is string
