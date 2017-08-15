@@ -240,7 +240,14 @@ void ClippingNode::visit(Renderer *renderer, const Mat4 &parentTransform, uint32
     _afterDrawStencilCmd.setBatchDepth(getDepthInLocalBatchNode());
     _afterDrawStencilCmd.func = CC_CALLBACK_0(StencilStateManager::onAfterDrawStencil, _stencilStateManager);
     renderer->addCommand(&_afterDrawStencilCmd);
-
+    
+    bool isInBatchRecursive = this->isInBatchRecursive();
+    
+    if (isInBatchRecursive){
+        this->_beginRenderCommand.init(this->getDepthInLocalBatchNode());
+        renderer->addCommand(&this->_beginRenderCommand);
+    }
+    
     int i = 0;
 
     if(!_children.empty())
@@ -267,7 +274,10 @@ void ClippingNode::visit(Renderer *renderer, const Mat4 &parentTransform, uint32
     {
         draw(renderer, _modelViewTransform, flags);
     }
-
+    if (isInBatchRecursive){
+        this->_endRenderCommand.init();
+        renderer->addCommand(&this->_endRenderCommand);
+    }
     _afterVisitCmd.init(_globalZOrder);
     _afterVisitCmd.setBatchDepth(getDepthInLocalBatchNode());
     _afterVisitCmd.func = CC_CALLBACK_0(StencilStateManager::onAfterVisit, _stencilStateManager);

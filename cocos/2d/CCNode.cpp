@@ -2160,6 +2160,15 @@ float Node::getDepthInGlobalBatchNode() const{
     return depth;
 }
 
+bool  Node::isInBatchRecursive(){
+    for (auto node = _parent ; node != nullptr;node = node->getParent()){
+        if (node->isBatchNode()){
+            return true;
+        }
+    }
+    return false;
+}
+
 void Node::markTransformUpdated()
 {
     _transformUpdated = true;

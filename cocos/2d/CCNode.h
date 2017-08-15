@@ -217,6 +217,8 @@ public:
 
     float getLocalDepth() const { return _localDepth; }
     
+    bool isInBatchRecursive();
+    
     float getDepthInLocalBatchNode() const;
     
     float getDepthInGlobalBatchNode() const;
