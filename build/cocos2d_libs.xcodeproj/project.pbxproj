@@ -1451,6 +1451,10 @@
 		B63990CD1A490AFE00B07923 /* CCAsyncTaskPool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B63990CA1A490AFE00B07923 /* CCAsyncTaskPool.cpp */; };
 		B63990CE1A490AFE00B07923 /* CCAsyncTaskPool.h in Headers */ = {isa = PBXBuildFile; fileRef = B63990CB1A490AFE00B07923 /* CCAsyncTaskPool.h */; };
 		B63990CF1A490AFE00B07923 /* CCAsyncTaskPool.h in Headers */ = {isa = PBXBuildFile; fileRef = B63990CB1A490AFE00B07923 /* CCAsyncTaskPool.h */; };
+		B96F00E01F43F7BC0021E95C /* CsvFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B96F00DE1F43F7BC0021E95C /* CsvFile.cpp */; };
+		B96F00E11F43F7BC0021E95C /* CsvFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B96F00DE1F43F7BC0021E95C /* CsvFile.cpp */; };
+		B96F00E21F43F7BC0021E95C /* CsvFile.h in Headers */ = {isa = PBXBuildFile; fileRef = B96F00DF1F43F7BC0021E95C /* CsvFile.h */; };
+		B96F00E31F43F7BC0021E95C /* CsvFile.h in Headers */ = {isa = PBXBuildFile; fileRef = B96F00DF1F43F7BC0021E95C /* CsvFile.h */; };
 		BA0DAAEF1DB76F2C00EE23AD /* libwebp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BA0DAAEE1DB76F2C00EE23AD /* libwebp.a */; };
 		BA679B301CEC373000F875FA /* AssetsManagerEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA679B281CEC373000F875FA /* AssetsManagerEx.cpp */; };
 		BA679B311CEC373000F875FA /* AssetsManagerEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA679B281CEC373000F875FA /* AssetsManagerEx.cpp */; };
@@ -2781,6 +2785,8 @@
 		B5CE6DC71B3C05BA002B0419 /* UIRadioButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIRadioButton.h; sourceTree = "<group>"; };
 		B63990CA1A490AFE00B07923 /* CCAsyncTaskPool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCAsyncTaskPool.cpp; path = ../base/CCAsyncTaskPool.cpp; sourceTree = "<group>"; };
 		B63990CB1A490AFE00B07923 /* CCAsyncTaskPool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCAsyncTaskPool.h; path = ../base/CCAsyncTaskPool.h; sourceTree = "<group>"; };
+		B96F00DE1F43F7BC0021E95C /* CsvFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CsvFile.cpp; path = csvfile/CsvFile.cpp; sourceTree = "<group>"; };
+		B96F00DF1F43F7BC0021E95C /* CsvFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CsvFile.h; path = csvfile/CsvFile.h; sourceTree = "<group>"; };
 		BA0DAAEE1DB76F2C00EE23AD /* libwebp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwebp.a; path = ../external/mac/libs/libwebp.a; sourceTree = "<group>"; };
 		BA679B281CEC373000F875FA /* AssetsManagerEx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AssetsManagerEx.cpp; path = "assets-manager/AssetsManagerEx.cpp"; sourceTree = "<group>"; };
 		BA679B291CEC373000F875FA /* AssetsManagerEx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AssetsManagerEx.h; path = "assets-manager/AssetsManagerEx.h"; sourceTree = "<group>"; };
@@ -4631,6 +4637,7 @@
 		A6E79B551EDA680B0003FC60 /* baiyou */ = {
 			isa = PBXGroup;
 			children = (
+				B96F00D21F43E3130021E95C /* csvfile */,
 				A6E79B591EDA680B0003FC60 /* apple */,
 				A6E79B631EDA680B0003FC60 /* BaiyouPlugin.cpp */,
 				A6E79B641EDA680B0003FC60 /* BaiyouPlugin.h */,
@@ -4691,6 +4698,15 @@
 				ED3057BE1BEC78580083C3ED /* libfreetype.a */,
 			);
 			name = ios;
+			sourceTree = "<group>";
+		};
+		B96F00D21F43E3130021E95C /* csvfile */ = {
+			isa = PBXGroup;
+			children = (
+				B96F00DE1F43F7BC0021E95C /* CsvFile.cpp */,
+				B96F00DF1F43F7BC0021E95C /* CsvFile.h */,
+			);
+			name = csvfile;
 			sourceTree = "<group>";
 		};
 		BA679B271CEC371100F875FA /* assets-manager */ = {
@@ -5408,6 +5424,7 @@
 				50ABBE571925AB6F00A911A9 /* CCEventFocus.h in Headers */,
 				50ABBE251925AB6F00A911A9 /* base64.h in Headers */,
 				FA6F1B7B1D80F858007DD223 /* DragonBones.h in Headers */,
+				B96F00E21F43F7BC0021E95C /* CsvFile.h in Headers */,
 				15AE1B9C19AADFDF00C27E9E /* UIRelativeBox.h in Headers */,
 				A05DCF9E1B90584E00EE040B /* CCDownloader-curl.h in Headers */,
 				15AE18A919AAD33D00C27E9E /* CCSpriteLoader.h in Headers */,
@@ -5757,6 +5774,7 @@
 				4DED484F1DFFA4AF0070C5C4 /* b2EdgeAndPolygonContact.h in Headers */,
 				BAFF7D891D5C1CF80051B92F /* IkConstraintData.h in Headers */,
 				BAFF7CE31D59E0DB0051B92F /* CCTween.h in Headers */,
+				B96F00E31F43F7BC0021E95C /* CsvFile.h in Headers */,
 				4DED486B1DFFA4AF0070C5C4 /* b2MotorJoint.h in Headers */,
 				5034CA34191D591100CE6051 /* ccShader_PositionTexture_uColor.frag in Headers */,
 				BAFF7D751D5C1CF80051B92F /* Cocos2dAttachmentLoader.h in Headers */,
@@ -6377,6 +6395,7 @@
 				BAFF7CC01D59E0DB0051B92F /* CCDecorativeDisplay.cpp in Sources */,
 				15AE1BA319AADFDF00C27E9E /* UILayoutManager.cpp in Sources */,
 				4DED47DC1DFFA4AF0070C5C4 /* b2CollidePolygon.cpp in Sources */,
+				B96F00E01F43F7BC0021E95C /* CsvFile.cpp in Sources */,
 				4D2816661E8CBB7200F26B06 /* CCPhysicsContactImpulse.cpp in Sources */,
 				BAFF7DCA1D5C1CF80051B92F /* spine-cocos2dx.cpp in Sources */,
 				4DED48041DFFA4AF0070C5C4 /* b2Draw.cpp in Sources */,
@@ -6809,6 +6828,7 @@
 				BAFF7D5B1D5C1CF80051B92F /* Attachment.c in Sources */,
 				BAFF7D871D5C1CF80051B92F /* IkConstraintData.c in Sources */,
 				1A570211180BCBF40088DEC7 /* CCProgressTimer.cpp in Sources */,
+				B96F00E11F43F7BC0021E95C /* CsvFile.cpp in Sources */,
 				503DD8ED1926736A00CD74DD /* CCGLViewImpl-ios.mm in Sources */,
 				15AE197719AAD35700C27E9E /* CCActionTimeline.cpp in Sources */,
 				1A570215180BCBF40088DEC7 /* CCRenderTexture.cpp in Sources */,

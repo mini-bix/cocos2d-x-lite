@@ -25,6 +25,7 @@
 #include "scripting/js-bindings/manual/network/jsb_websocket.h"
 #include "scripting/js-bindings/manual/network/jsb_socketio.h"
 #include "scripting/js-bindings/manual/network/jsb_udpclient.h"
+#include "scripting/js-bindings/manual/csvfile/jsb_csvfile.h"
 
 #include "scripting/js-bindings/auto/jsb_box2d_auto.hpp"
 #include "scripting/js-bindings/manual/box2d/js_bindings_box2d_manual.h"
@@ -90,7 +91,7 @@ int js_module_register()
 #if (CC_TARGET_PLATFORM != CC_PLATFORM_WIN32)
     sc->addRegisterCallback(register_all_baiyou_plugin);
 #endif
-    
+    sc->addRegisterCallback(register_all_csvfile);
     // XmlHttpRequest can be commented out to reduce the package
     sc->addRegisterCallback(MinXmlHttpRequest::_js_register);
     // websocket can be commented out to reduce the package
