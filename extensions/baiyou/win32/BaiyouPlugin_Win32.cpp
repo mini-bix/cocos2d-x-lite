@@ -43,7 +43,7 @@ namespace baiyou {
     }
     
 	std::string BaiyouPlugin_Win32::getBundleId() const{
-		return "";
+		return "com.cocos.apps.simulator";
     }
     
 	void BaiyouPlugin_Win32::setIdleTimerDisabled(bool dis) const{
