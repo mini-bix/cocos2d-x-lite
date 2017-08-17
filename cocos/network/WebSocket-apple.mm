@@ -165,6 +165,7 @@ void WebSocket::closeAllConnections()
 
 WebSocket::WebSocket()
 : _impl(nil)
+,zipEnabled(false)
 {
 
 }

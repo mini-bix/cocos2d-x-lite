@@ -25,6 +25,7 @@
 
 #include "base/ccUTF8.h"
 #include "base/CCDirector.h"
+#include "base/ZipUtils.h"
 #include "network/WebSocket.h"
 #include "platform/CCPlatformMacros.h"
 #include "scripting/js-bindings/manual/ScriptingCore.h"
@@ -120,14 +121,39 @@ public:
         bool flag;
         if (data.isBinary)
         {// data is binary
-            JS::RootedObject buffer(cx, JS_NewArrayBuffer(cx, static_cast<uint32_t>(data.len)));
-            if (data.len > 0)
-            {
-                uint8_t* bufdata = JS_GetArrayBufferData(buffer, &flag, JS::AutoCheckCannotGC());
-                memcpy((void*)bufdata, (void*)data.bytes, data.len);
+            if(ws->isZipEnabled()){
+                char *dst = nullptr;
+                ssize_t len = ZipUtils::inflateMemory((unsigned char *)data.bytes, data.len, (unsigned char**)&dst);
+                
+                JS::RootedValue dataVal(cx);
+                if (strlen(dst) == 0 && len > 0)
+                {// String with 0x00 prefix
+                    dataVal = JS::StringValue(JS_NewStringCopyN(cx, dst, len));
+                }
+                else
+                {// Normal string
+                    c_string_to_jsval(cx, dst, &dataVal,len);
+                }
+                
+                free(dst);
+                
+                if (dataVal.isNullOrUndefined())
+                {
+                    ws->closeAsync();
+                    return;
+                }
+                JS_SetProperty(cx, jsobj, "data", dataVal);
+                
+            }else{
+                JS::RootedObject buffer(cx, JS_NewArrayBuffer(cx, static_cast<uint32_t>(data.len)));
+                if (data.len > 0)
+                {
+                    uint8_t* bufdata = JS_GetArrayBufferData(buffer, &flag, JS::AutoCheckCannotGC());
+                    memcpy((void*)bufdata, (void*)data.bytes, data.len);
+                }
+                JS::RootedValue dataVal(cx, JS::ObjectOrNullValue(buffer));
+                JS_SetProperty(cx, jsobj, "data", dataVal);
             }
-            JS::RootedValue dataVal(cx, JS::ObjectOrNullValue(buffer));
-            JS_SetProperty(cx, jsobj, "data", dataVal);
         }
         else
         {// data is string
@@ -434,6 +460,27 @@ bool js_cocos2dx_extension_WebSocket_constructor(JSContext *cx, uint32_t argc, J
     return false;
 }
 
+bool js_cocos2dx_extension_WebSocket_setZipEnabled(JSContext *cx, uint32_t argc, JS::Value *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true; CC_UNUSED_PARAM(ok);
+    JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
+    js_proxy_t *proxy = jsb_get_js_proxy(cx, obj);
+    WebSocket* cobj = (WebSocket *)(proxy ? proxy->ptr : NULL);
+    JSB_PRECONDITION2( cobj, cx, false, "js_cocos2dx_network_UdpClient_setZipEnabled : Invalid Native Object");
+    if (argc == 1) {
+        bool arg0;
+        ok &= jsval_to_bool(cx, args.get(0), &arg0);
+        JSB_PRECONDITION2(ok, cx, false, "js_cocos2dx_network_UdpClient_setZipEnabled : Error processing arguments");
+        cobj->setZipEnabled(arg0);
+        args.rval().setUndefined();
+        return true;
+    }
+    
+    JS_ReportErrorUTF8(cx, "js_cocos2dx_network_UdpClient_setZipEnabled : wrong number of arguments: %d, was expecting %d", argc, 1);
+    return false;
+}
+
 static bool js_cocos2dx_extension_WebSocket_get_readyState(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
@@ -475,6 +522,7 @@ void register_jsb_websocket(JSContext *cx, JS::HandleObject global)
     static JSFunctionSpec funcs[] = {
         JS_FN("send",js_cocos2dx_extension_WebSocket_send, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FN("close",js_cocos2dx_extension_WebSocket_close, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
+        JS_FN("setZipEnabled",js_cocos2dx_extension_WebSocket_setZipEnabled, 1, JSPROP_PERMANENT | JSPROP_ENUMERATE),
         JS_FS_END
     };
     

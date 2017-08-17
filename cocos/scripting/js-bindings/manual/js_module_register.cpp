@@ -8,6 +8,7 @@
 #include "scripting/js-bindings/auto/jsb_cocos2dx_network_auto.hpp"
 #include "jsb_creator_auto.hpp"
 #include "scripting/js-bindings/auto/jsb_cocos2dx_extension_auto.hpp"
+#include "scripting/js-bindings/auto/jsb_baiyou_plugin_auto.hpp"
 #include "scripting/js-bindings/manual/ui/jsb_cocos2dx_ui_manual.h"
 #include "scripting/js-bindings/manual/spine/jsb_cocos2dx_spine_manual.h"
 #include "scripting/js-bindings/manual/dragonbones/jsb_cocos2dx_dragonbones_manual.h"
@@ -17,6 +18,8 @@
 #include "scripting/js-bindings/manual/network/XMLHTTPRequest.h"
 #include "scripting/js-bindings/manual/network/jsb_websocket.h"
 #include "scripting/js-bindings/manual/network/jsb_socketio.h"
+#include "scripting/js-bindings/manual/network/jsb_udpclient.h"
+#include "scripting/js-bindings/manual/csvfile/jsb_csvfile.h"
 
 #include "scripting/js-bindings/auto/jsb_box2d_auto.hpp"
 #include "scripting/js-bindings/manual/box2d/js_bindings_box2d_manual.h"
@@ -81,7 +84,11 @@ int js_module_register()
     sc->addRegisterCallback(register_jsb_socketio);
     // Downloader
     sc->addRegisterCallback(register_all_cocos2dx_network);
-
+    
+    sc->addRegisterCallback(register_all_baiyou_plugin);
+    sc->addRegisterCallback(register_jsb_udpclient);
+    sc->addRegisterCallback(register_all_csvfile);
+    
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS) && !defined(CC_TARGET_OS_TVOS)
     sc->addRegisterCallback(register_all_cocos2dx_experimental_video);
     sc->addRegisterCallback(register_all_cocos2dx_experimental_video_manual);

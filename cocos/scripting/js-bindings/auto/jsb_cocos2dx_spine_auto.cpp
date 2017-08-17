@@ -1893,13 +1893,13 @@ void js_register_cocos2dx_spine_SkeletonAnimation(JSContext *cx, JS::HandleObjec
 }
 
 JSClass  *jsb_spine_SkeletonCache_class;
-JSObject *jsb_spine_SkeletonCache_prototype;
+JS::PersistentRootedObject *jsb_spine_SkeletonCache_prototype;
 
-bool js_cocos2dx_spine_SkeletonCache_removeAll(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_cocos2dx_spine_SkeletonCache_removeAll(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
-    js_proxy_t *proxy = jsb_get_js_proxy(obj);
+    js_proxy_t *proxy = jsb_get_js_proxy(cx, obj);
     spine::SkeletonCache* cobj = (spine::SkeletonCache *)(proxy ? proxy->ptr : NULL);
     JSB_PRECONDITION2( cobj, cx, false, "js_cocos2dx_spine_SkeletonCache_removeAll : Invalid Native Object");
     if (argc == 0) {
@@ -1908,14 +1908,14 @@ bool js_cocos2dx_spine_SkeletonCache_removeAll(JSContext *cx, uint32_t argc, jsv
         return true;
     }
 
-    JS_ReportError(cx, "js_cocos2dx_spine_SkeletonCache_removeAll : wrong number of arguments: %d, was expecting %d", argc, 0);
+    JS_ReportErrorUTF8(cx, "js_cocos2dx_spine_SkeletonCache_removeAll : wrong number of arguments: %d, was expecting %d", argc, 0);
     return false;
 }
-bool js_cocos2dx_spine_SkeletonCache_removeUnusedAssets(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_cocos2dx_spine_SkeletonCache_removeUnusedAssets(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JS::RootedObject obj(cx, args.thisv().toObjectOrNull());
-    js_proxy_t *proxy = jsb_get_js_proxy(obj);
+    js_proxy_t *proxy = jsb_get_js_proxy(cx, obj);
     spine::SkeletonCache* cobj = (spine::SkeletonCache *)(proxy ? proxy->ptr : NULL);
     JSB_PRECONDITION2( cobj, cx, false, "js_cocos2dx_spine_SkeletonCache_removeUnusedAssets : Invalid Native Object");
     if (argc == 0) {
@@ -1924,56 +1924,60 @@ bool js_cocos2dx_spine_SkeletonCache_removeUnusedAssets(JSContext *cx, uint32_t 
         return true;
     }
 
-    JS_ReportError(cx, "js_cocos2dx_spine_SkeletonCache_removeUnusedAssets : wrong number of arguments: %d, was expecting %d", argc, 0);
+    JS_ReportErrorUTF8(cx, "js_cocos2dx_spine_SkeletonCache_removeUnusedAssets : wrong number of arguments: %d, was expecting %d", argc, 0);
     return false;
 }
-bool js_cocos2dx_spine_SkeletonCache_getInstance(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_cocos2dx_spine_SkeletonCache_getInstance(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    bool ok = true; CC_UNUSED_PARAM(ok);
     if (argc == 0) {
 
         auto ret = spine::SkeletonCache::getInstance();
-        js_type_class_t *typeClass = js_get_type_from_native<spine::SkeletonCache>(ret);
-        JS::RootedObject jsret(cx, jsb_ref_get_or_create_jsobject(cx, ret, typeClass, "spine::SkeletonCache"));
-        args.rval().set(OBJECT_TO_JSVAL(jsret));
+        JS::RootedObject jsret(cx);
+        JS::RootedObject proto(cx, jsb_spine_SkeletonCache_prototype->get());
+        jsb_ref_get_or_create_jsobject(cx, ret, jsb_spine_SkeletonCache_class, proto, &jsret, "spine::SkeletonCache");
+        args.rval().set(JS::ObjectOrNullValue(jsret));
         return true;
     }
-    JS_ReportError(cx, "js_cocos2dx_spine_SkeletonCache_getInstance : wrong number of arguments");
+    JS_ReportErrorUTF8(cx, "js_cocos2dx_spine_SkeletonCache_getInstance : wrong number of arguments");
     return false;
 }
 
-bool js_cocos2dx_spine_SkeletonCache_constructor(JSContext *cx, uint32_t argc, jsval *vp)
+bool js_cocos2dx_spine_SkeletonCache_constructor(JSContext *cx, uint32_t argc, JS::Value *vp)
 {
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     bool ok = true;
     spine::SkeletonCache* cobj = new (std::nothrow) spine::SkeletonCache();
 
-    js_type_class_t *typeClass = js_get_type_from_native<spine::SkeletonCache>(cobj);
-
-    // link the native object with the javascript object
-    JS::RootedObject jsobj(cx, jsb_ref_create_jsobject(cx, cobj, typeClass, "spine::SkeletonCache"));
-    args.rval().set(OBJECT_TO_JSVAL(jsobj));
-    if (JS_HasProperty(cx, jsobj, "_ctor", &ok) && ok)
-        ScriptingCore::getInstance()->executeFunctionWithOwner(OBJECT_TO_JSVAL(jsobj), "_ctor", args);
+    // create the js object and link the native object with the javascript object
+    JS::RootedObject jsobj(cx);
+    JS::RootedObject proto(cx, jsb_spine_SkeletonCache_prototype->get());
+    jsb_ref_create_jsobject(cx, cobj, jsb_spine_SkeletonCache_class, proto, &jsobj, "spine::SkeletonCache");
+    JS::RootedValue retVal(cx, JS::ObjectOrNullValue(jsobj));
+    args.rval().set(retVal);
+    if (JS_HasProperty(cx, jsobj, "_ctor", &ok) && ok) 
+    {
+        JS::HandleValueArray argsv(args);
+        ScriptingCore::getInstance()->executeFunctionWithOwner(retVal, "_ctor", argsv);
+    }
     return true;
 }
 
 
 void js_register_cocos2dx_spine_SkeletonCache(JSContext *cx, JS::HandleObject global) {
-    jsb_spine_SkeletonCache_class = (JSClass *)calloc(1, sizeof(JSClass));
-    jsb_spine_SkeletonCache_class->name = "SkeletonCache";
-    jsb_spine_SkeletonCache_class->addProperty = JS_PropertyStub;
-    jsb_spine_SkeletonCache_class->delProperty = JS_DeletePropertyStub;
-    jsb_spine_SkeletonCache_class->getProperty = JS_PropertyStub;
-    jsb_spine_SkeletonCache_class->setProperty = JS_StrictPropertyStub;
-    jsb_spine_SkeletonCache_class->enumerate = JS_EnumerateStub;
-    jsb_spine_SkeletonCache_class->resolve = JS_ResolveStub;
-    jsb_spine_SkeletonCache_class->convert = JS_ConvertStub;
-    jsb_spine_SkeletonCache_class->flags = JSCLASS_HAS_RESERVED_SLOTS(2);
-
-    static JSPropertySpec properties[] = {
-        JS_PS_END
+    static const JSClassOps spine_SkeletonCache_classOps = {
+        nullptr, nullptr, nullptr, nullptr,
+        nullptr, nullptr, nullptr,
+        nullptr,
+        nullptr, nullptr, nullptr, nullptr
     };
+    static JSClass spine_SkeletonCache_class = {
+        "SkeletonCache",
+        JSCLASS_HAS_PRIVATE,
+        &spine_SkeletonCache_classOps
+    };
+    jsb_spine_SkeletonCache_class = &spine_SkeletonCache_class;
 
     static JSFunctionSpec funcs[] = {
         JS_FN("removeAll", js_cocos2dx_spine_SkeletonCache_removeAll, 0, JSPROP_PERMANENT | JSPROP_ENUMERATE),
@@ -1986,23 +1990,25 @@ void js_register_cocos2dx_spine_SkeletonCache(JSContext *cx, JS::HandleObject gl
         JS_FS_END
     };
 
-    jsb_spine_SkeletonCache_prototype = JS_InitClass(
+    JS::RootedObject parent_proto(cx, nullptr);
+    JS::RootedObject proto(cx, JS_InitClass(
         cx, global,
-        JS::NullPtr(),
+        parent_proto,
         jsb_spine_SkeletonCache_class,
-        js_cocos2dx_spine_SkeletonCache_constructor, 0, // constructor
-        properties,
+        js_cocos2dx_spine_SkeletonCache_constructor, 0,
+        nullptr,
         funcs,
-        NULL, // no static properties
-        st_funcs);
+        nullptr,
+        st_funcs));
 
-    JS::RootedObject proto(cx, jsb_spine_SkeletonCache_prototype);
-    JS::RootedValue className(cx, std_string_to_jsval(cx, "SkeletonCache"));
+    // add the proto and JSClass to the type->js info hash table
+    js_type_class_t *typeClass = jsb_register_class<spine::SkeletonCache>(cx, jsb_spine_SkeletonCache_class, proto);
+    jsb_spine_SkeletonCache_prototype = typeClass->proto;
+    JS::RootedValue className(cx);
+    std_string_to_jsval(cx, "SkeletonCache", &className);
     JS_SetProperty(cx, proto, "_className", className);
     JS_SetProperty(cx, proto, "__nativeObj", JS::TrueHandleValue);
     JS_SetProperty(cx, proto, "__is_ref", JS::TrueHandleValue);
-    // add the proto and JSClass to the type->js info hash table
-    jsb_register_class<spine::SkeletonCache>(cx, jsb_spine_SkeletonCache_class, proto, JS::NullPtr());
 }
 
 void register_all_cocos2dx_spine(JSContext* cx, JS::HandleObject obj) {

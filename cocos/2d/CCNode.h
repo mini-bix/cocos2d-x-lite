@@ -1932,15 +1932,13 @@ protected:
     std::function<void()> _onEnterTransitionDidFinishCallback;
     std::function<void()> _onExitTransitionDidStartCallback;
     
-private:
-    BatchBeginCommand _renderCommand;
-    BatchEndCommand _endRenderCommand;
-    
     std::function<void(Renderer*)> _beforeVisitCallback;
     std::function<void(Renderer*)> _afterVisitCallback;
 
 private:
     CC_DISALLOW_COPY_AND_ASSIGN(Node);
+    BatchBeginCommand _renderCommand;
+    BatchEndCommand _endRenderCommand;
     
 
 };

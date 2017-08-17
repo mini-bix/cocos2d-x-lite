@@ -71,6 +71,10 @@ public:
      * @js ctor
      */
     WebSocket();
+    
+    void setZipEnabled(bool value){zipEnabled = value;}
+    
+    bool isZipEnabled(){return zipEnabled;}
 
 private:
     /**
@@ -224,6 +228,7 @@ public:
     Delegate* getDelegate() const;
 private:
     WebSocketImpl* _impl;
+    bool zipEnabled;
 };
 
 } // namespace network {

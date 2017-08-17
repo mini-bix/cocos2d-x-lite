@@ -1434,6 +1434,7 @@ void WebSocket::closeAllConnections()
 WebSocket::WebSocket()
 {
     _impl = new (std::nothrow) WebSocketImpl(this);
+    zipEnabled = false;
 }
 
 WebSocket::~WebSocket()
