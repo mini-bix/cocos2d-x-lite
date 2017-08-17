@@ -34,6 +34,8 @@ RenderCommand::RenderCommand()
 , _isTransparent(true)
 , _skipBatching(false)
 , _depth(0)
+,sceneOrder(0)
+,_skipReOrder(false)
 {
 }
 
@@ -41,11 +43,12 @@ RenderCommand::~RenderCommand()
 {
 }
 
-void RenderCommand::init(float globalZOrder, const cocos2d::Mat4 &transform, uint32_t flags)
+void RenderCommand::init(float globalZOrder, const cocos2d::Mat4 &transform, uint32_t flags,float batchDepth)
 {
     _globalOrder = globalZOrder;
     set3D(false);
     _depth = 0;
+    _batchDepth = batchDepth;
 }
 
 void RenderCommand::printID()

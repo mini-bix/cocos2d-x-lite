@@ -56,6 +56,13 @@ static bool compareRenderCommand(RenderCommand* a, RenderCommand* b)
     return a->getGlobalOrder() < b->getGlobalOrder();
 }
 
+static bool compareRenderCommandByBatchDepth(RenderCommand* a, RenderCommand* b)
+{
+    auto deptha = a->getBatchDepth();
+    auto depthb = b->getBatchDepth();
+    return deptha<depthb || (deptha == depthb && a->sceneOrder < b->sceneOrder);
+}
+
 // queue
 RenderQueue::RenderQueue()
 {
@@ -95,6 +102,76 @@ void RenderQueue::sort()
     // Don't sort _queue0, it already comes sorted
     std::sort(std::begin(_commands[QUEUE_GROUP::GLOBALZ_NEG]), std::end(_commands[QUEUE_GROUP::GLOBALZ_NEG]), compareRenderCommand);
     std::sort(std::begin(_commands[QUEUE_GROUP::GLOBALZ_POS]), std::end(_commands[QUEUE_GROUP::GLOBALZ_POS]), compareRenderCommand);
+    
+    batchCommands(_commands[QUEUE_GROUP::GLOBALZ_ZERO]);
+}
+
+void RenderQueue::batchCommands(std::vector<RenderCommand*> &cmds){
+    auto size = cmds.size();
+    std::vector<RenderCommand*>::iterator lastBeginIt;;
+    int batchCount = 0;
+    for(auto it = cmds.begin();it != cmds.end();it++){
+        auto cmd = *it;
+        cmd->sceneOrder = 0;
+        if (cmd->getType() == RenderCommand::Type::BATCH_BGEIN_COMMAND){
+            if (batchCount++ > 0){
+                this->batchCommandsInRange(lastBeginIt, it, (int)size);
+            }
+            lastBeginIt = it;
+        }else if(cmd->getType() == RenderCommand::Type::BATCH_END_COMMAND){
+            if (batchCount-- > 0){
+                this->batchCommandsInRange(lastBeginIt, it, (int)size);
+            }
+            lastBeginIt = it;
+        }else{
+            continue;
+        }
+        
+    }
+    
+//    CCLOG("BatchBegin");
+//    for(auto it = cmds.begin();it != cmds.end();it++){
+//        if ((*it)->getType() != RenderCommand::Type::TRIANGLES_COMMAND){
+//            continue;
+//        }
+//        auto cmd = static_cast<TrianglesCommand*>(*it);
+//        CCLOG("depth %f texorder %d materialid %d ",cmd->getBatchDepth(),cmd->sceneOrder,cmd->getMaterialID());
+//    }
+//    CCLOG("BatchEnd");
+}
+
+void RenderQueue::batchCommandsInRange(std::vector<RenderCommand*>::iterator  begin,std::vector<RenderCommand*>::iterator end,int count){
+    int nowMatId = -1;
+    int textureOrder = 0;
+    int index = 0;
+    for (auto it = begin;it != end;it++){
+        index ++;
+        if ((*it)->getType() != RenderCommand::Type::TRIANGLES_COMMAND || (*it)->isSkipBatching() || (*it)->isSkipReOrder()){
+            (*it)->sceneOrder = (++textureOrder)*count + index;
+            continue;
+        }
+        auto cmd = static_cast<TrianglesCommand*>(*it);
+        if (cmd->sceneOrder != 0){
+            continue;
+        }
+        nowMatId = cmd->getMaterialID();
+        cmd->sceneOrder = (++textureOrder)*count + index;
+        int index2 = index;
+        for (auto fit = it+1;fit != end;fit++){
+            index2 ++;
+            if ((*fit)->getType() != RenderCommand::Type::TRIANGLES_COMMAND || (*fit)->isSkipBatching() || (*fit)->isSkipReOrder()){
+                continue;
+            }
+            auto cmd2 = static_cast<TrianglesCommand*>(*fit);
+            if (cmd2->sceneOrder != 0){
+                continue;
+            }
+            if (cmd2->getMaterialID() == nowMatId){
+                cmd2->sceneOrder = (textureOrder)*count + index2;
+            }
+        }
+    }
+    std::sort(begin,end,compareRenderCommandByBatchDepth);
 }
 
 RenderCommand* RenderQueue::operator[](ssize_t index) const
@@ -444,6 +521,12 @@ void Renderer::processRenderCommand(RenderCommand* command)
         auto cmd = static_cast<PrimitiveCommand*>(command);
         CCGL_DEBUG_INSERT_EVENT_MARKER("RENDERER_PRIMITIVE_COMMAND");
         cmd->execute();
+    }
+    else if(RenderCommand::Type::BATCH_BGEIN_COMMAND == commandType)
+    {
+    }
+    else if(RenderCommand::Type::BATCH_END_COMMAND == commandType)
+    {
     }
     else
     {

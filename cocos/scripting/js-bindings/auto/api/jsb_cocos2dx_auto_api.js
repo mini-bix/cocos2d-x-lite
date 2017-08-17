@@ -944,6 +944,16 @@ getColor : function (
 },
 
 /**
+ * @method getDepthInLocalBatchNode
+ * @return {float}
+ */
+getDepthInLocalBatchNode : function (
+)
+{
+    return 0;
+},
+
+/**
  * @method setonEnterTransitionDidFinishCallback
  * @param {function} arg0
  */
@@ -1168,6 +1178,16 @@ isCascadeOpacityEnabled : function (
 },
 
 /**
+ * @method getDepthInGlobalBatchNode
+ * @return {float}
+ */
+getDepthInGlobalBatchNode : function (
+)
+{
+    return 0;
+},
+
+/**
  * @method setParent
  * @param {cc.Node} arg0
  */
@@ -1229,6 +1249,16 @@ node,
 int 
 )
 {
+},
+
+/**
+ * @method isBatchNode
+ * @return {bool}
+ */
+isBatchNode : function (
+)
+{
+    return false;
 },
 
 /**
@@ -1482,6 +1512,16 @@ getSkewY : function (
 },
 
 /**
+ * @method setIsBatchNode
+ * @param {bool} arg0
+ */
+setIsBatchNode : function (
+bool 
+)
+{
+},
+
+/**
  * @method isScheduled
  * @param {String} arg0
  * @return {bool}
@@ -1504,15 +1544,13 @@ getDisplayedColor : function (
 },
 
 /**
- * @method getActionByTag
- * @param {int} arg0
- * @return {cc.Action}
+ * @method setLocalDepth
+ * @param {float} arg0
  */
-getActionByTag : function (
-int 
+setLocalDepth : function (
+float 
 )
 {
-    return cc.Action;
 },
 
 /**
@@ -1713,6 +1751,18 @@ getParentToNodeAffineTransform : function (
 },
 
 /**
+ * @method getActionByTag
+ * @param {int} arg0
+ * @return {cc.Action}
+ */
+getActionByTag : function (
+int 
+)
+{
+    return cc.Action;
+},
+
+/**
  * @method getPositionZ
  * @return {float}
  */
@@ -1754,6 +1804,16 @@ int
 )
 {
     return cc.Node;
+},
+
+/**
+ * @method getLocalDepth
+ * @return {float}
+ */
+getLocalDepth : function (
+)
+{
+    return 0;
 },
 
 /**
@@ -14115,6 +14175,20 @@ bool
 },
 
 /**
+ * @method getPixelData
+ * @param {int} arg0
+ * @param {int} arg1
+ * @return {color4b_object}
+ */
+getPixelData : function (
+int, 
+int 
+)
+{
+    return cc.Color4B;
+},
+
+/**
  * @method setClearFlags
  * @param {unsigned int} arg0
  */
@@ -15083,10 +15157,12 @@ removeAllTextures : function (
  * @method addImageAsync
  * @param {String} arg0
  * @param {function} arg1
+ * @param {cc.Texture2D::PixelFormat} arg2
  */
 addImageAsync : function (
 str, 
-func 
+func, 
+pixelformat 
 )
 {
 },
@@ -15124,12 +15200,14 @@ getCachedTextureInfo : function (
 /**
  * @method addImage
 * @param {cc.Image|String} image
-* @param {String} str
+* @param {String|cc.Texture2D::PixelFormat} str
+* @param {cc.Texture2D::PixelFormat} pixelformat
 * @return {cc.Texture2D|cc.Texture2D}
 */
 addImage : function(
 image,
-str 
+str,
+pixelformat 
 )
 {
     return cc.Texture2D;

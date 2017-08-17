@@ -1154,6 +1154,7 @@ void Scale9SpriteV2::draw(cocos2d::Renderer *renderer, const cocos2d::Mat4 &tran
             triangles.indexCount = (int)this->_indices.size();
             auto texture = this->_spriteFrame->getTexture();
             this->_renderCommand.init(_globalZOrder, texture->getName(), _glProgramState, _blendFunc, triangles, transform, 0);
+            this->_renderCommand.setBatchDepth(this->getDepthInLocalBatchNode());
             renderer->addCommand(&this->_renderCommand);
         }
     }

@@ -47,6 +47,10 @@ namespace spine {
         void addCommand (cocos2d::Renderer* renderer, float globalOrder, GLuint textureID, cocos2d::GLProgramState* glProgramState,
                          cocos2d::BlendFunc blendType, const cocos2d::TrianglesCommand:: Triangles& triangles, const cocos2d::Mat4& mv, uint32_t flags);
         
+        inline float getBatchDepth() const { return _batchDepth; }
+        
+        inline void setBatchDepth(float batchDepth)  { _batchDepth = batchDepth; }
+        
     protected:
         SkeletonBatch ();
         virtual ~SkeletonBatch ();
@@ -63,6 +67,7 @@ namespace spine {
         
         Command* _firstCommand;
         Command* _command;
+        float _batchDepth;
     };
     
 }

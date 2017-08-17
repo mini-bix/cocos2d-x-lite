@@ -162,8 +162,9 @@ protected:
     CustomCommand _beforeVisitCmd;
     CustomCommand _afterDrawStencilCmd;
     CustomCommand _afterVisitCmd;
-
 private:
+    BatchBeginCommand _beginRenderCommand;
+    BatchEndCommand _endRenderCommand;
     CC_DISALLOW_COPY_AND_ASSIGN(ClippingNode);
 };
 /** @} */

@@ -38,7 +38,8 @@
 #include "math/CCMath.h"
 #include "2d/CCComponentContainer.h"
 #include "2d/CCComponent.h"
-
+#include "renderer/CCBatchBeginCommand.h"
+#include "renderer/CCBatchEndCommand.h"
 NS_CC_BEGIN
 
 class GridBase;
@@ -210,6 +211,22 @@ public:
      * @return The node's global Z order
      */
     virtual float getGlobalZOrder() const { return _globalZOrder; }
+    
+    
+    virtual void setLocalDepth(float localDepth) {_localDepth = localDepth;}
+
+    float getLocalDepth() const { return _localDepth; }
+    
+    bool isInBatchRecursive();
+    
+    float getDepthInLocalBatchNode() const;
+    
+    float getDepthInGlobalBatchNode() const;
+    
+    void setIsBatchNode(bool batch) {_isBatchNode = batch;};
+    
+    bool isBatchNode() const { return _isBatchNode; }
+
 
     /**
      * Sets the scale (x) of the node.
@@ -1855,6 +1872,10 @@ protected:
     int _localZOrder; /// < Local order (relative to its siblings) used to sort the node
 
     float _globalZOrder;            ///< Global order used to sort the node
+    
+    bool _isBatchNode;
+    
+    float _localDepth;            ///< used for batching
 
     static unsigned int s_globalOrderOfArrival;
 
@@ -1910,11 +1931,18 @@ protected:
     std::function<void()> _onExitCallback;
     std::function<void()> _onEnterTransitionDidFinishCallback;
     std::function<void()> _onExitTransitionDidStartCallback;
+    
+private:
+    BatchBeginCommand _renderCommand;
+    BatchEndCommand _endRenderCommand;
+    
     std::function<void(Renderer*)> _beforeVisitCallback;
     std::function<void(Renderer*)> _afterVisitCallback;
 
 private:
     CC_DISALLOW_COPY_AND_ASSIGN(Node);
+    
+
 };
 
 // end of _2d group

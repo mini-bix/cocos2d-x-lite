@@ -17,6 +17,7 @@ LOCAL_SRC_FILES := ../auto/jsb_cocos2dx_extension_auto.cpp \
                    ../auto/jsb_cocos2dx_ui_auto.cpp \
                    ../auto/jsb_cocos2dx_network_auto.cpp \
                    ../auto/jsb_creator_auto.cpp \
+                   ../auto/jsb_baiyou_plugin_auto.cpp \
                    ../auto/jsb_box2d_auto.cpp \
                    ../manual/ScriptingCore.cpp \
                    ../manual/cocos2d_specifics.cpp \
@@ -37,12 +38,14 @@ LOCAL_SRC_FILES := ../auto/jsb_cocos2dx_extension_auto.cpp \
                    ../manual/localstorage/js_bindings_system_registration.cpp \
                    ../manual/network/jsb_socketio.cpp \
                    ../manual/network/jsb_websocket.cpp \
+                   ../manual/network/jsb_udpclient.cpp \
                    ../manual/network/XMLHTTPRequest.cpp \
                    ../manual/network/js_network_manual.cpp \
                    ../manual/spine/jsb_cocos2dx_spine_manual.cpp \
                    ../manual/dragonbones/jsb_cocos2dx_dragonbones_manual.cpp \
                    ../manual/ui/jsb_cocos2dx_ui_manual.cpp \
-                   ../manual/platform/android/CCJavascriptJavaBridge.cpp
+                   ../manual/platform/android/CCJavascriptJavaBridge.cpp \
+                   ../manual/csvfile/jsb_csvfile.cpp
 
 LOCAL_CFLAGS := -DCOCOS2D_JAVASCRIPT
 

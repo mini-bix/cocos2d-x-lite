@@ -73,6 +73,8 @@ typedef struct spSkeletonData {
 
 	int pathConstraintsCount;
 	spPathConstraintData** pathConstraints;
+    
+    int retainCount;
 } spSkeletonData;
 
 spSkeletonData* spSkeletonData_create ();

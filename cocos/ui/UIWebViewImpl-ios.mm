@@ -136,6 +136,8 @@ static std::string getFixedBaseUrl(const std::string& baseUrl)
     if (!self.uiWebView) {
         self.uiWebView = [[[UIWebView alloc] init] autorelease];
         self.uiWebView.delegate = self;
+        self.uiWebView.opaque = NO;
+        self.uiWebView.backgroundColor = [UIColor clearColor];
     }
     self.uiWebView.allowsInlineMediaPlayback = YES;
     if (!self.uiWebView.superview) {

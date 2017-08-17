@@ -63,7 +63,11 @@ public:
         /**Primitive command, used to draw primitives such as lines, points and triangles.*/
         PRIMITIVE_COMMAND,
         /**Triangles command, used to draw triangles.*/
-        TRIANGLES_COMMAND
+        TRIANGLES_COMMAND,
+        
+        BATCH_BGEIN_COMMAND,
+        
+        BATCH_END_COMMAND
     };
 
     /**
@@ -72,7 +76,7 @@ public:
      @param modelViewTransform Modelview matrix when submitting the render command.
      @param flags Flag used to indicate whether the command should be draw at 3D mode or not.
      */
-    void init(float globalZOrder, const Mat4& modelViewTransform, uint32_t flags);
+    void init(float globalZOrder, const Mat4& modelViewTransform, uint32_t flags, float batchDepth = 0);
     
     /** Get global Z order. */
     inline float getGlobalOrder() const { return _globalOrder; }
@@ -97,6 +101,18 @@ public:
     inline void set3D(bool value) { _is3D = value; }
     /**Get the depth by current model view matrix.*/
     inline float getDepth() const { return _depth; }
+    
+    inline float getBatchDepth() const { return _batchDepth; }
+    
+    inline void setBatchDepth(float batchDepth)  { _batchDepth = batchDepth; }
+    
+    inline bool isSkipReOrder() const { return _skipReOrder; }
+    /**Set skip batching.*/
+    inline void setSkipReOrder(bool value) { _skipReOrder = value; }
+    
+public:
+    
+    int sceneOrder;
 
 protected:
     /**Constructor.*/
@@ -120,12 +136,16 @@ protected:
      a command is skip batching, it would be forced to draw in a separate function call, and break the batch.
      */
     bool _skipBatching;
+    
+    bool _skipReOrder;
 
     /** Is the command been rendered on 3D pass. */
     bool _is3D;
 
     /** Depth from the model view matrix.*/
     float _depth;
+    
+    float _batchDepth;
 };
 
 NS_CC_END

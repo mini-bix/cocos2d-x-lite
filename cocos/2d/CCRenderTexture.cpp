@@ -590,6 +590,30 @@ Image* RenderTexture::newImage(bool fliimage)
     return image;
 }
 
+Color4B RenderTexture::getPixelData(int posx,int posy){
+    Color4B c = { 0, 0, 0, 0 };
+    GLubyte *tempData = nullptr;
+    tempData = new (std::nothrow) GLubyte[4];
+    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_oldFBO);
+    glBindFramebuffer(GL_FRAMEBUFFER, _FBO);
+    if (Configuration::getInstance()->checkForGLExtension("GL_QCOM"))
+    {
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _textureCopy->getName(), 0);
+        CHECK_GL_ERROR_DEBUG();
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _texture->getName(), 0);
+    }
+    glPixelStorei(GL_PACK_ALIGNMENT, 1);
+    glReadPixels(posx,posy,1, 1,GL_RGBA,GL_UNSIGNED_BYTE, tempData);
+    glBindFramebuffer(GL_FRAMEBUFFER, _oldFBO);
+    c.r = tempData[0];
+    c.g = tempData[1];
+    c.b = tempData[2];
+    c.a = tempData[3];
+    CC_SAFE_DELETE_ARRAY(tempData);
+    return c;
+}
+
 void RenderTexture::onBegin()
 {
     Director *director = Director::getInstance();

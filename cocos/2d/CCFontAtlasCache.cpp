@@ -34,7 +34,14 @@
 
 NS_CC_BEGIN
 
-std::unordered_map<std::string, FontAtlas *> FontAtlasCache::_atlasMap;
+CachedFontAtlasInfo::CachedFontAtlasInfo(FontAtlas *_atlas,time_t _lastUse):atlas(_atlas),lastUse(_lastUse){
+    CC_SAFE_RETAIN(_atlas);
+};
+CachedFontAtlasInfo::~CachedFontAtlasInfo(){
+    CC_SAFE_RELEASE_NULL(atlas);
+};
+
+std::unordered_map<std::string, CachedFontAtlasInfo*> FontAtlasCache::_atlasMap;
 #define ATLAS_MAP_KEY_BUFFER 255
 
 void FontAtlasCache::purgeCachedData()
@@ -42,7 +49,8 @@ void FontAtlasCache::purgeCachedData()
     auto atlasMapCopy = _atlasMap;
     for (auto&& atlas : atlasMapCopy)
     {
-        atlas.second->purgeTexturesAtlas();
+        atlas.second->atlas->purgeTexturesAtlas();
+        delete atlas.second;
     }
     _atlasMap.clear();
 }
@@ -76,15 +84,16 @@ FontAtlas* FontAtlasCache::getFontAtlasTTF(const _ttfConfig* config)
             auto tempAtlas = font->createFontAtlas();
             if (tempAtlas)
             {
-                _atlasMap[atlasName] = tempAtlas;
-                return _atlasMap[atlasName];
+                _atlasMap[atlasName] = new CachedFontAtlasInfo(tempAtlas,time(0));
+                return _atlasMap[atlasName]->atlas;
             }
         }
     }
     else
     {
-        _atlasMap[atlasName]->retain();
-        return _atlasMap[atlasName];
+        _atlasMap[atlasName]->atlas->retain();
+        _atlasMap[atlasName]->lastUse = time(0);
+        return _atlasMap[atlasName]->atlas;
     }
 
     return nullptr;
@@ -108,15 +117,16 @@ FontAtlas* FontAtlasCache::getFontAtlasFNT(const std::string& fntDataString,
             auto tempAtlas = font->createFontAtlas();
             if (tempAtlas)
             {
-                _atlasMap[atlasName] = tempAtlas;
-                return _atlasMap[atlasName];
+                _atlasMap[atlasName] = new CachedFontAtlasInfo(tempAtlas,time(0));
+                return _atlasMap[atlasName]->atlas;
             }
         }
     }
     else
     {
-        _atlasMap[atlasName]->retain();
-        return _atlasMap[atlasName];
+        _atlasMap[atlasName]->atlas->retain();
+        _atlasMap[atlasName]->lastUse = time(0);
+        return _atlasMap[atlasName]->atlas;
     }
 
     return nullptr;
@@ -136,15 +146,16 @@ FontAtlas* FontAtlasCache::getFontAtlasCharMap(const std::string& plistFile)
             auto tempAtlas = font->createFontAtlas();
             if (tempAtlas)
             {
-                _atlasMap[atlasName] = tempAtlas;
-                return _atlasMap[atlasName];
+                _atlasMap[atlasName] = new CachedFontAtlasInfo(tempAtlas,time(0));
+                return _atlasMap[atlasName]->atlas;
             }
         }
     }
     else
     {
-        _atlasMap[atlasName]->retain();
-        return _atlasMap[atlasName];
+        _atlasMap[atlasName]->atlas->retain();
+        _atlasMap[atlasName]->lastUse = time(0);
+        return _atlasMap[atlasName]->atlas;
     }
 
     return nullptr;
@@ -166,15 +177,16 @@ FontAtlas* FontAtlasCache::getFontAtlasCharMap(Texture2D* texture, int itemWidth
             auto tempAtlas = font->createFontAtlas();
             if (tempAtlas)
             {
-                _atlasMap[atlasName] = tempAtlas;
-                return _atlasMap[atlasName];
+                _atlasMap[atlasName] = new CachedFontAtlasInfo(tempAtlas,time(0));
+                return _atlasMap[atlasName]->atlas;
             }
         }
     }
     else
     {
-        _atlasMap[atlasName]->retain();
-        return _atlasMap[atlasName];
+        _atlasMap[atlasName]->atlas->retain();
+        _atlasMap[atlasName]->lastUse = time(0);
+        return _atlasMap[atlasName]->atlas;
     }
 
     return nullptr;
@@ -196,15 +208,16 @@ FontAtlas* FontAtlasCache::getFontAtlasCharMap(const std::string& charMapFile, i
             auto tempAtlas = font->createFontAtlas();
             if (tempAtlas)
             {
-                _atlasMap[atlasName] = tempAtlas;
-                return _atlasMap[atlasName];
+                _atlasMap[atlasName] = new CachedFontAtlasInfo(tempAtlas,time(0));
+                return _atlasMap[atlasName]->atlas;
             }
         }
     }
     else
     {
-        _atlasMap[atlasName]->retain();
-        return _atlasMap[atlasName];
+        _atlasMap[atlasName]->atlas->retain();
+        _atlasMap[atlasName]->lastUse = time(0);
+        return _atlasMap[atlasName]->atlas;
     }
 
     return nullptr;
@@ -212,25 +225,27 @@ FontAtlas* FontAtlasCache::getFontAtlasCharMap(const std::string& charMapFile, i
 
 bool FontAtlasCache::releaseFontAtlas(FontAtlas *atlas)
 {
-    if (nullptr != atlas)
-    {
-        for( auto &item: _atlasMap )
-        {
-            if ( item.second == atlas )
-            {
-                if (atlas->getReferenceCount() == 1)
-                {
-                  _atlasMap.erase(item.first);
-                }
-
-                atlas->release();
-
-                return true;
-            }
-        }
-    }
-
-    return false;
+//    if (nullptr != atlas)
+//    {
+//        for( auto &item: _atlasMap )
+//        {
+//            if ( item.second.atlas == atlas )
+//            {
+//                if (atlas->getReferenceCount() == 1)
+//                {
+//                    _atlasMap.erase(item.first);
+//                }
+//                
+//                atlas->release();
+//                
+//                return true;
+//            }
+//        }
+//    }
+//    
+//    return false;
+    CC_SAFE_RELEASE(atlas);
+    return true;
 }
 
 void FontAtlasCache::reloadFontAtlasFNT(const std::string& fntDataString,
@@ -244,7 +259,8 @@ void FontAtlasCache::reloadFontAtlasFNT(const std::string& fntDataString,
     auto it = _atlasMap.find(atlasName);
     if (it != _atlasMap.end())
     {
-        CC_SAFE_RELEASE_NULL(it->second);
+        CC_SAFE_RELEASE_NULL(it->second->atlas);
+        delete it->second;
         _atlasMap.erase(it);
     }
 
@@ -256,7 +272,7 @@ void FontAtlasCache::reloadFontAtlasFNT(const std::string& fntDataString,
         auto tempAtlas = font->createFontAtlas();
         if (tempAtlas)
         {
-            _atlasMap[atlasName] = tempAtlas;
+            _atlasMap[atlasName] = new CachedFontAtlasInfo(tempAtlas,time(0));
         }
     }
 
@@ -269,11 +285,27 @@ void FontAtlasCache::unloadFontAtlasTTF(const std::string& fontFileName)
     {
         if (item->first.find(fontFileName) != std::string::npos)
         {
-            CC_SAFE_RELEASE_NULL(item->second);
+            CC_SAFE_RELEASE_NULL(item->second->atlas);
+            delete item->second;
             item = _atlasMap.erase(item);
         }
         else
             item++;
+    }
+}
+
+void FontAtlasCache::update(){
+    auto now = time(0);
+    auto item = _atlasMap.begin();
+    while (item != _atlasMap.end()){
+        if ( item->second->atlas->getReferenceCount() == 1 && now - item->second->lastUse >10)
+        {
+            CCLOG("destroy atlas %s",item->first.c_str());
+            delete item->second;
+            _atlasMap.erase(item++);
+        }else{
+            item ++;
+        }
     }
 }
 

@@ -30,6 +30,12 @@
 
 #include <unordered_map>
 #include "base/ccTypes.h"
+#include <time.h>
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+#   include <time.h>
+#else
+#   include <sys/time.h>
+#endif
 
 NS_CC_BEGIN
 
@@ -38,8 +44,18 @@ class Texture2D;
 struct _ttfConfig;
 class SpriteFrame;
 
+class CachedFontAtlasInfo {
+public:
+    FontAtlas * atlas;
+    time_t lastUse;
+public:
+    CachedFontAtlasInfo(FontAtlas *_atlas,time_t _lastUse);
+    ~CachedFontAtlasInfo();
+};
+                       
 class CC_DLL FontAtlasCache
 {
+
 public:
     static FontAtlas* getFontAtlasTTF(const _ttfConfig* config);
     static FontAtlas* getFontAtlasFNT(const std::string& fntDataString,
@@ -70,9 +86,12 @@ public:
                otherwise, it will cause program crash!
     */
     static void unloadFontAtlasTTF(const std::string& fontFileName);
+    
+    static void update();
 
 private:
-    static std::unordered_map<std::string, FontAtlas *> _atlasMap;
+    
+    static std::unordered_map<std::string, CachedFontAtlasInfo*> _atlasMap;
 };
 
 NS_CC_END

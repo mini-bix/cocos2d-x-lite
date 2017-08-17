@@ -43,6 +43,7 @@ THE SOFTWARE.
 #include "renderer/CCGLProgramState.h"
 #include "renderer/CCMaterial.h"
 #include "math/TransformUtils.h"
+#include "renderer/CCRenderer.h"
 
 #include "editor-support/creator/CCCameraNode.h"
 
@@ -111,6 +112,8 @@ Node::Node()
 , _cascadeColorEnabled(false)
 , _cascadeOpacityEnabled(false)
 , _cameraMask(1)
+,_localDepth(0)
+,_isBatchNode(false)
 {
     // set default scheduler and actionManager
     _director = Director::getInstance();
@@ -1177,6 +1180,10 @@ void Node::draw()
 
 void Node::draw(Renderer* renderer, const Mat4 &transform, uint32_t flags)
 {
+    if (this->isBatchNode()){
+        this->_renderCommand.init(this->getDepthInLocalBatchNode());
+        renderer->addCommand(&this->_renderCommand);
+    }
 }
 
 void Node::visit()
@@ -1277,6 +1284,11 @@ void Node::visit(Renderer* renderer, const Mat4 &parentTransform, uint32_t paren
     else
     {
         this->draw(renderer, _modelViewTransform, flags);
+    }
+    
+    if (this->isBatchNode()){
+        this->_endRenderCommand.init();
+        renderer->addCommand(&this->_endRenderCommand);
     }
     
     if (camera && camera->visitingIndex > 0) {
@@ -2130,6 +2142,31 @@ void Node::setCameraMask(unsigned short mask, bool applyChildren)
             child->setCameraMask(mask, applyChildren);
         }
     }
+}
+
+float Node::getDepthInLocalBatchNode() const{
+    float depth = this->getLocalDepth();
+    for (auto node = _parent ; node != nullptr && !node->isBatchNode();node = node->getParent()){
+        depth += node->getLocalDepth();
+    }
+    return depth;
+}
+
+float Node::getDepthInGlobalBatchNode() const{
+    float depth = this->getLocalDepth();
+    for (auto node = _parent ; node != nullptr;node = node->getParent()){
+        depth += node->getLocalDepth();
+    }
+    return depth;
+}
+
+bool  Node::isInBatchRecursive(){
+    for (auto node = _parent ; node != nullptr;node = node->getParent()){
+        if (node->isBatchNode()){
+            return true;
+        }
+    }
+    return false;
 }
 
 void Node::markTransformUpdated()

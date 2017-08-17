@@ -179,6 +179,7 @@ spAtlas* spAtlas_create (const char* begin, int length, const char* dir, void* r
 	Str tuple[4];
 
 	self = NEW(spAtlas);
+    self->retainCount = 0;
 	self->rendererObject = rendererObject;
 
 	while (readLine(&begin, end, &str)) {
@@ -321,6 +322,7 @@ spAtlas* spAtlas_createFromFile (const char* path, void* rendererObject) {
 
 	FREE(data);
 	FREE(dir);
+    atlas->retainCount = 0;
 	return atlas;
 }
 

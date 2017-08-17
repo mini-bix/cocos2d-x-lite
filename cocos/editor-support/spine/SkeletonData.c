@@ -33,7 +33,9 @@
 #include <spine/extension.h>
 
 spSkeletonData* spSkeletonData_create () {
-	return NEW(spSkeletonData);
+	spSkeletonData *ret = NEW(spSkeletonData);
+    ret->retainCount = 0;
+    return ret;
 }
 
 void spSkeletonData_dispose (spSkeletonData* self) {

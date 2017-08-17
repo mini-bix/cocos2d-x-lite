@@ -83,6 +83,8 @@ cc.configuration = cc.Configuration.getInstance();
 cc.textureCache = cc.director.getTextureCache();
 cc.shaderCache = cc.ShaderCache.getInstance();
 cc.plistParser = cc.PlistParser.getInstance();
+cc.spriteFrameCache = cc.SpriteFrameCache.getInstance();
+sp.spineCache = sp.SkeletonCache.getInstance();
 
 // File utils (Temporary, won't be accessible)
 cc.fileUtils = cc.FileUtils.getInstance();

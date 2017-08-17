@@ -125,6 +125,9 @@
     <ClCompile Include="..\VertexAttachment.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\SkeletonCache.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Animation.h">

@@ -272,6 +272,7 @@ void Director::drawScene()
     {
         _eventDispatcher->dispatchEvent(_eventBeforeUpdate);
         _scheduler->update(_deltaTime);
+        FontAtlasCache::update();
         _eventDispatcher->dispatchEvent(_eventAfterUpdate);
     }
 

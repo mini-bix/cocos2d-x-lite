@@ -390,6 +390,8 @@ namespace cocos2d { namespace network {
                 curl_easy_setopt(handle, CURLOPT_FOLLOWLOCATION, true);
                 curl_easy_setopt(handle, CURLOPT_MAXREDIRS, MAX_REDIRS);
             }
+            
+            curl_easy_setopt(handle, CURLOPT_ACCEPT_ENCODING, "gzip");
         }
 
         // get header info, if success set handle to content download state

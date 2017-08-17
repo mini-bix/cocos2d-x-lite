@@ -144,6 +144,8 @@ base/ccUtils.cpp \
 base/etc1.cpp \
 base/pvr.cpp \
 renderer/CCBatchCommand.cpp \
+renderer/CCBatchBeginCommand.cpp \
+renderer/CCBatchEndCommand.cpp \
 renderer/CCCustomCommand.cpp \
 renderer/CCGLProgram.cpp \
 renderer/CCGLProgramCache.cpp \

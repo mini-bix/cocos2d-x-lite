@@ -146,6 +146,7 @@ struct spAtlas {
 	spAtlasRegion* regions;
 
 	void* rendererObject;
+    int retainCount;
 };
 
 /* Image files referenced in the atlas file will be prefixed with dir. */

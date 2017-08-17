@@ -276,6 +276,9 @@ public:
      */
     void setVirtualViewport(const Vec2& rtBegin, const Rect& fullRect, const Rect& fullViewport);
 
+    Color4B getPixelData(int posx,int posy);
+
+
 public:
     /** FIXME: should be protected.
      * but due to a bug in PowerVR + Android,

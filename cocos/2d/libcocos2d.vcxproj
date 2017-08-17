@@ -162,6 +162,9 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\win32\libs\*.*" "$(OutDir)"
     <ClCompile Include="..\..\extensions\assets-manager\CCEventAssetsManagerEx.cpp" />
     <ClCompile Include="..\..\extensions\assets-manager\CCEventListenerAssetsManagerEx.cpp" />
     <ClCompile Include="..\..\extensions\assets-manager\Manifest.cpp" />
+    <ClCompile Include="..\..\extensions\baiyou\BaiyouPlugin.cpp" />
+    <ClCompile Include="..\..\extensions\baiyou\csvfile\CsvFile.cpp" />
+    <ClCompile Include="..\..\extensions\baiyou\win32\BaiyouPlugin_Win32.cpp" />
     <ClCompile Include="..\..\extensions\GUI\CCControlExtension\CCControl.cpp" />
     <ClCompile Include="..\..\extensions\GUI\CCControlExtension\CCControlButton.cpp" />
     <ClCompile Include="..\..\extensions\GUI\CCControlExtension\CCControlColourPicker.cpp" />
@@ -176,6 +179,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\win32\libs\*.*" "$(OutDir)"
     <ClCompile Include="..\..\extensions\GUI\CCScrollView\CCScrollView.cpp" />
     <ClCompile Include="..\..\extensions\GUI\CCScrollView\CCTableView.cpp" />
     <ClCompile Include="..\..\extensions\GUI\CCScrollView\CCTableViewCell.cpp" />
+    <ClCompile Include="..\..\extensions\md5\MD5.cpp" />
     <ClCompile Include="..\..\extensions\physics-nodes\CCPhysicsDebugNode.cpp" />
     <ClCompile Include="..\..\extensions\physics-nodes\CCPhysicsSprite.cpp" />
     <ClCompile Include="..\..\external\sources\clipper\clipper.cpp" />
@@ -336,6 +340,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\win32\libs\*.*" "$(OutDir)"
     <ClCompile Include="..\network\CCDownloader.cpp" />
     <ClCompile Include="..\network\HttpClient.cpp" />
     <ClCompile Include="..\network\SocketIO.cpp" />
+    <ClCompile Include="..\network\UdpClient.cpp" />
     <ClCompile Include="..\network\Uri.cpp" />
     <ClCompile Include="..\network\WebSocket-libwebsockets.cpp" />
     <ClCompile Include="..\platform\CCFileUtils.cpp" />
@@ -350,7 +355,9 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\win32\libs\*.*" "$(OutDir)"
     <ClCompile Include="..\platform\win32\CCFileUtils-win32.cpp" />
     <ClCompile Include="..\platform\win32\CCStdC-win32.cpp" />
     <ClCompile Include="..\platform\win32\CCUtils-win32.cpp" />
+    <ClCompile Include="..\renderer\CCBatchBeginCommand.cpp" />
     <ClCompile Include="..\renderer\CCBatchCommand.cpp" />
+    <ClCompile Include="..\renderer\CCBatchEndCommand.cpp" />
     <ClCompile Include="..\renderer\CCCustomCommand.cpp" />
     <ClCompile Include="..\renderer\CCFrameBuffer.cpp" />
     <ClCompile Include="..\renderer\CCGLProgram.cpp" />
@@ -483,6 +490,8 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\win32\libs\*.*" "$(OutDir)"
     <ClInclude Include="..\..\extensions\assets-manager\CCEventAssetsManagerEx.h" />
     <ClInclude Include="..\..\extensions\assets-manager\CCEventListenerAssetsManagerEx.h" />
     <ClInclude Include="..\..\extensions\assets-manager\Manifest.h" />
+    <ClInclude Include="..\..\extensions\baiyou\BaiyouPlugin.h" />
+    <ClInclude Include="..\..\extensions\baiyou\win32\BaiyouPlugin_Win32.h" />
     <ClInclude Include="..\..\extensions\cocos-ext.h" />
     <ClInclude Include="..\..\extensions\ExtensionExport.h" />
     <ClInclude Include="..\..\extensions\ExtensionMacros.h" />

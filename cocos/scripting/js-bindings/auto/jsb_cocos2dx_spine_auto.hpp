@@ -57,4 +57,16 @@ bool js_cocos2dx_spine_SkeletonAnimation_create(JSContext *cx, uint32_t argc, JS
 bool js_cocos2dx_spine_SkeletonAnimation_createWithJsonFile(JSContext *cx, uint32_t argc, JS::Value *vp);
 bool js_cocos2dx_spine_SkeletonAnimation_SkeletonAnimation(JSContext *cx, uint32_t argc, JS::Value *vp);
 
+extern JSClass  *jsb_spine_SkeletonCache_class;
+extern JSObject *jsb_spine_SkeletonCache_prototype;
+
+bool js_cocos2dx_spine_SkeletonCache_constructor(JSContext *cx, uint32_t argc, jsval *vp);
+void js_cocos2dx_spine_SkeletonCache_finalize(JSContext *cx, JSObject *obj);
+void js_register_cocos2dx_spine_SkeletonCache(JSContext *cx, JS::HandleObject global);
+void register_all_cocos2dx_spine(JSContext* cx, JS::HandleObject obj);
+bool js_cocos2dx_spine_SkeletonCache_removeAll(JSContext *cx, uint32_t argc, jsval *vp);
+bool js_cocos2dx_spine_SkeletonCache_removeUnusedAssets(JSContext *cx, uint32_t argc, jsval *vp);
+bool js_cocos2dx_spine_SkeletonCache_getInstance(JSContext *cx, uint32_t argc, jsval *vp);
+bool js_cocos2dx_spine_SkeletonCache_SkeletonCache(JSContext *cx, uint32_t argc, jsval *vp);
+
 #endif // __cocos2dx_spine_h__

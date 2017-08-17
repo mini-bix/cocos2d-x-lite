@@ -683,6 +683,7 @@ namespace ui {
                 auto& polyInfo = _scale9Image->getPolygonInfo();
                 auto globalZOrder = _scale9Image->getGlobalZOrder();
                 _trianglesCommand.init(globalZOrder,texture, programState, blendFunc, polyInfo.triangles, transform, flags);
+                _trianglesCommand.setBatchDepth(getDepthInLocalBatchNode());
                 renderer->addCommand(&_trianglesCommand);
 
 #if CC_SPRITE_DEBUG_DRAW

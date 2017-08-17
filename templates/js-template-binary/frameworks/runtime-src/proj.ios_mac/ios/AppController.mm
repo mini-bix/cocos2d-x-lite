@@ -28,6 +28,7 @@
 #import "AppDelegate.h"
 #import "RootViewController.h"
 #import "platform/ios/CCEAGLView-ios.h"
+#include "ScriptingCore.h"
 
 using namespace cocos2d;
 
@@ -137,6 +138,7 @@ static AppDelegate s_sharedApplication;
     /*
       Free up as much memory as possible by purging cached data objects that can be recreated (or reloaded from disk) later.
     */
+    ScriptingCore::getInstance()->evalString("if (cc.onMemoryWarning){cc.onMemoryWarning();}");
 }
 
 

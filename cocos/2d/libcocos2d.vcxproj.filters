@@ -175,6 +175,18 @@
     <Filter Include="creator\physics">
       <UniqueIdentifier>{7ea5175c-acae-4b2f-ae6e-50daf6131b12}</UniqueIdentifier>
     </Filter>
+    <Filter Include="extension\md5">
+      <UniqueIdentifier>{61bb4895-4b91-449f-8e3c-e44643ac6c67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="extension\baiyou">
+      <UniqueIdentifier>{5536ef6a-d666-45b2-8852-c84720c4c7d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="extension\baiyou\csvfile">
+      <UniqueIdentifier>{a69aeb7b-1a23-4291-9943-c488b903a8d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="extension\baiyou\win32">
+      <UniqueIdentifier>{122bb51c-fa0d-41ee-ae1b-ea56b602a91a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\external\sources\xxhash\xxhash.c">
@@ -1142,6 +1154,27 @@
     </ClCompile>
     <ClCompile Include="..\ui\UIEditBox\UIEditBoxImpl-common.cpp">
       <Filter>ui\UIWidgets\EditBox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\renderer\CCBatchBeginCommand.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\renderer\CCBatchEndCommand.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\extensions\md5\MD5.cpp">
+      <Filter>extension\md5</Filter>
+    </ClCompile>
+    <ClCompile Include="..\network\UdpClient.cpp">
+      <Filter>network\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\extensions\baiyou\csvfile\CsvFile.cpp">
+      <Filter>extension\baiyou\csvfile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\extensions\baiyou\BaiyouPlugin.cpp">
+      <Filter>extension\baiyou</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\extensions\baiyou\win32\BaiyouPlugin_Win32.cpp">
+      <Filter>extension\baiyou\win32</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2210,6 +2243,12 @@
     </ClInclude>
     <ClInclude Include="..\ui\UIEditBox\UIEditBoxImpl-common.h">
       <Filter>ui\UIWidgets\EditBox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\extensions\baiyou\BaiyouPlugin.h">
+      <Filter>extension\baiyou</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\extensions\baiyou\win32\BaiyouPlugin_Win32.h">
+      <Filter>extension\baiyou\win32</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

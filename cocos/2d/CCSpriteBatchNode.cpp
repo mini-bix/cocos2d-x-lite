@@ -376,6 +376,7 @@ void SpriteBatchNode::draw(Renderer *renderer, const Mat4 &transform, uint32_t f
     }
 
     _batchCommand.init(_globalZOrder, getGLProgram(), _blendFunc, _textureAtlas, transform, flags);
+    _batchCommand.setBatchDepth(getDepthInLocalBatchNode());
     renderer->addCommand(&_batchCommand);
 }
 
