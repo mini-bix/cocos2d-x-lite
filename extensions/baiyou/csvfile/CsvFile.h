@@ -12,8 +12,9 @@
 #include <stdio.h>
 #include <vector>
 #include <string>
+#include "cocos2d.h"
 namespace baiyou {
-    class CsvFile{
+	class CC_DLL CsvFile{
     public:
         CsvFile(){};
         virtual ~CsvFile(){};

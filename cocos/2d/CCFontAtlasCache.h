@@ -30,7 +30,12 @@
 
 #include <unordered_map>
 #include "base/ccTypes.h"
-#include <sys/time.h>
+#include <time.h>
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+#   include <time.h>
+#else
+#   include <sys/time.h>
+#endif
 
 NS_CC_BEGIN
 

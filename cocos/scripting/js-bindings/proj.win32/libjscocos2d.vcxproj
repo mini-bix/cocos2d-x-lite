@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\auto\jsb_baiyou_plugin_auto.cpp" />
     <ClCompile Include="..\auto\jsb_box2d_auto.cpp" />
     <ClCompile Include="..\auto\jsb_cocos2dx_auto.cpp" />
     <ClCompile Include="..\auto\jsb_cocos2dx_audioengine_auto.cpp" />
@@ -33,6 +34,7 @@
     <ClCompile Include="..\manual\cocostudio\jsb_cocos2dx_studio_manual.cpp" />
     <ClCompile Include="..\manual\component\CCComponentJS.cpp" />
     <ClCompile Include="..\manual\creator\js_bindings_creator_manual.cpp" />
+    <ClCompile Include="..\manual\csvfile\jsb_csvfile.cpp" />
     <ClCompile Include="..\manual\dragonbones\jsb_cocos2dx_dragonbones_manual.cpp" />
     <ClCompile Include="..\manual\extension\jsb_cocos2dx_extension_manual.cpp" />
     <ClCompile Include="..\manual\jsb_event_dispatcher_manual.cpp" />
@@ -55,6 +57,7 @@
     <ClCompile Include="..\manual\ui\jsb_cocos2dx_ui_manual.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\auto\jsb_baiyou_plugin_auto.hpp" />
     <ClInclude Include="..\auto\jsb_box2d_auto.hpp" />
     <ClInclude Include="..\auto\jsb_cocos2dx_auto.hpp" />
     <ClInclude Include="..\auto\jsb_cocos2dx_audioengine_auto.hpp" />
@@ -80,6 +83,7 @@
     <ClInclude Include="..\manual\cocostudio\jsb_cocos2dx_studio_manual.h" />
     <ClInclude Include="..\manual\component\CCComponentJS.h" />
     <ClInclude Include="..\manual\creator\js_bindings_creator_manual.h" />
+    <ClInclude Include="..\manual\csvfile\jsb_csvfile.h" />
     <ClInclude Include="..\manual\dragonbones\jsb_cocos2dx_dragonbones_manual.h" />
     <ClInclude Include="..\manual\extension\jsb_cocos2dx_extension_manual.h" />
     <ClInclude Include="..\manual\jsb_event_dispatcher_manual.h" />

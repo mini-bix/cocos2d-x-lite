@@ -1,6 +1,6 @@
 #include "scripting/js-bindings/manual/csvfile/jsb_csvfile.h"
 #include "scripting/js-bindings/manual/cocos2d_specifics.hpp"
-#include "baiyou/csvfile/CsvFile.h"
+#include "extensions/baiyou/csvfile/CsvFile.h"
 #include <sstream>
 template<class T>
 static bool dummy_constructor(JSContext *cx, uint32_t argc, jsval *vp)

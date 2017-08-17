@@ -36,6 +36,9 @@
     <Filter Include="manual\dragonbones">
       <UniqueIdentifier>{36372247-74fd-4169-8120-06c8c0596530}</UniqueIdentifier>
     </Filter>
+    <Filter Include="manual\csvfile">
+      <UniqueIdentifier>{21b21c0d-d09c-4c2f-b8f7-4840b6f3b28f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\auto\jsb_cocos2dx_auto.cpp">
@@ -163,6 +166,12 @@
     </ClCompile>
     <ClCompile Include="..\manual\network\jsb_udpclient.cpp">
       <Filter>manual\network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\manual\csvfile\jsb_csvfile.cpp">
+      <Filter>manual\csvfile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\auto\jsb_baiyou_plugin_auto.cpp">
+      <Filter>auto</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -309,6 +318,12 @@
     </ClInclude>
     <ClInclude Include="..\manual\creator\js_bindings_creator_manual.h">
       <Filter>manual</Filter>
+    </ClInclude>
+    <ClInclude Include="..\manual\csvfile\jsb_csvfile.h">
+      <Filter>manual\csvfile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\auto\jsb_baiyou_plugin_auto.hpp">
+      <Filter>auto</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
