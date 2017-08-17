@@ -8,8 +8,20 @@
 
 #include "CsvFile.h"
 #include "platform/CCFileUtils.h"
+#include <sstream>
 namespace baiyou {
-    void split(const std::string& s,std::string delim,std::vector<std::string>& ret)
+//    bool js_isNum(const std::string& str)
+//    {
+//        std::stringstream sin(str);
+//        double d;
+//        char c;
+//        if(!(sin >> d))
+//            return false;
+//        if (sin >> c)
+//            return false;
+//        return true;
+//    }
+    void CsvFile::split(const std::string& s,std::string delim,std::vector<std::string>& ret)
     {
         size_t last = 0;
         size_t index = s.find_first_of(delim,last);
@@ -23,15 +35,60 @@ namespace baiyou {
         ret.push_back(s.substr(last));
         
     }
-    std::vector<std::string> CsvFile::parsingByFile(const std::string &filename){
+    void CsvFile::parsingByFile(const std::string &filename,std::string& jsonStr){
         
         std::string fileStr = cocos2d::FileUtils::getInstance()->getStringFromFile(filename);
         std::vector<std::string> fileLists;
         split(fileStr,"\n",fileLists);
-        return fileLists;
+        
+        parsingCsvToJsonSting(fileLists,jsonStr);
         
     }
-    
+    void  CsvFile::parsingCsvToJsonSting(std::vector<std::string> csv,std::string& jsonStr)
+    {
+        if (csv.empty()) {
+            return ;
+        }
+        std::vector<std::string>::iterator csvIter = csv.begin();
+        std::vector<std::string> head = getHead((*csvIter));
+        if (head.empty()) {
+            return ;
+        }
+        jsonStr = "[";
+
+        std::vector<std::string> body;
+        body.resize(head.size());
+        csvIter++;
+        while (csvIter != csv.end()) {
+            body.clear();
+            getBody((*csvIter),body);
+            if (body.empty() || body.size() != head.size()) {
+                continue;
+            }
+            jsonStr += "{";
+            std::vector<std::string>::iterator headIter = head.begin();
+            std::vector<std::string>::iterator bodyIter = body.begin();
+            while(headIter != head.end() && bodyIter != body.end()) {
+               
+                jsonStr += "\"" + (*headIter) + "\": " + (*bodyIter);
+               
+                headIter++;
+                bodyIter++;
+                if (headIter != head.end() && bodyIter != body.end()) {
+                    jsonStr += ",";
+                }else{
+                    jsonStr += "";
+                }
+            }
+            csvIter++;
+            if (csvIter != csv.end()) {
+                jsonStr += "},";
+            }else{
+                jsonStr += "}";
+            }
+        }
+        jsonStr += "]";
+    }
     void CsvFile::getBody(const std::string &fileStr,std::vector<std::string>& elems)
     {
         split(fileStr,"\t",elems);
