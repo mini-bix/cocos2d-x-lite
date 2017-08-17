@@ -170,6 +170,9 @@
     <ClCompile Include="..\manual\csvfile\jsb_csvfile.cpp">
       <Filter>manual\csvfile</Filter>
     </ClCompile>
+    <ClCompile Include="..\auto\jsb_baiyou_plugin_auto.cpp">
+      <Filter>auto</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\auto\jsb_cocos2dx_auto.hpp">
@@ -318,6 +321,9 @@
     </ClInclude>
     <ClInclude Include="..\manual\csvfile\jsb_csvfile.h">
       <Filter>manual\csvfile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\auto\jsb_baiyou_plugin_auto.hpp">
+      <Filter>auto</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

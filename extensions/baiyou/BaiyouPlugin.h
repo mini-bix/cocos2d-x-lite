@@ -12,9 +12,10 @@
 #include <stdio.h>
 #include <string>
 #include "base/CCRef.h"
+#include "cocos2d.h"
 
 namespace baiyou {
-    class BaiyouPlugin : public cocos2d::Ref{
+    class CC_DLL BaiyouPlugin : public cocos2d::Ref{
     public:
             virtual ~BaiyouPlugin();
             static BaiyouPlugin* getInstance();
