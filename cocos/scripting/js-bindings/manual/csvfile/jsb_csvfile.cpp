@@ -21,75 +21,75 @@ static bool js_is_native_obj(JSContext *cx, uint32_t argc, jsval *vp)
 }
 JSClass  *jsb_baiyou_CsvFile_class;
 JSObject *jsb_baiyou_CsvFile_prototype;
-bool js_isNum(const std::string& str)
-{
-    std::stringstream sin(str);
-    double d;
-    char c;
-    if(!(sin >> d))
-        return false;
-    if (sin >> c)
-        return false;
-    return true;
-}
-jsval js_parsing(JSContext *cx,std::vector<std::string> fileList)
-{
-    if (fileList.empty()) {
-        return JSVAL_NULL;
-    }
-    std::vector<std::string>::iterator iter = fileList.begin();
-    std::string headStr = (*iter);
-    iter++;
-    std::vector<std::string> head = baiyou::CsvFile::getHead(headStr);
-    
-    if (head.empty()) {
-        return JSVAL_NULL;
-    }
-    std::vector<std::string> body;
-    body.resize(head.size());
-    JS::RootedObject jsonObj(cx,JS_NewArrayObject(cx,fileList.size() - 2 ));
-    int index = 0;
-    while (iter != fileList.end()) {
-        body.clear();
-        baiyou::CsvFile::getBody((*iter), body);
-        if (body.empty() || body.size() != head.size()) {
-            iter++;
-            continue;
-        }
-        std::vector<std::string>::iterator headIter = head.begin();
-        std::vector<std::string>::iterator bodyIter = body.begin();
-        JS::RootedObject arrElement(cx,JS_NewObject(cx, NULL, JS::NullPtr(), JS::NullPtr()));
-        for (;headIter != head.end() && bodyIter != body.end();headIter++,bodyIter++) {
-            std::string bodyStr = (*bodyIter);
-            JS::RootedValue objElement(cx);
-            if (js_isNum(bodyStr)){
-                double num = atof(bodyStr.c_str());
-                objElement = DOUBLE_TO_JSVAL(num);
-            }else{
-                objElement = std_string_to_jsval(cx,bodyStr);
-                if(bodyStr != "" && (bodyStr[0] == '[' || bodyStr[0] == '{')){
-                    JS::RootedString jsout(cx, objElement.toString());
-                    if(!JS_ParseJSON(cx,jsout,&objElement)){
-                        JS_ReportError(cx,"js_parsing:JS_ParseJSON: Error processing arguments");
-                        objElement = JSVAL_NULL;
-                    }
-                }
-            }
-            if (!JS_DefineProperty(cx, arrElement, (*headIter).c_str(), objElement, JSPROP_ENUMERATE | JSPROP_PERMANENT)){
-                JS_ReportError(cx,"js_parsing:JS_DefineProperty: Error processing arguments");
-                continue;
-            }
-        }
-        
-        if (!JS_SetElement(cx, jsonObj, index, arrElement)) {
-            JS_ReportError(cx,"js_parsing : Error processing arguments");
-            continue;
-        }
-        index++;
-        iter++;
-    }
-    return OBJECT_TO_JSVAL(jsonObj);
-}
+//bool js_isNum(const std::string& str)
+//{
+//    std::stringstream sin(str);
+//    double d;
+//    char c;
+//    if(!(sin >> d))
+//        return false;
+//    if (sin >> c)
+//        return false;
+//    return true;
+//}
+//jsval js_parsing(JSContext *cx,std::vector<std::string> fileList)
+//{
+//    if (fileList.empty()) {
+//        return JSVAL_NULL;
+//    }
+//    std::vector<std::string>::iterator iter = fileList.begin();
+//    std::string headStr = (*iter);
+//    iter++;
+//    std::vector<std::string> head = baiyou::CsvFile::getHead(headStr);
+//    
+//    if (head.empty()) {
+//        return JSVAL_NULL;
+//    }
+//    std::vector<std::string> body;
+//    body.resize(head.size());
+//    JS::RootedObject jsonObj(cx,JS_NewArrayObject(cx,fileList.size() - 2 ));
+//    int index = 0;
+//    while (iter != fileList.end()) {
+//        body.clear();
+//        baiyou::CsvFile::getBody((*iter), body);
+//        if (body.empty() || body.size() != head.size()) {
+//            iter++;
+//            continue;
+//        }
+//        std::vector<std::string>::iterator headIter = head.begin();
+//        std::vector<std::string>::iterator bodyIter = body.begin();
+//        JS::RootedObject arrElement(cx,JS_NewObject(cx, NULL, JS::NullPtr(), JS::NullPtr()));
+//        for (;headIter != head.end() && bodyIter != body.end();headIter++,bodyIter++) {
+//            std::string bodyStr = (*bodyIter);
+//            JS::RootedValue objElement(cx);
+//            if (js_isNum(bodyStr)){
+//                double num = atof(bodyStr.c_str());
+//                objElement = DOUBLE_TO_JSVAL(num);
+//            }else{
+//                objElement = std_string_to_jsval(cx,bodyStr);
+//                if(bodyStr != "" && (bodyStr[0] == '[' || bodyStr[0] == '{')){
+//                    JS::RootedString jsout(cx, objElement.toString());
+//                    if(!JS_ParseJSON(cx,jsout,&objElement)){
+//                        JS_ReportError(cx,"js_parsing:JS_ParseJSON: Error processing arguments");
+//                        objElement = JSVAL_NULL;
+//                    }
+//                }
+//            }
+//            if (!JS_DefineProperty(cx, arrElement, (*headIter).c_str(), objElement, JSPROP_ENUMERATE | JSPROP_PERMANENT)){
+//                JS_ReportError(cx,"js_parsing:JS_DefineProperty: Error processing arguments");
+//                continue;
+//            }
+//        }
+//        
+//        if (!JS_SetElement(cx, jsonObj, index, arrElement)) {
+//            JS_ReportError(cx,"js_parsing : Error processing arguments");
+//            continue;
+//        }
+//        index++;
+//        iter++;
+//    }
+//    return OBJECT_TO_JSVAL(jsonObj);
+//}
 
 bool js_csvfile_CsvFile_parsingByFile(JSContext *cx, uint32_t argc, jsval *vp)
 {
@@ -99,10 +99,21 @@ bool js_csvfile_CsvFile_parsingByFile(JSContext *cx, uint32_t argc, jsval *vp)
         std::string arg0;
         ok &= jsval_to_std_string(cx, args.get(0), &arg0);
         JSB_PRECONDITION2(ok, cx, false, "js_csvfile_CsvFile_parsingByFile : Error processing arguments");
-        std::vector<std::string> ret = baiyou::CsvFile::parsingByFile(arg0);
-    
-        jsval jsret = js_parsing(cx,ret);
-        args.rval().set(jsret);
+        std::string ret = "";
+        baiyou::CsvFile::parsingByFile(arg0,ret);
+        if (ret == "") {
+            args.rval().setUndefined();
+            return true;
+        }
+        JS::RootedValue objElement(cx);
+        jsval jsStr = std_string_to_jsval(cx, ret);
+        JS::RootedString jsout(cx, jsStr.toString());
+        if(!JS_ParseJSON(cx,jsout,&objElement)){
+            arg0 +="js_parsing:JS_ParseJSON: Error processing arguments:"+ arg0 + "+" + ret;
+            JS_ReportError(cx,arg0.c_str());
+            objElement = JSVAL_NULL;
+        }
+        args.rval().set(objElement);
         return true;
     }
     JS_ReportError(cx, "js_csvfile_CsvFile_parsingByFile : wrong number of arguments");
