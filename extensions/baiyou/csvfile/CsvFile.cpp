@@ -62,7 +62,9 @@ namespace baiyou {
         while (csvIter != csv.end()) {
             body.clear();
             getBody((*csvIter),body);
+            csvIter++;
             if (body.empty() || body.size() != head.size()) {
+                CCLOG("size of line not match head size %s",(*csvIter).c_str());
                 continue;
             }
             jsonStr += "{";
@@ -78,7 +80,7 @@ namespace baiyou {
                     jsonStr += ",";
                 }
             }
-            csvIter++;
+           
             if (csvIter != csv.end()) {
                 jsonStr += "},";
             }else{
