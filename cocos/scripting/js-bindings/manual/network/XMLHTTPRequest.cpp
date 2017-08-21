@@ -398,7 +398,7 @@ JS_BINDED_CONSTRUCTOR_IMPL(MinXmlHttpRequest)
     JS::RootedObject proto(cx, MinXmlHttpRequest::js_proto);
     JS::RootedObject obj(cx, JS_NewObjectWithGivenProto(cx, MinXmlHttpRequest::js_class, proto));
 //    js_add_FinalizeHook(cx, obj, false);
-    jsb_new_proxy(cx, req, obj);
+//    jsb_new_proxy(cx, req, obj);
 
 #if CC_ENABLE_GC_FOR_NATIVE_OBJECTS
     js_add_FinalizeHook(cx, obj, true);
