@@ -39,7 +39,7 @@ namespace baiyou {
         
         std::string fileStr = cocos2d::FileUtils::getInstance()->getStringFromFile(filename);
         std::vector<std::string> fileLists;
-        split(fileStr,"\n",fileLists);
+        split(fileStr,"\r",fileLists);
         
         parsingCsvToJsonSting(fileLists,jsonStr);
         
@@ -76,8 +76,6 @@ namespace baiyou {
                 bodyIter++;
                 if (headIter != head.end() && bodyIter != body.end()) {
                     jsonStr += ",";
-                }else{
-                    jsonStr += "";
                 }
             }
             csvIter++;
