@@ -753,6 +753,10 @@ void AssetsManagerEx::parseManifest()
             msg << _totalWaitToDownload;
             msg << ",\"size\":";
             msg << diffSize;
+            msg << ",\"version\":";
+            msg << "\"";
+            msg << _remoteManifest->getVersion();
+            msg << "\"";
             msg << "}";
             
             dispatchUpdateEvent(EventAssetsManagerEx::EventCode::NEW_VERSION_DETAIL,"",msg.str());
