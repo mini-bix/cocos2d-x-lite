@@ -66,6 +66,7 @@ class JSB_WebSocketDelegate : public Ref, public WebSocket::Delegate
 public:
 
     JSB_WebSocketDelegate()
+    : _JSDelegate(nullptr)
     {
     }
 
@@ -84,7 +85,7 @@ public:
             return;
 
         JSContext* cx = ScriptingCore::getInstance()->getGlobalContext();
-        JS::RootedValue owner(cx, JS::ObjectOrNullValue(_JSDelegate));
+        JS::RootedValue owner(cx, JS::ObjectOrNullValue(_JSDelegate->get()));
         if (owner.isObject())
         {
             // Set the protocol which server selects.
@@ -114,7 +115,7 @@ public:
             return;
 
         JSContext* cx = ScriptingCore::getInstance()->getGlobalContext();
-        JS::RootedValue delegate(cx, JS::ObjectOrNullValue(_JSDelegate));
+        JS::RootedValue delegate(cx, JS::ObjectOrNullValue(_JSDelegate->get()));
         if (delegate.isObject())
         {
             JS::RootedObject jsobj(cx, JS_NewPlainObject(cx));
@@ -194,7 +195,7 @@ public:
             if (cocos2d::Director::getInstance() != nullptr && cocos2d::Director::getInstance()->getRunningScene() && cocos2d::ScriptEngineManager::getInstance() != nullptr)
             {
                 JSContext* cx = ScriptingCore::getInstance()->getGlobalContext();
-                JS::RootedValue delegate(cx, JS::ObjectOrNullValue(_JSDelegate));
+                JS::RootedValue delegate(cx, JS::ObjectOrNullValue(_JSDelegate->get()));
                 if (delegate.isObject())
                 {
                     JS::RootedObject jsobj(cx, JS_NewPlainObject(cx));
@@ -222,7 +223,7 @@ public:
             return;
 
         JSContext* cx = ScriptingCore::getInstance()->getGlobalContext();
-        JS::RootedValue delegate(cx, JS::ObjectOrNullValue(_JSDelegate));
+        JS::RootedValue delegate(cx, JS::ObjectOrNullValue(_JSDelegate->get()));
         if (delegate.isObject())
         {
             JS::RootedObject jsobj(cx, JS_NewPlainObject(cx));
@@ -238,10 +239,14 @@ public:
 
     void setJSDelegate(JS::HandleObject pJSDelegate)
     {
-        _JSDelegate = pJSDelegate;
+        if (_JSDelegate) {
+            CC_SAFE_DELETE(_JSDelegate);
+        }
+        JSContext* cx = ScriptingCore::getInstance()->getGlobalContext();
+        _JSDelegate = new (std::nothrow) JS::PersistentRootedObject(cx, pJSDelegate);
     }
 private:
-    JS::PersistentRootedObject _JSDelegate;
+    JS::PersistentRootedObject *_JSDelegate;
 };
 
 JSClass  *js_cocos2dx_websocket_class;
