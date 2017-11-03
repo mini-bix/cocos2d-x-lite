@@ -48,7 +48,7 @@ public:
         
         JS::RootedValue jsobjVal(cx, JS::ObjectOrNullValue(jsobj));
         JS::HandleValueArray args(jsobjVal);
-        JS::RootedValue owner(cx, JS::ObjectOrNullValue(_JSDelegate));
+        JS::RootedValue owner(cx, JS::ObjectOrNullValue(_JSDelegate->get()));
         
         ScriptingCore::getInstance()->executeFunctionWithOwner(owner, "onopen", args);
     }
@@ -95,7 +95,7 @@ public:
             }
             JS_SetProperty(cx, jsobj, "data", dataVal);
         }
-        JS::RootedValue delegate(cx, JS::ObjectOrNullValue(_JSDelegate));
+        JS::RootedValue delegate(cx, JS::ObjectOrNullValue(_JSDelegate->get()));
         JS::HandleValueArray args(arg);
         ScriptingCore::getInstance()->executeFunctionWithOwner(delegate, "onmessage", args);
     }
@@ -113,7 +113,7 @@ public:
             c_string_to_jsval(cx, "close", &vp);
             JS_SetProperty(cx, jsobj, "type", vp);
             
-            JS::RootedValue delegate(cx, JS::ObjectOrNullValue(_JSDelegate));
+            JS::RootedValue delegate(cx, JS::ObjectOrNullValue(_JSDelegate->get()));
             JS::RootedValue arg(cx, JS::ObjectOrNullValue(jsobj));
             JS::HandleValueArray args(arg);
             ScriptingCore::getInstance()->executeFunctionWithOwner(delegate, "onclose", args);
@@ -145,7 +145,7 @@ public:
         c_string_to_jsval(cx, "error", &vp);
         JS_SetProperty(cx, jsobj, "type", vp);
         
-        JS::RootedValue delegate(cx, JS::ObjectOrNullValue(_JSDelegate));
+        JS::RootedValue delegate(cx, JS::ObjectOrNullValue(_JSDelegate->get()));
         JS::RootedValue arg(cx, JS::ObjectOrNullValue(jsobj));
         JS::HandleValueArray args(arg);
         ScriptingCore::getInstance()->executeFunctionWithOwner(delegate, "onerror", args);
@@ -153,10 +153,14 @@ public:
     
     void setJSDelegate(JS::HandleObject pJSDelegate)
     {
-        _JSDelegate = pJSDelegate;
+        if (_JSDelegate) {
+            CC_SAFE_DELETE(_JSDelegate);
+        }
+        JSContext* cx = ScriptingCore::getInstance()->getGlobalContext();
+        _JSDelegate = new (std::nothrow) JS::PersistentRootedObject(cx, pJSDelegate);
     }
 private:
-    JS::PersistentRootedObject _JSDelegate;
+    JS::PersistentRootedObject *_JSDelegate;
 };
 
 bool js_cocos2dx_extension_UdpClient_Write(JSContext *cx, uint32_t argc, JS::Value *vp)
@@ -271,6 +275,10 @@ bool js_cocos2dx_network_UdpClient_constructor(JSContext *cx, uint32_t argc, JS:
     // create the js object and link the native object with the javascript object
     JS::RootedObject jsobj(cx);
     JS::RootedObject proto(cx, jsb_cocos2d_network_UdpClient_prototype);
+    JS::RootedObject obj(cx, JS_NewObjectWithGivenProto(cx,jsb_cocos2d_network_UdpClient_class, proto));
+    JSB_UdpClientDelegate* delegate = new (std::nothrow) JSB_UdpClientDelegate();
+    delegate->setJSDelegate(obj);
+    cobj->setDelegate(delegate);
     jsb_create_weak_jsobject(cx, cobj, jsb_cocos2d_network_UdpClient_class, proto, &jsobj, "cocos2d::network::UdpClient");
     JS_SetPrivate(jsobj.get(), cobj);
     JS::RootedValue retVal(cx, JS::ObjectOrNullValue(jsobj));
