@@ -1358,6 +1358,8 @@
 		A679D0DA1C71D93200620A6C /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6A554221C2A7C3100FDD954 /* libcrypto.a */; };
 		A6A5541F1C2A7BF700FDD954 /* libchipmunk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6A5541E1C2A7BF700FDD954 /* libchipmunk.a */; };
 		A6A554211C2A7C1300FDD954 /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6A554201C2A7C1300FDD954 /* libcurl.a */; };
+		A6C742671FC27F3800192845 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C742661FC27F3800192845 /* UIKit.framework */; };
+		A6C742691FC28AE300192845 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C742681FC28AE300192845 /* AppKit.framework */; };
 		A6E018661CB7A7E000EC1419 /* CCDownloader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50693C5C1B6BF2AE005C5820 /* CCDownloader.cpp */; };
 		A6E79B2C1EDA63940003FC60 /* UdpClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6E79B2A1EDA63940003FC60 /* UdpClient.cpp */; };
 		A6E79B2D1EDA63940003FC60 /* UdpClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6E79B2A1EDA63940003FC60 /* UdpClient.cpp */; };
@@ -2736,6 +2738,8 @@
 		A6A554201C2A7C1300FDD954 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = ../external/mac/libs/libcurl.a; sourceTree = "<group>"; };
 		A6A554221C2A7C3100FDD954 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../external/mac/libs/libcrypto.a; sourceTree = "<group>"; };
 		A6A554241C2A7C4400FDD954 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../external/mac/libs/libssl.a; sourceTree = "<group>"; };
+		A6C742661FC27F3800192845 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		A6C742681FC28AE300192845 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		A6E79B2A1EDA63940003FC60 /* UdpClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UdpClient.cpp; sourceTree = "<group>"; };
 		A6E79B2B1EDA63940003FC60 /* UdpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UdpClient.h; sourceTree = "<group>"; };
 		A6E79B3D1EDA67860003FC60 /* MD5.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MD5.cpp; sourceTree = "<group>"; };
@@ -3081,6 +3085,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6C742691FC28AE300192845 /* AppKit.framework in Frameworks */,
 				A679D0DA1C71D93200620A6C /* libcrypto.a in Frameworks */,
 				A679D0D91C71D90A00620A6C /* libssl.a in Frameworks */,
 				A6A554211C2A7C1300FDD954 /* libcurl.a in Frameworks */,
@@ -3104,6 +3109,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6C742671FC27F3800192845 /* UIKit.framework in Frameworks */,
 				A60A9D661C200E5A0070800A /* libchipmunk.a in Frameworks */,
 				EDE5DFF81C0D6B3F0014147A /* libwebsockets.a in Frameworks */,
 				1ACF6A3C1E4AFDC80033C137 /* libcrypto.a in Frameworks */,
@@ -3172,6 +3178,8 @@
 		1551A341158F2AB200E66CFE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A6C742681FC28AE300192845 /* AppKit.framework */,
+				A6C742661FC27F3800192845 /* UIKit.framework */,
 				1ACF6A3A1E4AFDC80033C137 /* libcrypto.a */,
 				1ACF6A3B1E4AFDC80033C137 /* libssl.a */,
 				B291B5161D4A0FEA00BBB345 /* ios */,

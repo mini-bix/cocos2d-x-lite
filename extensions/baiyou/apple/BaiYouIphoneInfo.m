@@ -4,12 +4,14 @@
 //
 //  Created by wuxiaolan on 2017/11/17.
 //
-
+#include "platform/CCPlatformConfig.h"
 #import "BaiYouIphoneInfo.h"
+#import <SystemConfiguration/CaptiveNetwork.h>
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #import <CoreTelephony/CTCarrier.h>
-#import <SystemConfiguration/CaptiveNetwork.h>
 #import <UIkit/UIScreen.h>
+#endif
 #import <mach/mach_host.h>
 #import "Reachability.h"
 #import <ifaddrs.h>
@@ -23,6 +25,7 @@
 @implementation BaiYouIphoneInfo
 
 + (NSString *)getCurrentPhoneOperatorName {
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     CTTelephonyNetworkInfo *info = [CTTelephonyNetworkInfo new];
     CTCarrier *carrier = [info subscriberCellularProvider];
     
@@ -30,9 +33,14 @@
         return @"";
     }
     return [NSString stringWithFormat:@"%@%@",[carrier mobileCountryCode],[carrier mobileNetworkCode]];
+#else
+    return @"";
+#endif
+
 }
 
 + (NSString *)getNetWorkStaus {
+    #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     Reachability *reach = [Reachability reachabilityWithHostName:@"www.apple.com"];
     switch ([reach currentReachabilityStatus]) {
         case ReachableViaWiFi:   //使用的wifi
@@ -45,16 +53,28 @@
             return @"";
             break;
     }
+#else
+    return @"";
+#endif
 }
 
 + (CGFloat)getCurrentScreenWith {
-    return  [UIScreen mainScreen].bounds.size.width;
+    #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+        return  [UIScreen mainScreen].bounds.size.width;
+    #else
+        return 0;
+    #endif
 }
 + (CGFloat)getCurrentScreenHeight {
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     return [UIScreen mainScreen].bounds.size.width;
+#else
+    return 0;
+#endif
 }
 
 + (CGFloat)getScreenDpi {
+    #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     float scale = 1;
     if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)]) {
         scale = [[UIScreen mainScreen] scale];
@@ -66,9 +86,13 @@
     }else {
         return 160*scale;
     }
+#else
+    return 0;
+#endif
 }
 
 + (NSString *)getCPUInfo{
+    #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     host_basic_info_data_t hostInfo;
     mach_msg_type_number_t infoCount;
     
@@ -98,6 +122,9 @@
     NSString * cpuCount = [NSString stringWithFormat:@"%d",cpuC];
     cpuInfo = [NSString stringWithFormat:@"%@%@%@",cpuInfo,@"-",cpuCount];
     return cpuInfo;
+#else
+    return @"";
+#endif
 }
 
 + (NSString *)getGPUInfo{
@@ -107,12 +134,17 @@
 
 + (NSString *)getTotalMemorySize
 {
+    #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     long long size =[NSProcessInfo processInfo].physicalMemory;
     
     return [NSString stringWithFormat:@"%.1f",size/1024.f/1024.f];
+#else
+    return @"";
+#endif
 }
 
 + (NSString *)getIPAddress {
+     #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     NSString *address = @"error";
     struct ifaddrs *interfaces = NULL;
     struct ifaddrs *temp_addr = NULL;
@@ -136,17 +168,28 @@
     // Free memory
     freeifaddrs(interfaces);
     return address;
+#else
+    return @"";
+#endif
     
 }
 
 + (NSString *)getOpenGLRender{
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     NSString * OpenGLVersion = [NSString stringWithCString:(const char*)glGetString(GL_RENDERER) encoding:NSASCIIStringEncoding];
     return OpenGLVersion;
+#else
+    return @"";
+#endif
 }
 
 + (NSString *)getOpenGLVersion{
+    #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     NSString * OpenGLVersion = [NSString stringWithCString:(const char*)glGetString(GL_VERSION) encoding:NSASCIIStringEncoding];
     return OpenGLVersion;
+#else
+    return @"";
+#endif
 }
 
 @end
