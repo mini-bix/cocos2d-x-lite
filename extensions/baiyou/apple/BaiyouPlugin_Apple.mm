@@ -133,8 +133,7 @@ namespace baiyou {
         
         uname(&systemInfo);
         
-        NSString* code = [NSString stringWithCString:systemInfo.machine
-                                            encoding:NSUTF8StringEncoding];
+        NSString* code = [BaiYouIphoneInfo getDeviceName];
         NSString* operatorName = [BaiYouIphoneInfo getCurrentPhoneOperatorName];
         NSString* netWork = [BaiYouIphoneInfo getNetWorkStaus];
         CGFloat screenWidth = [BaiYouIphoneInfo getCurrentScreenWith];

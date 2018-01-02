@@ -35,4 +35,6 @@
 + (NSString *)getOpenGLRender;
 //返回OpenGL版本
 + (NSString *)getOpenGLVersion;
+//返回设备型号
++ (NSString *)getDeviceName;
 @end
