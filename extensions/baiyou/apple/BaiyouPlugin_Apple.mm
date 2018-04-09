@@ -11,6 +11,7 @@
 
 #import "KeyChainStore.h"
 #import "KeychainIDFA.h"
+#import "BaiYouIphoneInfo.h"
 
 #define KEY_UUID @"COM.AIYOU.DAOKEDAOZHIFANRENXIUXIAN.UUID"
 
@@ -132,14 +133,37 @@ namespace baiyou {
         
         uname(&systemInfo);
         
-        NSString* code = [NSString stringWithCString:systemInfo.machine
-                                            encoding:NSUTF8StringEncoding];
-        
+        NSString* code = [BaiYouIphoneInfo getDeviceName];
+        NSString* operatorName = [BaiYouIphoneInfo getCurrentPhoneOperatorName];
+        NSString* netWork = [BaiYouIphoneInfo getNetWorkStaus];
+        CGFloat screenWidth = [BaiYouIphoneInfo getCurrentScreenWith];
+        NSString* sWidth = [NSString stringWithFormat:@"%f", screenWidth];
+        CGFloat screenHeight = [BaiYouIphoneInfo getCurrentScreenHeight];
+        NSString* sHeight = [NSString stringWithFormat:@"%f", screenHeight];
+        CGFloat screenDpi = [BaiYouIphoneInfo getScreenDpi];
+        NSString* sDpi = [NSString stringWithFormat:@"%f", screenDpi];
+        NSString* totalMemory = [BaiYouIphoneInfo getTotalMemorySize];
+        NSString* cpuInfo = [BaiYouIphoneInfo getCPUInfo];
+        NSString* gpuInfo = [BaiYouIphoneInfo getGPUInfo];
+        NSString* ipAddress = [BaiYouIphoneInfo getIPAddress];
+        NSString* openglRender = [BaiYouIphoneInfo getOpenGLRender];
+        NSString* openglVersion = [BaiYouIphoneInfo getOpenGLVersion];
         NSDictionary *info = [NSDictionary dictionaryWithObjectsAndKeys:
                               [[UIDevice currentDevice] systemName],@"systemName",
                               [[UIDevice currentDevice] systemVersion],@"systemVersion",
                               [[UIDevice currentDevice] model],@"model",
                               code,@"deviceName",
+                              operatorName,@"operatorName",
+                              netWork,@"netWork",
+                              sWidth,@"screenWidth",
+                              sHeight,@"screenHeight",
+                              sDpi,@"screenDpi",
+                              totalMemory,@"totalMemory",
+                              cpuInfo,@"cpuInfo",
+                              gpuInfo,@"gpuInfo",
+                              ipAddress,@"ip",
+                              openglRender,@"openglRender",
+                              openglVersion,@"openglVersion",
                               nil];
         NSError *error = nil;
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:info

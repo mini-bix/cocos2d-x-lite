@@ -1209,7 +1209,9 @@ long FileUtils::getFileSize(const std::string &filepath)
 #include <sys/types.h>
 #include <errno.h>
 #include <dirent.h>
-
+#if (CC_TARGET_PLATFORM != CC_PLATFORM_ANDROID)
+#include <ftw.h>
+#endif
 bool FileUtils::isDirectoryExistInternal(const std::string& dirPath) const
 {
     struct stat st;
@@ -1283,8 +1285,30 @@ bool FileUtils::createDirectory(const std::string& path)
     return true;
 }
 
+namespace
+{
+    #if (CC_TARGET_PLATFORM != CC_PLATFORM_ANDROID)
+            int unlink_cb(const char *fpath, const struct stat *sb, int typeflag, struct FTW *ftwbuf)
+            {
+                    int rv = remove(fpath);
+            
+                    if (rv)
+                            perror(fpath);
+                
+                        return rv;
+                }
+    #endif
+}
+
 bool FileUtils::removeDirectory(const std::string& path)
 {
+#if !defined(CC_TARGET_OS_TVOS)
+    #if (CC_TARGET_PLATFORM != CC_PLATFORM_ANDROID)
+            if (nftw(path.c_str(), unlink_cb, 64, FTW_DEPTH | FTW_PHYS) == -1)
+                    return false;
+        else
+                return true;
+    #else
     std::string command = "rm -r ";
     // Path may include space.
     command += "\"" + path + "\"";
@@ -1292,6 +1316,10 @@ bool FileUtils::removeDirectory(const std::string& path)
         return true;
     else
         return false;
+    #endif
+#else
+        return false
+#endif
 }
 
 bool FileUtils::removeFile(const std::string &path)
