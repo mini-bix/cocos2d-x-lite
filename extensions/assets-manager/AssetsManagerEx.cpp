@@ -575,9 +575,9 @@ void AssetsManagerEx::dispatchUpdateEvent(EventAssetsManagerEx::EventCode code, 
         default:
             break;
     }
-
-    EventAssetsManagerEx event(_eventName, this, code, _percent, _percentByFile, assetId, message, curle_code, curlm_code);
-    _eventDispatcher->dispatchEvent(&event);
+    EventAssetsManagerEx* event = new (std::nothrow) EventAssetsManagerEx(_eventName, this, code, _percent, _percentByFile, assetId, message, curle_code, curlm_code);
+    _eventDispatcher->dispatchEvent(event);
+    event->release();
 }
 
 AssetsManagerEx::State AssetsManagerEx::getState() const

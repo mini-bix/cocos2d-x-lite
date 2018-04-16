@@ -1158,6 +1158,16 @@ getRotationSkewY : function (
 },
 
 /**
+ * @method isInBatchRecursive
+ * @return {bool}
+ */
+isInBatchRecursive : function (
+)
+{
+    return false;
+},
+
+/**
  * @method getNodeToWorldTransform
  * @return {mat4_object}
  */
@@ -3400,6 +3410,16 @@ str
 },
 
 /**
+ * @method supportsETC2
+ * @return {bool}
+ */
+supportsETC2 : function (
+)
+{
+    return false;
+},
+
+/**
  * @method supportsNPOT
  * @return {bool}
  */
@@ -3543,6 +3563,16 @@ value
 )
 {
     return cc.Value;
+},
+
+/**
+ * @method checkForEtc2
+ * @return {bool}
+ */
+checkForEtc2 : function (
+)
+{
+    return false;
 },
 
 /**
